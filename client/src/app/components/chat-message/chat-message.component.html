@@ -1,0 +1,27 @@
+<div
+  class="msg-container"
+  [ngClass]="mine ? 'from-you' : 'to-you'"
+  [style.height.px]="height"
+>
+  <div class="msg-author-icon" *ngIf="!mine">
+    <div class="msg-author" *ngIf="!mine">
+      {{ message.author }}
+    </div>
+    <img src="../../../assets/user.png" alt="" />
+  </div>
+
+  <svg [attr.height]="height" width="350">
+    <polygon
+      [attr.points]="getOuterPolygonPoints()"
+      [ngStyle]="{ fill: 'white' }"
+    />
+    <polygon
+      [attr.points]="getInnerPolygonPoints()"
+      [ngStyle]="{ fill: 'black' }"
+    />
+  </svg>
+
+  <div class="msg-content" [style.height.px]="height">
+    {{ message.content }}
+  </div>
+</div>

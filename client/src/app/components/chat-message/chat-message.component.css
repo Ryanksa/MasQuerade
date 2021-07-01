@@ -1,0 +1,79 @@
+.msg-container {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  margin: 20px 5px;
+}
+
+.msg-author-icon {
+  height: 85px;
+  width: 80px;
+  border-left: 10px solid black;
+  border-top: 4px solid black;
+  border-bottom: 8px solid black;
+  border-right: 2px solid black;
+  transform: rotate3d(1, 1, 0, 35deg);
+  background-color: white;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.msg-author-icon img {
+  width: 70px;
+  height: 70px;
+}
+
+.msg-author {
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-size: 16px;
+  width: 80px;
+  display: flex;
+  justify-content: center;
+  padding-bottom: 5px;
+  color: white;
+  background: linear-gradient(
+    rgba(50, 50, 50, 0.7),
+    rgba(50, 50, 50, 0.5) 50%,
+    rgba(50, 50, 50, 0)
+  );
+}
+
+.msg-container > svg {
+  position: absolute;
+}
+
+.msg-container.to-you > svg {
+  left: 60px;
+}
+
+.msg-container.from-you > svg {
+  right: 0;
+}
+
+.msg-content {
+  position: absolute;
+  top: 15px;
+  color: white;
+  font-size: 20px;
+  overflow: scroll;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.msg-content::-webkit-scrollbar {
+  display: none;
+}
+
+.msg-container.to-you .msg-content {
+  width: 275px;
+  left: 118px;
+  transform: rotateZ(-0.5deg);
+}
+
+.msg-container.from-you .msg-content {
+  width: 290px;
+  left: 100px;
+  transform: rotateZ(-2deg);
+}
