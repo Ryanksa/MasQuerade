@@ -10,18 +10,20 @@
     <img src="../../../assets/user.png" alt="" />
   </div>
 
-  <svg [attr.height]="height" width="350">
-    <polygon
-      [attr.points]="getOuterPolygonPoints()"
-      [ngStyle]="{ fill: 'white' }"
-    />
-    <polygon
-      [attr.points]="getInnerPolygonPoints()"
-      [ngStyle]="{ fill: 'black' }"
-    />
-  </svg>
+  <div class="msg-content-container">
+    <svg [attr.height]="height" width="350">
+      <polygon
+        [attr.points]="getOuterPolygonPoints()"
+        [ngStyle]="{ fill: 'white' }"
+      />
+      <polygon
+        [attr.points]="getInnerPolygonPoints()"
+        [ngStyle]="{ fill: 'black' }"
+      />
+    </svg>
 
-  <div class="msg-content" [style.height.px]="height">
-    {{ message.content }}
+    <div class="msg-content" [style.height.px]="height">
+      {{ message.content }}
+    </div>
   </div>
 </div>

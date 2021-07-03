@@ -1,12 +1,12 @@
 .chat-container {
   width: 450px;
   height: 800px;
-  border-top: 30px solid #d6d6d6;
-  border-bottom: 30px solid #d6d6d6;
-  border-left: 10px solid #d6d6d6;
-  border-right: 10px solid #d6d6d6;
+  border-top: 30px solid var(--tint1);
+  border-bottom: 30px solid var(--tint1);
+  border-left: 10px solid var(--tint1);
+  border-right: 10px solid var(--tint1);
   border-radius: 5px;
-  background-color: #9e0000;
+  background-color: var(--primary1);
   font-family: 'KoHo', sans-serif;
   margin: 50px auto;
   transform: rotateZ(3deg);

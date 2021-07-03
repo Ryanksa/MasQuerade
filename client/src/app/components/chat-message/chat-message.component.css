@@ -1,11 +1,18 @@
+@keyframes wiggle {
+  0% { transform: rotateZ(0deg); }
+  25% { transform: rotateZ(3deg); }
+  75% { transform: rotateZ(-3deg); }
+  100% { transform: rotateZ(0deg); }
+}
+
 .msg-container {
-  position: relative;
   display: flex;
   align-items: flex-start;
   margin: 20px 5px;
 }
 
 .msg-author-icon {
+  position: relative;
   height: 85px;
   width: 80px;
   border-left: 10px solid black;
@@ -41,16 +48,24 @@
   );
 }
 
-.msg-container > svg {
+.msg-content-container {
+  position: relative;
+}
+
+.to-you .msg-content-container:hover {
+  animation: wiggle 1s;
+}
+
+.msg-content-container > svg {
   position: absolute;
 }
 
-.msg-container.to-you > svg {
-  left: 60px;
+.to-you .msg-content-container > svg {
+  left: -30px;
 }
 
-.msg-container.from-you > svg {
-  right: 0;
+.from-you .msg-content-container > svg {
+  left: 85px;
 }
 
 .msg-content {
@@ -66,13 +81,13 @@
   display: none;
 }
 
-.msg-container.to-you .msg-content {
-  width: 275px;
-  left: 118px;
+.to-you .msg-content {
+  width: 270px;
+  left: 30px;
   transform: rotateZ(-0.5deg);
 }
 
-.msg-container.from-you .msg-content {
+.from-you .msg-content {
   width: 290px;
   left: 100px;
   transform: rotateZ(-2deg);
