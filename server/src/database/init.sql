@@ -1,0 +1,33 @@
+DROP SCHEMA IF EXISTS MASQUERADE CASCADE;
+CREATE SCHEMA MASQUERADE;
+SET search_path TO MASQUERADE;
+
+CREATE TABLE masquer (
+  id SERIAL PRIMARY KEY NOT NULL,
+  username VARCHAR(64) UNIQUE NOT NULL,
+  password VARCHAR(64) NOT NULL,
+  social_stats INTEGER NOT NULL
+);
+
+CREATE TABLE chat_room (
+  id SERIAL PRIMARY KEY NOT NULL
+);
+
+CREATE TABLE chat_masquer (
+  chat_id SERIAL NOT NULL,
+  masquer_id SERIAL NOT NULL,
+  FOREIGN KEY (chat_id) REFERENCES chat_room(id),
+  FOREIGN KEY (masquer_id) REFERENCES masquer(id)
+);
+
+CREATE TABLE chat_message (
+  id SERIAL PRIMARY KEY NOT NULL,
+  author SERIAL NOT NULL,
+  room SERIAL NOT NULL,
+  content TEXT NOT NULL,
+  posted_on TIMESTAMP NOT NULL,
+  FOREIGN KEY (author) REFERENCES masquer(id),
+  FOREIGN KEY (room) REFERENCES chat_room(id)
+);
+
+ALTER DATABASE MASQUERADE SET search_path = masquerade;
