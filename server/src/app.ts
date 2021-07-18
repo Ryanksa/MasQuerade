@@ -1,13 +1,36 @@
-import express from 'express';
-import pool from './database/db';
+import express from "express";
+import session from "express-session";
+import config from "./config";
+import UserRouter from "./routes/UserRoutes";
 
+// setup express application
 const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-const PORT = parseInt(process.env.PORT || '5000');
-app.listen(PORT, () => {
-  console.log("Server started at localhost:" + PORT);
-}).on("error", (err: Error) => {
-  console.log(err);
-});
+// setup express session
+app.use(
+  session({
+    secret: config.sessionSecret,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      httpOnly: true,
+      secure: config.prod,
+      sameSite: 'strict',
+      maxAge: 60 * 60 * 24 * 7
+    }
+  })
+);
+
+// path routes
+app.use("/api/users/", UserRouter);
+
+// start server
+app
+  .listen(config.port, () => {
+    console.log("Server started at localhost:" + config.port);
+  })
+  .on("error", (err: Error) => {
+    console.log(err);
+  });
