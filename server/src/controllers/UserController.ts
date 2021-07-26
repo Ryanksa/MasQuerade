@@ -12,8 +12,9 @@ export const SignUp = (req: Request, res: Response) => {
   pool.connect((err, client, release) => {
     // error acquiring client to query db
     if (err) {
+      console.error("Error acquiring client", err.stack);
       res.status(500).json("Error connecting to database");
-      return console.error("Error acquiring client", err.stack);
+      return;
     }
 
     // check if username already exists
@@ -21,7 +22,7 @@ export const SignUp = (req: Request, res: Response) => {
       .query("SELECT username FROM masquer WHERE username = $1", [username])
       .then((result) => {
         // username already exists
-        if (result.rows.length > 0) {
+        if (result.rowCount > 0) {
           release();
           res.status(409).json(`The username ${username} is taken`);
           return;
@@ -60,12 +61,12 @@ export const SignUp = (req: Request, res: Response) => {
 
         // update session to log user in
         (req.session as UserSession).username = username;
-        return res.json({ username, name });
+        res.json({ username, name });
       })
       .catch((err) => {
         release();
+        console.error(err);
         res.status(500).json("Something went wrong on the server");
-        return console.error(err);
       });
   });
 };
@@ -77,8 +78,9 @@ export const SignIn = (req: Request, res: Response) => {
   return pool.connect((err, client, release) => {
     // error acquiring client to query db
     if (err) {
+      console.error("Error acquiring client: ", err.stack);
       res.status(500).json("Error connecting to database");
-      return console.error("Error acquiring client: ", err.stack);
+      return;
     }
 
     // check if the username exists
@@ -88,7 +90,7 @@ export const SignIn = (req: Request, res: Response) => {
         release();
 
         // username does not exist
-        if (result.rows.length === 0) {
+        if (result.rowCount === 0) {
           res.status(401).json("The username or password is incorrect");
           return;
         }
@@ -123,12 +125,12 @@ export const SignIn = (req: Request, res: Response) => {
 
         // update session to log user in
         (req.session as UserSession).username = username;
-        return res.json({ username: user.username, name: user.name });
+        res.json({ username: user.username, name: user.name });
       })
       .catch((err) => {
         release();
+        console.error(err);
         res.status(500).json("Something went wrong on the server");
-        return console.error(err);
       });
   });
 };
@@ -141,7 +143,7 @@ export const SignOut = (req: Request, res: Response) => {
       console.error("Failed to destroy session:", err);
     }
   });
-  return res.json("Signed out");
+  res.json("Signed out");
 };
 
 export const getUsers = (req: Request, res: Response) => {
@@ -150,8 +152,9 @@ export const getUsers = (req: Request, res: Response) => {
   pool.connect((err, client, release) => {
     // error acquiring client to query db
     if (err) {
+      console.error("Error acquiring client: ", err.stack);
       res.status(500).json("Error connecting to database");
-      return console.error("Error acquiring client: ", err.stack);
+      return;
     }
 
     // query at most 10 users at the specified page
@@ -164,12 +167,44 @@ export const getUsers = (req: Request, res: Response) => {
       .query(query, [page * 10 + 1, page * 10 + 10])
       .then((result) => {
         release();
-        return res.json(result.rows);
+        res.json(result.rows);
       })
       .catch((err) => {
         release();
+        console.error(err);
         res.status(500).json("Something went wrong on the server");
-        return console.error(err);
+      });
+  });
+};
+
+export const getUser = (req: Request, res: Response) => {
+  const username: string = req.params.username;
+
+  pool.connect((err, client, release) => {
+    // error acquiring client to query db
+    if (err) {
+      console.error("Error acquiring client: ", err.stack);
+      res.status(500).json("Error connecting to database");
+      return;
+    }
+
+    const query =
+      "SELECT username, name, social_stats FROM masquer WHERE username = $1";
+    return client
+      .query(query, [username])
+      .then((result) => {
+        release();
+        // user not found
+        if (result.rowCount === 0) {
+          res.status(404).json(`User ${username} does not exists`);
+          return;
+        }
+        res.json(result.rows[0]);
+      })
+      .catch((err) => {
+        release();
+        console.error(err);
+        res.status(500).json("Something went wrong on the server");
       });
   });
 };

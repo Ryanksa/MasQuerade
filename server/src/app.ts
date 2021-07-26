@@ -3,6 +3,7 @@ import session from "express-session";
 import redis from 'redis';
 import config from "./config";
 import UserRouter from "./routes/UserRoutes";
+import ChatRoomRouter from './routes/ChatRoomRoutes';
 
 // setup express application
 const app = express();
@@ -30,7 +31,8 @@ app.use(
 );
 
 // path routes
-app.use("/api/users/", UserRouter);
+app.use("/api/user/", UserRouter);
+app.use("/api/chat/room", ChatRoomRouter);
 
 // start server
 app
