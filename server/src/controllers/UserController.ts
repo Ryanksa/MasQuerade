@@ -158,7 +158,7 @@ export const getUsers = (req: Request, res: Response) => {
     }
 
     // query at most 10 users at the specified page
-    const query =
+    let query =
       "SELECT username, name, social_stats " +
       "FROM (SELECT ROW_NUMBER() OVER ( ORDER BY username ) AS row_num, * FROM masquer) AS masquer_row " +
       "WHERE row_num >= $1 AND row_num <= $2 " +
@@ -188,7 +188,7 @@ export const getUser = (req: Request, res: Response) => {
       return;
     }
 
-    const query =
+    let query =
       "SELECT username, name, social_stats FROM masquer WHERE username = $1";
     return client
       .query(query, [username])

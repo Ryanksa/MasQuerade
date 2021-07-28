@@ -17,6 +17,7 @@ CREATE TABLE chat_room (
 CREATE TABLE room_includes (
   room VARCHAR(32) NOT NULL,
   username VARCHAR(64) NOT NULL,
+  moderator BOOLEAN NOT NULL,
   FOREIGN KEY (room) REFERENCES chat_room(id),
   FOREIGN KEY (username) REFERENCES masquer(username)
 );
