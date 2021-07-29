@@ -2,34 +2,34 @@ DROP SCHEMA IF EXISTS MASQUERADE CASCADE;
 CREATE SCHEMA MASQUERADE;
 SET search_path TO MASQUERADE;
 
-CREATE TABLE masquer (
+CREATE TABLE Masquer (
   username VARCHAR(64) PRIMARY KEY NOT NULL,
   password VARCHAR(64) NOT NULL,
   name VARCHAR(128) NOT NULL,
   social_stats INTEGER NOT NULL
 );
 
-CREATE TABLE chat_room (
+CREATE TABLE ChatRoom (
   id VARCHAR(32) PRIMARY KEY NOT NULL,
   name VARCHAR(128) NOT NULL
 );
 
-CREATE TABLE room_includes (
+CREATE TABLE RoomIncludes (
   room VARCHAR(32) NOT NULL,
   username VARCHAR(64) NOT NULL,
   moderator BOOLEAN NOT NULL,
-  FOREIGN KEY (room) REFERENCES chat_room(id),
-  FOREIGN KEY (username) REFERENCES masquer(username)
+  FOREIGN KEY (room) REFERENCES ChatRoom(id),
+  FOREIGN KEY (username) REFERENCES Masquer(username)
 );
 
-CREATE TABLE chat_message (
+CREATE TABLE ChatMessage (
   id VARCHAR(32) PRIMARY KEY NOT NULL,
   author VARCHAR(64) NOT NULL,
   room VARCHAR(32) NOT NULL,
   content TEXT NOT NULL,
   posted_on TIMESTAMP NOT NULL,
-  FOREIGN KEY (author) REFERENCES masquer(username),
-  FOREIGN KEY (room) REFERENCES chat_room(id)
+  FOREIGN KEY (author) REFERENCES Masquer(username),
+  FOREIGN KEY (room) REFERENCES ChatRoom(id)
 );
 
 ALTER DATABASE MASQUERADE SET search_path = masquerade;

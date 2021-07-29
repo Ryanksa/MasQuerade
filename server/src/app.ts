@@ -4,6 +4,7 @@ import redis from 'redis';
 import config from "./config";
 import UserRouter from "./routes/UserRoutes";
 import ChatRoomRouter from './routes/ChatRoomRoutes';
+import ChatMessageRouter from './routes/ChatMessageRoutes';
 
 // setup express application
 const app = express();
@@ -25,7 +26,7 @@ app.use(
       httpOnly: true,
       secure: config.prod,
       sameSite: 'strict',
-      maxAge: 60 * 60 * 24 * 7
+      maxAge: 1000 * 60 * 60 * 24 * 7  // 1 week in milliseconds
     }
   })
 );
@@ -33,6 +34,7 @@ app.use(
 // path routes
 app.use("/api/user/", UserRouter);
 app.use("/api/chat/room", ChatRoomRouter);
+app.use("/api/chat/message", ChatMessageRouter);
 
 // start server
 app

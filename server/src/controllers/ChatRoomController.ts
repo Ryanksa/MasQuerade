@@ -17,7 +17,7 @@ export const createChatRoom = (req: Request, res: Response) => {
     }
 
     // create the chat room
-    let query = "INSERT INTO chat_room VALUES ($1, $2)";
+    let query = "INSERT INTO ChatRoom VALUES ($1, $2)";
     return client.query(query, [roomId, roomName])
       .then((result) => {
         if (result.rowCount === 0) {
@@ -26,7 +26,7 @@ export const createChatRoom = (req: Request, res: Response) => {
         }
 
         const username = (req.session as UserSession).username;
-        query = "INSERT INTO room_includes VALUES ($1, $2, TRUE)";
+        query = "INSERT INTO RoomIncludes VALUES ($1, $2, TRUE)";
         return client.query(query, [roomId, username]);
       })
       .then(() => {
@@ -48,6 +48,7 @@ export const updateChatRoomUsers = (req: Request, res: Response) => {
   const roomId: string = req.params.id;
   const action: ChatRoomActions = req.body.action;
   const affectedUsers: [string] = req.body.users;
+  const moderators: [boolean] = req.body.moderators;
   const reqUser = (req.session as UserSession).username;
 
   pool.connect((err, client, release) => {
@@ -59,7 +60,7 @@ export const updateChatRoomUsers = (req: Request, res: Response) => {
     }
 
     // check if req user is in the chat room
-    let query = "SELECT * FROM room_includes WHERE room = $1 AND username = $2";
+    let query = "SELECT * FROM RoomIncludes WHERE room = $1 AND username = $2";
     return client.query(query, [roomId, reqUser])
       .then((result) => {
         // user not in this chat room
@@ -70,8 +71,14 @@ export const updateChatRoomUsers = (req: Request, res: Response) => {
 
         // adding new users to the chat room
         if (action === "ADD") {
-          const insertEntries = affectedUsers.map(user => ([roomId, user, false]))
-          query = format("INSERT INTO room_includes VALUES %L", insertEntries);
+          const insertEntries = affectedUsers.map((user, idx) => {
+            if (moderators) {
+              return [roomId, user, moderators[idx]];
+            } else {
+              return [roomId, user, true];
+            }
+          });
+          query = format("INSERT INTO RoomIncludes VALUES %L", insertEntries);
           return client.query(query);
         }
         // removing users from the chat room
@@ -82,7 +89,7 @@ export const updateChatRoomUsers = (req: Request, res: Response) => {
             return;
           }
 
-          query = format("DELETE FROM room_includes WHERE room = $1 AND username IN %L", affectedUsers.map(user => ([user])));
+          query = format("DELETE FROM RoomIncludes WHERE room = $1 AND username IN (%L)", affectedUsers);
           return client.query(query, [roomId]);
         } else {
           res.status(400).json("Invalid action");
@@ -101,8 +108,11 @@ export const updateChatRoomUsers = (req: Request, res: Response) => {
 };
 
 export const getChatRooms = (req: Request, res: Response) => {
-  const page: number = +req.params.page;
-
+  let page: number = 0;
+  if (req.query.page) {
+    page = +req.query.page;
+  }
+  
   pool.connect((err, client, release) => {
     // error acquiring client to query db
     if (err) {
@@ -111,10 +121,13 @@ export const getChatRooms = (req: Request, res: Response) => {
       return;
     }
 
-    // query at most 10 users at the specified page
+    // query at most 10 rooms at the specified page
     let query =
-      "SELECT * " +
-      "FROM (SELECT ROW_NUMBER() OVER ( ORDER BY name ) AS row_num, * FROM chat_room) AS room_row " +
+      "SELECT id, name " +
+      "FROM (" +
+        "SELECT ROW_NUMBER() OVER ( ORDER BY name ) AS row_num, * " +
+        "FROM ChatRoom" +
+      ") AS RoomRow " +
       "WHERE row_num >= $1 AND row_num <= $2 " +
       "ORDER BY row_num";
     return client
@@ -144,7 +157,7 @@ export const getChatRoom = (req: Request, res: Response) => {
 
     // query for the chat room
     return client
-      .query("SELECT * FROM chat_room WHERE id = $1", [roomId])
+      .query("SELECT * FROM ChatRoom WHERE id = $1", [roomId])
       .then((result) => {
         release();
         // chat room not found
@@ -175,7 +188,7 @@ export const updateChatRoom = (req: Request, res: Response) => {
     }
 
     // update the name of the chat room
-    let query = "UPDATE chat_room SET name = $1 WHERE id = $2";
+    let query = "UPDATE ChatRoom SET name = $1 WHERE id = $2";
     return client
       .query(query, [newName, roomId])
       .then((result) => {
@@ -210,11 +223,11 @@ export const deleteChatRoom = (req: Request, res: Response) => {
     }
 
     // delete the chat room
-    let query = "DELETE FROM room_includes WHERE room = $1";
+    let query = "DELETE FROM RoomIncludes WHERE room = $1";
     return client
       .query(query, [roomId])
       .then(() => {
-        query = "DELETE FROM chat_room WHERE id = $1";
+        query = "DELETE FROM ChatRoom WHERE id = $1";
         return client.query(query, [roomId]);
       })
       .then((result) => {

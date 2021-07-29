@@ -19,7 +19,7 @@ export const SignUp = (req: Request, res: Response) => {
 
     // check if username already exists
     return client
-      .query("SELECT username FROM masquer WHERE username = $1", [username])
+      .query("SELECT username FROM Masquer WHERE username = $1", [username])
       .then((result) => {
         // username already exists
         if (result.rowCount > 0) {
@@ -34,7 +34,7 @@ export const SignUp = (req: Request, res: Response) => {
           .update(password)
           .digest("hex");
 
-        return client.query("INSERT INTO masquer VALUES ($1, $2, $3, 0)", [
+        return client.query("INSERT INTO Masquer VALUES ($1, $2, $3, 0)", [
           username,
           saltedHash,
           name,
@@ -49,14 +49,14 @@ export const SignUp = (req: Request, res: Response) => {
           httpOnly: false,
           secure: config.prod,
           sameSite: "strict",
-          maxAge: 60 * 60 * 24 * 7,
+          maxAge: 1000 * 60 * 60 * 24 * 7,
         });
         res.cookie("name", name, {
           path: "/",
           httpOnly: false,
           secure: config.prod,
           sameSite: "strict",
-          maxAge: 60 * 60 * 24 * 7,
+          maxAge: 1000 * 60 * 60 * 24 * 7,
         });
 
         // update session to log user in
@@ -85,7 +85,7 @@ export const SignIn = (req: Request, res: Response) => {
 
     // check if the username exists
     return client
-      .query("SELECT * FROM masquer WHERE username = $1", [username])
+      .query("SELECT * FROM Masquer WHERE username = $1", [username])
       .then((result) => {
         release();
 
@@ -113,14 +113,14 @@ export const SignIn = (req: Request, res: Response) => {
           httpOnly: false,
           secure: config.prod,
           sameSite: "strict",
-          maxAge: 60 * 60 * 24 * 7,
+          maxAge: 1000 * 60 * 60 * 24 * 7,
         });
         res.cookie("name", user.name, {
           path: "/",
           httpOnly: false,
           secure: config.prod,
           sameSite: "strict",
-          maxAge: 60 * 60 * 24 * 7,
+          maxAge: 1000 * 60 * 60 * 24 * 7,
         });
 
         // update session to log user in
@@ -147,7 +147,10 @@ export const SignOut = (req: Request, res: Response) => {
 };
 
 export const getUsers = (req: Request, res: Response) => {
-  const page: number = +req.params.page;
+  let page: number = 0;
+  if (req.query.page) {
+    page = +req.query.page;
+  }
 
   pool.connect((err, client, release) => {
     // error acquiring client to query db
@@ -160,7 +163,10 @@ export const getUsers = (req: Request, res: Response) => {
     // query at most 10 users at the specified page
     let query =
       "SELECT username, name, social_stats " +
-      "FROM (SELECT ROW_NUMBER() OVER ( ORDER BY username ) AS row_num, * FROM masquer) AS masquer_row " +
+      "FROM (" +
+        "SELECT ROW_NUMBER() OVER ( ORDER BY username ) AS row_num, * " +
+        "FROM Masquer" +
+      ") AS MasquerRow " +
       "WHERE row_num >= $1 AND row_num <= $2 " +
       "ORDER BY row_num";
     return client
@@ -189,7 +195,7 @@ export const getUser = (req: Request, res: Response) => {
     }
 
     let query =
-      "SELECT username, name, social_stats FROM masquer WHERE username = $1";
+      "SELECT username, name, social_stats FROM Masquer WHERE username = $1";
     return client
       .query(query, [username])
       .then((result) => {

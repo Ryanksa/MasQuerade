@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.post("/", isAuthenticated, ChatRoomController.createChatRoom);
 router.post("/:id", isAuthenticated, ChatRoomController.updateChatRoomUsers);
-router.get("/list/:page", isAuthenticated, ChatRoomController.getChatRooms);
+router.get("/list", isAuthenticated, ChatRoomController.getChatRooms);
 router.get("/:id", isAuthenticated, ChatRoomController.getChatRoom);
 router.put("/:id", isAuthenticated, ChatRoomController.updateChatRoom);
 router.delete("/:id", isAuthenticated, ChatRoomController.deleteChatRoom);
