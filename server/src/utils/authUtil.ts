@@ -1,5 +1,9 @@
 import { Request, Response, NextFunction } from "express";
-import { UserSession } from "../types/customTypes";
+import { Session } from "express-session";
+
+export interface UserSession extends Session {
+  username?: string;
+}
 
 export const isAuthenticated = (
   req: Request,

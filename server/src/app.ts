@@ -1,7 +1,7 @@
 import express from "express";
 import session from "express-session";
-import redis from 'redis';
 import config from "./config";
+import redisClient from "./database/redis";
 import UserRouter from "./routes/UserRoutes";
 import ChatRoomRouter from './routes/ChatRoomRoutes';
 import ChatMessageRouter from './routes/ChatMessageRoutes';
@@ -11,9 +11,8 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// setup redis
+// connect redis to express session
 const RedisStore = require('connect-redis')(session);
-const redisClient = redis.createClient();
 
 // setup express session
 app.use(

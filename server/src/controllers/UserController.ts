@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
 import crypto from "crypto";
-import pool from "../database/db";
+import pool from "../database/postgresql";
 import config from "../config";
-import { UserSession } from "../types/customTypes";
+import { UserSession } from "../utils/authUtil";
 
 export const SignUp = (req: Request, res: Response) => {
   const username: string = req.body.username;

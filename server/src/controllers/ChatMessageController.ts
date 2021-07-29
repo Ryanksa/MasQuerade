@@ -1,7 +1,14 @@
 import { Request, Response } from "express";
 import crypto from "crypto";
-import pool from "../database/db";
-import { UserSession } from "../types/customTypes";
+import pool from "../database/postgresql";
+import redisClient from "../database/redis";
+import { UserSession } from "../utils/authUtil";
+
+interface MessageListener {
+  [key: string]: Response
+}
+
+const msgListener: MessageListener = {};
 
 export const postChatMessage = (req: Request, res: Response) => {
   const msgId = crypto.randomBytes(16).toString("hex");
@@ -19,11 +26,13 @@ export const postChatMessage = (req: Request, res: Response) => {
     }
 
     // check if the user is in the chat room first
-    let query = "SELECT * FROM RoomIncludes WHERE room = $1 AND username = $2";
-    return client.query(query, [msgRoom, msgAuthor])
+    let query = "SELECT username FROM RoomIncludes WHERE room = $1";
+    return client.query(query, [msgRoom])
       .then((result) => {
+        const usersInRoom = result.rows.map(row => row.username);
+
         // user not in chat room
-        if (result.rowCount === 0) {
+        if (!usersInRoom.includes(msgAuthor)) {
           release();
           res.status(403).json("Cannot post messages in chat rooms that you do not belong in");
           return;
@@ -31,17 +40,35 @@ export const postChatMessage = (req: Request, res: Response) => {
 
         // post message
         query = "INSERT INTO ChatMessage VALUES ($1, $2, $3, $4, $5)";
-        return client.query(query, [msgId, msgAuthor, msgRoom, msgContent, postedOn]);
-      })
-      .then(() => {
-        release();
-        res.json({
-          id: msgId,
-          author: msgAuthor,
-          room: msgRoom,
-          content: msgContent,
-          posted_on: postedOn
-        });
+        return client
+          .query(query, [msgId, msgAuthor, msgRoom, msgContent, postedOn])
+          .then(() => {
+            const msg = {
+              id: msgId,
+              author: msgAuthor,
+              room: msgRoom,
+              content: msgContent,
+              posted_on: postedOn
+            };
+
+            // notify each user in the chat room
+            usersInRoom.forEach((username) => {
+              if (username !== msgAuthor) {
+                // this user is listening for messages, respond to it
+                if (msgListener[username]) {
+                  msgListener[username].json([msg]);
+                  delete msgListener[username];
+                }
+                // this user is not listening for messages, save to redis
+                else {
+                  redisClient.rpush(username, JSON.stringify(msg));
+                }
+              }
+            });
+            
+            release();
+            res.json(msg);
+          });
       })
       .catch((err) => {
         release();
@@ -49,6 +76,30 @@ export const postChatMessage = (req: Request, res: Response) => {
         res.status(500).json("Something went wrong on the server");
       });
   });
+};
+
+export const listenForChatMessages = (req: Request, res: Response) => {
+  const username = (req.session as UserSession).username;
+  if (username) {
+    // respond back with any unread messages saved on redis
+    redisClient.lrange(username, 0, -1, (err, reply) => {
+      if (err) {
+        console.error(err);
+        res.status(500).json("Something went wrong on the server");
+        return;
+      }
+
+      // there are unread messages, respond back with those
+      if (reply.length > 0) {
+        res.json(reply);
+        redisClient.del(username);
+      }
+      // no unread messages, listen for new messages
+      else {
+        msgListener[username] = res;
+      }
+    });
+  }
 };
 
 export const getChatMessages = (req: Request, res: Response) => {

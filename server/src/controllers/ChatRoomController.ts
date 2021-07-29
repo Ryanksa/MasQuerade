@@ -1,8 +1,13 @@
 import { Request, Response } from "express";
 import crypto from "crypto";
 import format from 'pg-format';
-import pool from "../database/db";
-import { UserSession, ChatRoomActions } from "../types/customTypes";
+import pool from "../database/postgresql";
+import { UserSession } from "../utils/authUtil";
+
+enum ChatRoomActions {
+  ADD = "ADD",
+  REMOVE = "REMOVE"
+}
 
 export const createChatRoom = (req: Request, res: Response) => {
   const roomId = crypto.randomBytes(16).toString("hex");
