@@ -23,7 +23,6 @@ export const SignUp = (req: Request, res: Response) => {
       .then((result) => {
         // username already exists
         if (result.rowCount > 0) {
-          release();
           res.status(409).json(`The username ${username} is taken`);
           return;
         }
@@ -41,8 +40,6 @@ export const SignUp = (req: Request, res: Response) => {
         ]);
       })
       .then(() => {
-        release();
-
         // set cookie for frontend to access logged in user
         res.cookie("username", username, {
           path: "/",
@@ -64,9 +61,11 @@ export const SignUp = (req: Request, res: Response) => {
         res.json({ username, name });
       })
       .catch((err) => {
-        release();
         console.error(err);
         res.status(500).json("Something went wrong on the server");
+      })
+      .finally(() => {
+        release();
       });
   });
 };
@@ -87,8 +86,6 @@ export const SignIn = (req: Request, res: Response) => {
     return client
       .query("SELECT * FROM Masquer WHERE username = $1", [username])
       .then((result) => {
-        release();
-
         // username does not exist
         if (result.rowCount === 0) {
           res.status(401).json("The username or password is incorrect");
@@ -128,9 +125,11 @@ export const SignIn = (req: Request, res: Response) => {
         res.json({ username: user.username, name: user.name });
       })
       .catch((err) => {
-        release();
         console.error(err);
         res.status(500).json("Something went wrong on the server");
+      })
+      .finally(() => {
+        release();
       });
   });
 };
@@ -172,13 +171,14 @@ export const getUsers = (req: Request, res: Response) => {
     return client
       .query(query, [page * 10 + 1, page * 10 + 10])
       .then((result) => {
-        release();
         res.json(result.rows);
       })
       .catch((err) => {
-        release();
         console.error(err);
         res.status(500).json("Something went wrong on the server");
+      })
+      .finally(() => {
+        release();
       });
   });
 };
@@ -199,7 +199,6 @@ export const getUser = (req: Request, res: Response) => {
     return client
       .query(query, [username])
       .then((result) => {
-        release();
         // user not found
         if (result.rowCount === 0) {
           res.status(404).json(`User ${username} does not exists`);
@@ -208,9 +207,11 @@ export const getUser = (req: Request, res: Response) => {
         res.json(result.rows[0]);
       })
       .catch((err) => {
-        release();
         console.error(err);
         res.status(500).json("Something went wrong on the server");
+      })
+      .finally(() => {
+        release();
       });
   });
 };

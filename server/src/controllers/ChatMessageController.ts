@@ -33,7 +33,6 @@ export const postChatMessage = (req: Request, res: Response) => {
 
         // user not in chat room
         if (!usersInRoom.includes(msgAuthor)) {
-          release();
           res.status(403).json("Cannot post messages in chat rooms that you do not belong in");
           return;
         }
@@ -66,14 +65,15 @@ export const postChatMessage = (req: Request, res: Response) => {
               }
             });
             
-            release();
             res.json(msg);
           });
       })
       .catch((err) => {
-        release();
         console.error(err);
         res.status(500).json("Something went wrong on the server");
+      })
+      .finally(() => {
+        release();
       });
   });
 };
@@ -108,6 +108,7 @@ export const getChatMessages = (req: Request, res: Response) => {
   if (req.query.page) {
     page = +req.query.page;
   }
+  const reqUser = (req.session as UserSession).username;
 
   return pool.connect((err, client, release) => {
     // error acquiring client to query db
@@ -117,24 +118,36 @@ export const getChatMessages = (req: Request, res: Response) => {
       return;
     }
 
-    // query at most 20 messages at the specified page
-    let query =
-      "SELECT id, author, room, content, posted_on " +
-      "FROM (" +
-        "SELECT ROW_NUMBER() OVER ( ORDER BY posted_on DESC ) AS row_num, * " +
-        "FROM ChatMessage WHERE room = $1" +
-      ") AS MsgRow " +
-      "WHERE row_num >= $2 AND row_num <= $3 " +
-      "ORDER BY row_num";
-    return client.query(query, [roomId, page * 20 + 1, page * 20 + 20])
+    // check if the user is in the chat room first
+    let query = "SELECT username FROM RoomIncludes WHERE room = $1 AND username = $2";
+    return client.query(query, [roomId, reqUser])
       .then((result) => {
-        release();
-        res.json(result.rows);
+        // user not in chat room
+        if (result.rowCount === 0) {
+          res.status(403).json("Cannot read messages in chat rooms that you do not belong in");
+          return;
+        }
+
+        // query at most 20 messages at the specified page
+        query =
+          "SELECT id, author, room, content, posted_on " +
+          "FROM (" +
+            "SELECT ROW_NUMBER() OVER ( ORDER BY posted_on DESC ) AS row_num, * " +
+            "FROM ChatMessage WHERE room = $1" +
+          ") AS MsgRow " +
+          "WHERE row_num >= $2 AND row_num <= $3 " +
+          "ORDER BY row_num";
+        return client.query(query, [roomId, page * 20 + 1, page * 20 + 20]);
+      })
+      .then((result) => {
+        if (result) res.json(result.rows);
       })
       .catch((err) => {
-        release();
         console.error(err);
         res.status(500).json("Something went wrong on the server");
+      })
+      .finally(() => {
+        release();
       });
   });
 };
@@ -158,7 +171,6 @@ export const editChatMessage = (req: Request, res: Response) => {
       .then((result) => {
         // this user did not post this message
         if (result.rowCount === 0) {
-          release();
           res.status(403).json("Cannot edit messages that you did not post");
           return;
         }
@@ -168,16 +180,17 @@ export const editChatMessage = (req: Request, res: Response) => {
         return client.query(query, [newContent, msgId]);
       })
       .then(() => {
-        release();
         res.json({
           id: msgId,
           content: newContent
         });
       })
       .catch((err) => {
-        release();
         console.error(err);
         res.status(500).json("Something went wrong on the server");
+      })
+      .finally(() => {
+        release();
       });
   });
 };
@@ -200,7 +213,6 @@ export const deleteChatMessage = (req: Request, res: Response) => {
       .then((result) => {
         // this user did not post this message
         if (result.rowCount === 0) {
-          release();
           res.status(403).json("Cannot delete messages that you did not post");
           return;
         }
@@ -210,13 +222,14 @@ export const deleteChatMessage = (req: Request, res: Response) => {
         return client.query(query, [msgId]);
       })
       .then(() => {
-        release();
         res.json({ id: msgId });
       })
       .catch((err) => {
-        release();
         console.error(err);
         res.status(500).json("Something went wrong on the server");
+      })
+      .finally(() => {
+        release();
       });
   });
 };

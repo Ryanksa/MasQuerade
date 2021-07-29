@@ -35,16 +35,17 @@ export const createChatRoom = (req: Request, res: Response) => {
         return client.query(query, [roomId, username]);
       })
       .then(() => {
-        release();
         res.json({
           id: roomId,
           name: roomName,
         });
       })
       .catch((err) => {
-        release();
         console.error(err);
         res.status(500).json("Something went wrong on the server");
+      })
+      .finally(() => {
+        release();
       });
   });
 };
@@ -101,13 +102,14 @@ export const updateChatRoomUsers = (req: Request, res: Response) => {
         }
       })
       .then(() => {
-        release();
         res.json("Updated successfully");
       })
       .catch((err) => {
-        release();
         console.error(err);
         res.status(500).json("Something went wrong on the server");
+      })
+      .finally(() => {
+        release();
       });
   });
 };
@@ -138,13 +140,14 @@ export const getChatRooms = (req: Request, res: Response) => {
     return client
       .query(query, [page * 10 + 1, page * 10 + 10])
       .then((result) => {
-        release();
         res.json(result.rows);
       })
       .catch((err) => {
-        release();
         console.error(err);
         res.status(500).json("Something went wrong on the server");
+      })
+      .finally(() => {
+        release();
       });
   });
 };
@@ -164,7 +167,6 @@ export const getChatRoom = (req: Request, res: Response) => {
     return client
       .query("SELECT * FROM ChatRoom WHERE id = $1", [roomId])
       .then((result) => {
-        release();
         // chat room not found
         if (result.rowCount === 0) {
           res.status(404).json(`Chat room ${roomId} does not exists`);
@@ -173,9 +175,11 @@ export const getChatRoom = (req: Request, res: Response) => {
         res.json(result.rows[0]);
       })
       .catch((err) => {
-        release();
         console.error(err);
         res.status(500).json("Something went wrong on the server");
+      })
+      .finally(() => {
+        release();
       });
   });
 };
@@ -197,7 +201,6 @@ export const updateChatRoom = (req: Request, res: Response) => {
     return client
       .query(query, [newName, roomId])
       .then((result) => {
-        release();
         // no chat room was updated
         if (result.rowCount === 0) {
           res.status(404).json(`Chat room ${roomId} does not exists`);
@@ -209,9 +212,11 @@ export const updateChatRoom = (req: Request, res: Response) => {
         });
       })
       .catch((err) => {
-        release();
         console.error(err);
         res.status(500).json("Something went wrong on the server");
+      })
+      .finally(() => {
+        release();
       });
   });
 };
@@ -236,7 +241,6 @@ export const deleteChatRoom = (req: Request, res: Response) => {
         return client.query(query, [roomId]);
       })
       .then((result) => {
-        release();
         // no chat room was deleted
         if (result.rowCount === 0) {
           res.status(404).json(`Chat room ${roomId} does not exists`);
@@ -245,9 +249,11 @@ export const deleteChatRoom = (req: Request, res: Response) => {
         res.json({ id: roomId });
       })
       .catch((err) => {
-        release();
         console.error(err);
         res.status(500).json("Something went wrong on the server");
+      })
+      .finally(() => {
+        release();
       });
   });
 };
