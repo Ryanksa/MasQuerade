@@ -52,8 +52,16 @@
   position: relative;
 }
 
-.to-you .msg-content-container:hover {
+.msg-content-container:hover {
   animation: wiggle 1s;
+}
+
+.to-you .msg-content-container {
+  transform-origin: left 50%;
+}
+
+.from-you .msg-content-container {
+  transform-origin: 400px 100%;
 }
 
 .msg-content-container > svg {
@@ -91,4 +99,12 @@
   width: 290px;
   left: 100px;
   transform: rotateZ(-2deg);
+}
+
+.light-polygon {
+  fill: var(--lightBase2);
+}
+
+.dark-polygon {
+  fill: var(--darkBase2);
 }

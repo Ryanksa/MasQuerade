@@ -1,14 +1,18 @@
 /* You can add global styles to this file, and also import other style files */
 :root {
-  --primary1: #D00000;
-  --primary2: #9e0000;
-  --supplementary1: white;
-  --complementary: white;
-  --shade1: #25272b;
-  --tint1: #d6d6d6;
+  --primary1: #dd2b25;
+  --primary2: #f93200;
+  --analogous1: #DB504A;
+  --analogous2: #FF6F59;
+  --complementary1: #12df7f;
+  --complementary2: #0b91df;
+  --darkBase1: #25272b;
+  --darkBase2: #040418;
+  --lightBase1: #d6d6d6;
+  --lightBase2: #FFFBFF;
 }
 
 body {
   margin: 0;
-  background-color: var(--shade1);
+  background-color: var(--darkBase1);
 }

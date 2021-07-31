@@ -13,12 +13,12 @@
   <div class="msg-content-container">
     <svg [attr.height]="height" width="350">
       <polygon
+        class="light-polygon"
         [attr.points]="getOuterPolygonPoints()"
-        [ngStyle]="{ fill: 'white' }"
       />
       <polygon
+        class="dark-polygon"
         [attr.points]="getInnerPolygonPoints()"
-        [ngStyle]="{ fill: 'black' }"
       />
     </svg>
 
