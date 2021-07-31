@@ -7,7 +7,8 @@
   --complementary1: #12df7f;
   --complementary2: #0b91df;
   --darkBase1: #25272b;
-  --darkBase2: #040418;
+  --darkBase2: #0c0c13;
+  --darkBase3: #000000;
   --lightBase1: #d6d6d6;
   --lightBase2: #FFFBFF;
 }
@@ -15,4 +16,22 @@
 body {
   margin: 0;
   background-color: var(--darkBase1);
+}
+
+body::-webkit-scrollbar {
+  width: 16px;
+}
+
+body::-webkit-scrollbar-track {
+  background: var(--lightBase2);
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: var(--darkBase1);
+  border-radius: 10px;
+  border: 2px solid var(--lightBase2);
+}
+
+body::-webkit-scrollbar-thumb:hover {
+  background-color: var(--darkBase3);
 }

@@ -7,11 +7,11 @@ const getNumberOfLines = (text: string): number => {
   let currLineChars = 0;
   let numLines = 1;
   for (word of words) {
-    // a line can fit at most 35 chars or so
-    if (currLineChars + word.length > 35) {
+    // a line can fit around 25 characters or so
+    if (currLineChars + word.length > 25) {
       numLines++;
-      if (word.length > 35 && currLineChars > 0) numLines++;
-      currLineChars = word.length > 35 ? 0 : word.length + 1;
+      if (word.length > 25 && currLineChars > 0) numLines++;
+      currLineChars = word.length > 25 ? 0 : word.length + 1;
     } else {
       currLineChars += word.length + 1;
     }
@@ -46,7 +46,7 @@ export class ChatMessageComponent implements OnInit {
 
   getOuterPolygonPoints(): string {
     if (this.mine) {
-      return `350,40 340,23 330,30 322,24 325,0 0,10 0,${45 + this.lines * 25} 315,${50 + this.lines * 25} 318,45 328,48 341,36`;     
+      return `350,40 340,23 330,30 322,24 325,0 0,10 0,${25 + this.lines * 25} 315,${30 + this.lines * 25} 318,45 328,48 341,36`;     
     } else {
       return `5,55 25,38 35,42 45,35 48,5 350,0 340,${50 + this.lines * 25} 40,${45 + this.lines * 25} 43,55 35,57 25,52`;
     }
@@ -54,7 +54,7 @@ export class ChatMessageComponent implements OnInit {
 
   getInnerPolygonPoints(): string {
     if (this.mine) {
-      return `350,40 340,25 330,33 318,24 320,5 5,15 9,${40 + this.lines * 25} 312,${45 + this.lines * 25} 315,40 328,45 341,35`;
+      return `350,40 340,25 330,33 318,24 320,5 5,15 9,${20 + this.lines * 25} 312,${25 + this.lines * 25} 315,40 328,45 341,35`;
     } else {
       return `5,55 25,40 35,45 50,35 52,10 340,5 335,${45 + this.lines * 25} 47,${40 + this.lines * 25} 48,50 35,55 25,50`;
     }
