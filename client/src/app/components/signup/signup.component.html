@@ -1,0 +1,30 @@
+<app-unauth-header></app-unauth-header>
+<div class="signup-container">
+  <div class="signup-form">
+    <app-masquer-text
+      text="SignUp"
+      [flipIndices]="[4]"
+      [leftFontSize]="40"
+      rotateAngle="2deg"
+      class="signup-title"
+    >
+    </app-masquer-text>
+
+    <div class="signup-form-field">
+      <label for="signup-name">Name</label>
+      <input type="text" id="signup-name" />
+    </div>
+    
+    <div class="signup-form-field">
+      <label for="signup-username">Username</label>
+      <input type="text" id="signup-username" />
+    </div>
+
+    <div class="signup-form-field">
+      <label for="signup-password">Password</label>
+      <input type="password" id="signup-password" />
+    </div>
+
+    <button class="signup-button">Sign Up</button>
+  </div>
+</div>

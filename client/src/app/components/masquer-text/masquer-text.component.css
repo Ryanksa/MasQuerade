@@ -1,5 +1,6 @@
 @keyframes hoverEffect {
-  50% { transform: rotate(0) }
+  0% { transform: rotate(0) }
+  100% { transform: rotate(0) }
 }
 
 .masquer-text-container {
@@ -8,7 +9,7 @@
 }
 
 .masquer-text-container.hovereffect:hover{
-  animation: hoverEffect 1s;
+  animation: hoverEffect 1s infinite;
 }
 
 .masquer-text-container.hovereffect:hover span.fore{

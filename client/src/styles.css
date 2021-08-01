@@ -4,8 +4,8 @@
   --primary2: #DB504A;
   --secondary1: #f93200;
   --secondary2: #FF6F59;
-  --complementary1: #12df7f;
-  --complementary2: #0b91df;
+  --complementary1: #65b672;
+  --complementary2: #3788b8;
   --darkBase1: #43454b;
   --darkBase2: #25272b;
   --darkBase3: #000000;
@@ -17,6 +17,7 @@ body {
   margin: 0;
   background-color: var(--darkBase2);
   overflow-x: hidden;
+  font-family: 'Gowun Dodum', sans-serif;
 }
 
 body::-webkit-scrollbar {

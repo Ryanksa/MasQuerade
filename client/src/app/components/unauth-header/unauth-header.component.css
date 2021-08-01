@@ -50,21 +50,29 @@
 
 .logo {
   position: absolute;
-  top: 20px;
+  top: 60px;
   left: 20px;
   width: max-content;
+  cursor: pointer;
+}
+
+.logo-icon {
+  position: absolute;
+  top: -20px;
+  left: 50px;
+  color: var(--lightBase2);
 }
 
 .signin-buttons-container {
   position: absolute;
   top: 70px;
-  right: 25px;
+  right: 5px;
 }
 
 .anchor-point {
   position: absolute;
   top: 15px;
-  right: -40px;
+  right: -55px;
   background-color: var(--primary1);
   width: 100px;
   height: 100px;

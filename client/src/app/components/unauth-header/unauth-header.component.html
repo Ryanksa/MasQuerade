@@ -4,16 +4,16 @@
   <div class="title-background3"></div>
   <div class="title-background4"></div>
 
-  <div class="logo">
+  <div class="logo" (click)="navigateToLanding()">
+    <fa-icon [icon]="maskIcon" class="logo-icon fa-5x"></fa-icon>
     <app-masquer-text
-      text="MasQuerade"
+      text="MasQuerADe"
       [flipIndices]="[3, 8]"
-      [leftFontSize]="60"
-      [fontSizeStep]="10"
-      rotateAngle="-15deg"
+      [leftFontSize]="100"
+      [fontSizeStep]="0"
+      rotateAngle="-20deg"
       [ngStyle]="{
-        'letter-spacing': '-10px',
-        'cursor': 'pointer'
+        'letter-spacing': '-10px'
       }"
     >
     </app-masquer-text>
@@ -30,16 +30,18 @@
       rotateAngle="12deg"
       [hoverEffect]="true"
       class="signin-button"
+      (click)="navigateToSignup()"
     >
     </app-masquer-text>
     <app-masquer-text
-      text="Login"
+      text="LogIn"
       [flipIndices]="[1]"
       [leftFontSize]="48"
       [fontSizeStep]="-4"
       rotateAngle="-15deg"
       [hoverEffect]="true"
       class="signin-button"
+      (click)="navigateToLogin()"
     >
     </app-masquer-text>
   </div>
