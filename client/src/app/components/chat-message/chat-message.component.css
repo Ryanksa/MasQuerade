@@ -91,13 +91,13 @@
 }
 
 .to-you .msg-content {
-  width: 24ch;
+  width: 22ch;
   left: 30px;
   transform: rotateZ(-0.5deg);
 }
 
 .from-you .msg-content {
-  width: 26ch;
+  width: 23.5ch;
   right: 45px;
   transform: rotateZ(-2deg);
 }

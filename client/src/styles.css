@@ -2,12 +2,12 @@
 :root {
   --primary1: #dd2b25;
   --primary2: #f93200;
-  --analogous1: #DB504A;
-  --analogous2: #FF6F59;
+  --secondary1: #DB504A;
+  --secondary2: #FF6F59;
   --complementary1: #12df7f;
   --complementary2: #0b91df;
-  --darkBase1: #25272b;
-  --darkBase2: #0c0c13;
+  --darkBase1: #43454b;
+  --darkBase2: #25272b;
   --darkBase3: #000000;
   --lightBase1: #d6d6d6;
   --lightBase2: #FFFBFF;
@@ -15,7 +15,7 @@
 
 body {
   margin: 0;
-  background-color: var(--darkBase1);
+  background-color: var(--darkBase2);
 }
 
 body::-webkit-scrollbar {

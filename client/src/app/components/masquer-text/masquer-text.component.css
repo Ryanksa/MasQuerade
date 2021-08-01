@@ -1,0 +1,53 @@
+.masquer-text-container {
+  font-family: 'Fira Sans', sans-serif;
+  position: relative;
+}
+
+.backdrop {
+  position: absolute;
+}
+
+span {
+  display: inline-block;
+  margin: 0 2px;
+}
+
+span.back {
+  color: var(--darkBase3);
+  -webkit-text-stroke: 20px var(--darkBase3);
+}
+
+span.back.flip {
+  color: var(--lightBase2);
+  -webkit-text-stroke: 15px var(--lightBase2);
+}
+
+span.fore {
+  color: var(--lightBase2);
+  -webkit-text-stroke: 1px var(--darkBase3);
+}
+
+span.fore.flip {
+  color: var(--darkBase3);
+  -webkit-text-stroke: 1.5px var(--lightBase2);
+}
+
+.masquer-char-span0 {
+  transform: rotate(14deg);
+}
+
+.masquer-char-span1 {
+  transform: rotate(-13deg);
+}
+
+.masquer-char-span2 {
+  transform: rotate(7deg);
+}
+
+.masquer-char-span3 {
+  transform: rotate(-5deg);
+}
+
+.masquer-char-span4 {
+  transform: rotate(11deg);
+}
