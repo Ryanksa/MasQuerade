@@ -8,6 +8,7 @@ import { ChatMessageComponent } from './components/chat-message/chat-message.com
 import { CreditsComponent } from './components/credits/credits.component';
 import { LandingComponent } from './components/landing/landing.component';
 import { MasquerTextComponent } from './components/masquer-text/masquer-text.component';
+import { UnauthHeaderComponent } from './components/unauth-header/unauth-header.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { MasquerTextComponent } from './components/masquer-text/masquer-text.com
     CreditsComponent,
     LandingComponent,
     MasquerTextComponent,
+    UnauthHeaderComponent,
   ],
   imports: [
     BrowserModule,

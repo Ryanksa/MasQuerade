@@ -1,0 +1,46 @@
+<div class="unauth-header-container">
+  <div class="title-background1"></div>
+  <div class="title-background2"></div>
+  <div class="title-background3"></div>
+  <div class="title-background4"></div>
+
+  <div class="logo">
+    <app-masquer-text
+      text="MasQuerade"
+      [flipIndices]="[3, 8]"
+      [leftFontSize]="60"
+      [fontSizeStep]="10"
+      rotateAngle="-15deg"
+      [ngStyle]="{
+        'letter-spacing': '-10px',
+        'cursor': 'pointer'
+      }"
+    >
+    </app-masquer-text>
+  </div>
+
+  <div class="signin-buttons-container">
+    <div class="anchor-point"></div>
+
+    <app-masquer-text
+      text="SignUp"
+      [flipIndices]="[4]"
+      [leftFontSize]="48"
+      [fontSizeStep]="-4"
+      rotateAngle="12deg"
+      [hoverEffect]="true"
+      class="signin-button"
+    >
+    </app-masquer-text>
+    <app-masquer-text
+      text="Login"
+      [flipIndices]="[1]"
+      [leftFontSize]="48"
+      [fontSizeStep]="-4"
+      rotateAngle="-15deg"
+      [hoverEffect]="true"
+      class="signin-button"
+    >
+    </app-masquer-text>
+  </div>
+</div>

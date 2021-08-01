@@ -1,6 +1,18 @@
+@keyframes hoverEffect {
+  50% { transform: rotate(0) }
+}
+
 .masquer-text-container {
   font-family: 'Fira Sans', sans-serif;
   position: relative;
+}
+
+.masquer-text-container.hovereffect:hover{
+  animation: hoverEffect 1s;
+}
+
+.masquer-text-container.hovereffect:hover span.fore{
+  text-shadow: 3px 3px 2px var(--primary1);
 }
 
 .backdrop {
@@ -9,7 +21,6 @@
 
 span {
   display: inline-block;
-  margin: 0 2px;
 }
 
 span.back {
@@ -24,7 +35,7 @@ span.back.flip {
 
 span.fore {
   color: var(--lightBase2);
-  -webkit-text-stroke: 1px var(--darkBase3);
+  -webkit-text-stroke: 1.5px var(--darkBase3);
 }
 
 span.fore.flip {

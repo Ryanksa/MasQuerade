@@ -1,8 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
 :root {
-  --primary1: #dd2b25;
-  --primary2: #f93200;
-  --secondary1: #DB504A;
+  --primary1: #c72b26;
+  --primary2: #DB504A;
+  --secondary1: #f93200;
   --secondary2: #FF6F59;
   --complementary1: #12df7f;
   --complementary2: #0b91df;
@@ -16,6 +16,7 @@
 body {
   margin: 0;
   background-color: var(--darkBase2);
+  overflow-x: hidden;
 }
 
 body::-webkit-scrollbar {
