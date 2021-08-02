@@ -26,7 +26,7 @@ export class MasquerTextComponent implements OnInit {
     this.charArray = this.text.split('').map((c, idx) => {
       return {
         char: c,
-        class: "masquer-char-span" + getRandomInt(5),
+        class: "masquer-char-span" + getRandomInt(10),
         flip: this.flipIndices.includes(idx),
         fontSize: this.leftFontSize + idx*this.fontSizeStep + "px"
       }

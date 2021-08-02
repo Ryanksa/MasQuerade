@@ -8,8 +8,7 @@
   position: relative;
   font-size: 1.5rem;
   width: 15em;
-  margin-top: 10em;
-  margin-bottom: 3em;
+  margin: 200px auto 3em;
   padding: 0 1em;
   background-color: var(--secondary2);
   border-radius: 5px;
@@ -67,4 +66,10 @@
   border: 2px solid var(--complementary1);
   color: var(--complementary1);
   background-color: var(--lightBase2);
+}
+
+@media screen and (max-width: 900px) {
+  .signup-form {
+    margin-top: 350px;
+  }
 }

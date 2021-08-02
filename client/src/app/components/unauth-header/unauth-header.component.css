@@ -9,7 +9,7 @@
   width: 700px;
   height: 150px;
   transform: rotate(8deg);
-  background-color: var(--primary2);
+  background-color: var(--primary1);
   z-index: -10;
 }
 
@@ -20,7 +20,7 @@
   width: 1000px;
   height: 150px;
   transform: rotate(20deg);
-  background-color: var(--primary2);
+  background-color: var(--primary1);
   z-index: -10;
   border-bottom: 3px solid var(--lightBase1);
 }
@@ -32,7 +32,7 @@
   width: 1200px;
   height: 140px;
   transform: rotate(-15deg);
-  background-color: var(--primary2);
+  background-color: var(--primary1);
   z-index: -10;
   border-bottom: 3px solid var(--lightBase1);
 }
@@ -44,7 +44,7 @@
   width: 800px;
   height: 140px;
   transform: rotate(-25deg);
-  background-color: var(--primary2);
+  background-color: var(--primary1);
   z-index: -10;
 }
 
@@ -63,23 +63,54 @@
   color: var(--lightBase2);
 }
 
+.logo-text {
+  letter-spacing: -10px;
+}
+
 .signin-buttons-container {
   position: absolute;
-  top: 80px;
-  right: 5px;
+  top: 60px;
+  right: 5%;
 }
 
 .anchor-point {
   position: absolute;
   top: 15px;
-  right: -55px;
-  background-color: var(--primary1);
+  right: -50px;
+  background-color: var(--primary2);
   width: 100px;
   height: 100px;
   border-radius: 50px;
 }
 
 .signin-button {
-  letter-spacing: 3px;
+  letter-spacing: 2px;
   cursor: pointer;
+}
+
+@media screen and (max-width: 1100px) {
+  .title-background3 {
+    display: none;
+  }
+  .title-background4 {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .signin-buttons-container {
+    top: 150px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .title-background1 {
+    display: none;
+  }
+  .title-background2 {
+    display: none;
+  }
+  .logo-text {
+    display: none;
+  }
 }

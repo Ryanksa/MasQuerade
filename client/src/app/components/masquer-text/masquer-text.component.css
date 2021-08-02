@@ -21,7 +21,7 @@ span {
 
 span.back {
   color: var(--darkBase3);
-  -webkit-text-stroke: 20px var(--darkBase3);
+  -webkit-text-stroke: 15px var(--darkBase3);
 }
 
 span.back.flip {
@@ -40,21 +40,41 @@ span.fore.flip {
 }
 
 .masquer-char-span0 {
-  transform: rotate(14deg);
+  transform: rotate(14deg) translateY(-4px);
 }
 
 .masquer-char-span1 {
-  transform: rotate(-13deg);
+  transform: rotate(-13deg) translateY(-6px);
 }
 
 .masquer-char-span2 {
-  transform: rotate(7deg);
+  transform: rotate(7deg) translateY(4px);
 }
 
 .masquer-char-span3 {
-  transform: rotate(-5deg);
+  transform: rotate(-5deg) translateY(-2px);
 }
 
 .masquer-char-span4 {
   transform: rotate(11deg);
+}
+
+.masquer-char-span5 {
+  transform: rotate(-14deg) scale(0.8, 0.8) translateY(6px);
+}
+
+.masquer-char-span6 {
+  transform: rotate(13deg) scale(1.1, 0.9);
+}
+
+.masquer-char-span7 {
+  transform: rotate(7deg) scale(1.2, 1.1);
+}
+
+.masquer-char-span8 {
+  transform: rotate(-5deg) scale(1.15, 1.15) translateY(4px);
+}
+
+.masquer-char-span9 {
+  transform: rotate(-11deg) scale(1.1, 1.1);
 }
