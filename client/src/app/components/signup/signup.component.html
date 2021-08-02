@@ -12,19 +12,21 @@
 
     <div class="signup-form-field">
       <label for="signup-name">Name</label>
-      <input type="text" id="signup-name" />
+      <input type="text" id="signup-name" [(ngModel)]="name" />
     </div>
-    
+
     <div class="signup-form-field">
       <label for="signup-username">Username</label>
-      <input type="text" id="signup-username" />
+      <input type="text" id="signup-username" [(ngModel)]="username" />
     </div>
 
     <div class="signup-form-field">
       <label for="signup-password">Password</label>
-      <input type="password" id="signup-password" />
+      <input type="password" id="signup-password" [(ngModel)]="password" />
     </div>
 
-    <button class="signup-button">Sign Up</button>
+    <button class="signup-button" (click)="handleSignUp()">
+      Sign Up
+    </button>
   </div>
 </div>

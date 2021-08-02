@@ -1,7 +1,10 @@
-<div 
+<div
   class="masquer-text-container"
   [ngClass]="{ hovereffect: hoverEffect }"
-  [ngStyle]="{ 'transform': getRotationString() }"
+  [ngStyle]="{
+    'transform': getRotationString(),
+    'transform-origin': rotateOrigin
+  }"
 >
   <div class="backdrop">
     <span

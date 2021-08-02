@@ -4,6 +4,29 @@
 
 .title-background1 {
   position: absolute;
+  top: 0;
+  right: -100px;
+  width: 700px;
+  height: 150px;
+  transform: rotate(8deg);
+  background-color: var(--primary2);
+  z-index: -10;
+}
+
+.title-background2 {
+  position: absolute;
+  top: 20px;
+  right: -80px;
+  width: 1000px;
+  height: 150px;
+  transform: rotate(20deg);
+  background-color: var(--primary2);
+  z-index: -10;
+  border-bottom: 3px solid var(--lightBase1);
+}
+
+.title-background3 {
+  position: absolute;
   top: 10px;
   left: -50px;
   width: 1200px;
@@ -14,7 +37,7 @@
   border-bottom: 3px solid var(--lightBase1);
 }
 
-.title-background2 {
+.title-background4 {
   position: absolute;
   top: -10px;
   left: -50px;
@@ -23,29 +46,6 @@
   transform: rotate(-25deg);
   background-color: var(--primary2);
   z-index: -10;
-}
-
-.title-background3 {
-  position: absolute;
-  top: -20px;
-  right: -100px;
-  width: 700px;
-  height: 150px;
-  transform: rotate(10deg);
-  background-color: var(--primary2);
-  z-index: -10;
-}
-
-.title-background4 {
-  position: absolute;
-  top: 20px;
-  right: -80px;
-  width: 1000px;
-  height: 150px;
-  transform: rotate(20deg);
-  background-color: var(--primary2);
-  z-index: -10;
-  border-bottom: 3px solid var(--lightBase1);
 }
 
 .logo {
@@ -65,7 +65,7 @@
 
 .signin-buttons-container {
   position: absolute;
-  top: 70px;
+  top: 80px;
   right: 5px;
 }
 

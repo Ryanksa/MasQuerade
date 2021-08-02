@@ -1,0 +1,77 @@
+.sidebar {
+  position: fixed;
+  top: calc(50vh - 150px);
+  left: -150px;
+  background-color: var(--primary1);
+  width: 300px;
+  height: 300px;
+  border-radius: 150px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: left 1s;
+  overflow: hidden;
+}
+
+.sidebar:hover {
+  left: -20px;
+  overflow: visible;
+}
+
+.sidebar-icon {
+  color: var(--lightBase1);
+}
+
+.sidebar:hover .sidebar-icon {
+  color: var(--lightBase2);
+}
+
+.option-container {
+  position: absolute;
+  width: max-content;
+  transition: top 0.25s ease-out, left 0.25s ease-out;
+}
+
+.option-container.home {
+  top: -60px;
+  left: 220px;
+}
+
+.sidebar:hover .option-container.home {
+  top: -20px;
+  left: 180px;
+}
+
+.option-container.chats {
+  top: 20px;
+  left: 300px;
+}
+
+.sidebar:hover .option-container.chats {
+  top: 60px;
+  left: 260px;
+}
+
+.option-container.settings {
+  top: 210px;
+  left: 300px;
+}
+
+.sidebar:hover .option-container.settings {
+  top: 170px;
+  left: 260px;
+}
+
+.option-container.logout {
+  top: 290px;
+  left: 220px;
+}
+
+.sidebar:hover .option-container.logout {
+  top: 250px;
+  left: 180px;
+}
+
+.sidebar-option {
+  cursor: pointer;
+}
