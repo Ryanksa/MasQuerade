@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 import express from "express";
 import session from "express-session";
 import config from "./config";
@@ -23,7 +25,7 @@ app.use(
     saveUninitialized: false,
     cookie: {
       httpOnly: true,
-      secure: config.prod,
+      secure: process.env.PROD,
       sameSite: 'strict',
       maxAge: 1000 * 60 * 60 * 24 * 7  // 1 week in milliseconds
     }
