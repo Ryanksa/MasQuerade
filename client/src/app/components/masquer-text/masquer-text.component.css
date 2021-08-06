@@ -40,41 +40,41 @@ span.fore.flip {
 }
 
 .masquer-char-span0 {
-  transform: rotate(14deg) translateY(-4px);
+  transform: translateY(-2px);
 }
 
 .masquer-char-span1 {
-  transform: rotate(-13deg) translateY(-6px);
+  transform: rotateZ(-13deg) translateY(-3px);
 }
 
 .masquer-char-span2 {
-  transform: rotate(7deg) translateY(4px);
+  transform: rotateZ(7deg) translateY(2px);
 }
 
 .masquer-char-span3 {
-  transform: rotate(-5deg) translateY(-2px);
+  transform: rotateZ(-5deg) translateY(-1px);
 }
 
 .masquer-char-span4 {
-  transform: rotate(11deg);
+  transform: rotateZ(11deg);
 }
 
 .masquer-char-span5 {
-  transform: rotate(-14deg) scale(0.8, 0.8) translateY(6px);
+  transform: scale(0.95, 0.95) translateY(3px);
 }
 
 .masquer-char-span6 {
-  transform: rotate(13deg) scale(1.1, 0.9);
+  transform: rotateZ(13deg) scale(1.05, 0.95);
 }
 
 .masquer-char-span7 {
-  transform: rotate(7deg) scale(1.2, 1.1);
+  transform: rotateZ(7deg) scale(1.05, 1);
 }
 
 .masquer-char-span8 {
-  transform: rotate(-5deg) scale(1.15, 1.15) translateY(4px);
+  transform: rotateZ(-5deg) scale(1.05, 1.05) translateY(2px);
 }
 
 .masquer-char-span9 {
-  transform: rotate(-11deg) scale(1.1, 1.1);
+  transform: rotateY(40deg) scale(1.05, 0.95) translateY(-1px);
 }
