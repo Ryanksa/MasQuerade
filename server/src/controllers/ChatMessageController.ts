@@ -4,6 +4,14 @@ import pool from "../database/postgresql";
 import redisClient from "../database/redis";
 import { UserSession } from "../utils/authUtil";
 
+interface ChatMessage {
+  id: string,
+  author: string,
+  room: string,
+  content: string,
+  posted_on: string
+};
+
 interface MessageListener {
   [key: string]: Response
 }
@@ -91,7 +99,11 @@ export const listenForChatMessages = (req: Request, res: Response) => {
 
       // there are unread messages, respond back with those
       if (reply.length > 0) {
-        res.json(reply);
+        const replyObj: ChatMessage[] = [];
+        reply.forEach(r => {
+          replyObj.push(JSON.parse(r));
+        });
+        res.json(replyObj);
         redisClient.del(username);
       }
       // no unread messages, listen for new messages

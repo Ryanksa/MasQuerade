@@ -6,7 +6,7 @@ const config = {
   "dbPassword": process.env.DB_PASSWORD,
   "dbHost": process.env.DB_HOST,
   "dbPort": process.env.DB_PORT,
-  "prod": process.env.PROD
+  "prod": process.env.NODE_ENV === "production"
 };
 
 export default config;
