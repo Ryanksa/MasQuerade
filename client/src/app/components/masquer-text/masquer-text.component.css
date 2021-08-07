@@ -1,14 +1,10 @@
-@keyframes hoverEffect {
+@keyframes hoverWiggle {
   50% { transform: rotate(0) }
 }
 
 .masquer-text-container {
   font-family: 'Fira Sans', sans-serif;
   position: relative;
-}
-
-.masquer-text-container.hovereffect:hover{
-  animation: hoverEffect 0.5s;
 }
 
 .backdrop {
@@ -77,4 +73,30 @@ span.fore.flip {
 
 .masquer-char-span9 {
   transform: rotateY(40deg) scale(1.05, 0.95) translateY(-1px);
+}
+
+/* hover wiggle effect */
+.masquer-text-container.hoverwiggle:hover{
+  animation: hoverWiggle 0.5s;
+}
+
+/* hover invert effect */
+.masquer-text-container.hoverinvert:hover span.back {
+  color: var(--lightBase2);
+  -webkit-text-stroke: 15px var(--lightBase2);
+}
+
+.masquer-text-container.hoverinvert:hover span.back.flip {
+  color: var(--darkBase3);
+  -webkit-text-stroke: 15px var(--darkBase3);
+}
+
+.masquer-text-container.hoverinvert:hover span.fore {
+  color: var(--darkBase3);
+  -webkit-text-stroke: 1.5px var(--lightBase2);
+}
+
+.masquer-text-container.hoverinvert:hover span.fore.flip {
+  color: var(--lightBase2);
+  -webkit-text-stroke: 1.5px var(--darkBase3);
 }
