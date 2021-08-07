@@ -119,6 +119,7 @@ export const getChatRooms = (req: Request, res: Response) => {
   if (req.query.page) {
     page = +req.query.page;
   }
+  const reqUser = (req.session as UserSession).username;
   
   pool.connect((err, client, release) => {
     // error acquiring client to query db
@@ -133,12 +134,13 @@ export const getChatRooms = (req: Request, res: Response) => {
       "SELECT id, name " +
       "FROM (" +
         "SELECT ROW_NUMBER() OVER ( ORDER BY name ) AS row_num, * " +
-        "FROM ChatRoom" +
+        "FROM ChatRoom " + 
+        "WHERE id IN (SELECT room FROM RoomIncludes WHERE username = $1)" +
       ") AS RoomRow " +
-      "WHERE row_num >= $1 AND row_num <= $2 " +
+      "WHERE row_num >= $2 AND row_num <= $3 " +
       "ORDER BY row_num";
     return client
-      .query(query, [page * 10 + 1, page * 10 + 10])
+      .query(query, [reqUser, page * 10 + 1, page * 10 + 10])
       .then((result) => {
         res.json(result.rows);
       })
