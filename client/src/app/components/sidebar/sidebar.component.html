@@ -2,7 +2,6 @@
   <fa-icon [icon]="maskIcon" class="sidebar-icon fa-10x"></fa-icon>
 
   <div class="option-container home">
-    <div class="option-background home"></div>
     <app-masquer-text
       text="hoMe"
       [flipIndices]="[2]"
@@ -10,12 +9,12 @@
       [fontSizeStep]="8"
       rotateAngle="-20deg"
       rotateOrigin="left 100%"
+      [hoverInvert]="true"
       class="sidebar-option home"
     ></app-masquer-text>
   </div>
 
   <div class="option-container chats">
-    <div class="option-background chats"></div>
     <app-masquer-text
       text="cHats"
       [flipIndices]="[2]"
@@ -23,12 +22,12 @@
       [fontSizeStep]="8"
       rotateAngle="-10deg"
       rotateOrigin="left 50%"
+      [hoverInvert]="true"
       class="sidebar-option chats"
     ></app-masquer-text>
   </div>
 
   <div class="option-container settings">
-    <div class="option-background settings"></div>
     <app-masquer-text
       text="SetTinGs"
       [flipIndices]="[3, 6]"
@@ -36,12 +35,12 @@
       [fontSizeStep]="4"
       rotateAngle="10deg"
       rotateOrigin="left 50%"
+      [hoverInvert]="true"
       class="sidebar-option settings"
     ></app-masquer-text>
   </div>
 
   <div class="option-container logout">
-    <div class="option-background logout"></div>
     <app-masquer-text
       text="LogOut"
       [flipIndices]="[3]"
@@ -49,6 +48,7 @@
       [fontSizeStep]="6"
       rotateAngle="20deg"
       rotateOrigin="left 0%"
+      [hoverInvert]="true"
       class="sidebar-option logout"
       (click)="handleSignOut()"
     ></app-masquer-text>
