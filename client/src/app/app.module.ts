@@ -16,6 +16,8 @@ import { SignupComponent } from './components/signup/signup.component';
 import { LoginComponent } from './components/login/login.component';
 import { HomeComponent } from './components/home/home.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { UnauthViewComponent } from './components/unauth-view/unauth-view.component';
+import { AuthViewComponent } from './components/auth-view/auth-view.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +32,8 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
     LoginComponent,
     HomeComponent,
     SidebarComponent,
+    UnauthViewComponent,
+    AuthViewComponent,
   ],
   imports: [
     BrowserModule,

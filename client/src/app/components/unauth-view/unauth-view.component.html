@@ -1,0 +1,6 @@
+<app-unauth-header></app-unauth-header>
+<div class="unauth-view-content">
+  <app-landing *ngIf="component === 'landing'"></app-landing>
+  <app-signup *ngIf="component === 'signup'"></app-signup>
+  <app-login *ngIf="component === 'login'"></app-login>
+</div>
