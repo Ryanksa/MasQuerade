@@ -37,21 +37,9 @@
   left: 220px;
 }
 
-.sidebar:hover .option-container.home {
-  top: -20px;
-  left: 180px;
-  transition: top 0.25s ease-out, left 0.25s ease-out;
-}
-
 .option-container.chats {
   top: 20px;
   left: 300px;
-}
-
-.sidebar:hover .option-container.chats {
-  top: 60px;
-  left: 260px;
-  transition: top 0.25s ease-out, left 0.25s ease-out;
 }
 
 .option-container.settings {
@@ -59,21 +47,120 @@
   left: 300px;
 }
 
-.sidebar:hover .option-container.settings {
-  top: 170px;
-  left: 260px;
-  transition: top 0.25s ease-out, left 0.25s ease-out;
-}
-
 .option-container.logout {
   top: 290px;
   left: 220px;
 }
 
-.sidebar:hover .option-container.logout {
-  top: 250px;
-  left: 180px;
+.sidebar:hover .option-container {
   transition: top 0.25s ease-out, left 0.25s ease-out;
+}
+
+.sidebar:hover .option-container.home {
+  top: -20px;
+  left: 180px;
+}
+
+.sidebar:hover .option-container.chats {
+  top: 60px;
+  left: 260px;
+}
+
+.sidebar:hover .option-container.settings {
+  top: 160px;
+  left: 260px;
+}
+
+.sidebar:hover .option-container.logout {
+  top: 240px;
+  left: 180px;
+}
+
+.option-container:hover {
+  transition: top 0s, left 0s !important;
+}
+
+.option-container.home:hover {
+  top: -30px !important;
+  left: 190px !important;
+}
+
+.option-container.chats:hover {
+  top: 55px !important;
+  left: 270px !important;
+}
+
+.option-container.settings:hover {
+  top: 165px !important;
+  left: 270px !important;
+}
+
+.option-container.logout:hover {
+  top: 250px !important;
+  left: 190px !important;
+}
+
+.option-background {
+  position: absolute;
+  border-radius: 3px;
+  background: linear-gradient(90deg, var(--primary1), var(--primary2));
+  transition: top 0.3s, bottom 0.3s, width 0.3s, height 0.3s, transform 0.3s;
+}
+
+.option-background.home {
+  top: 30px;
+  left: -30px;
+  height: 0;
+  width: 0;
+}
+
+.option-background.chats {
+  top: 40px;
+  left: -10px;
+  height: 0;
+  width: 0;
+}
+
+.option-background.settings {
+  bottom: 20px;
+  left: 0px;
+  height: 0;
+  width: 0;
+}
+
+.option-background.logout {
+  bottom: 20px;
+  left: 0;
+  height: 0;
+  width: 0;
+}
+
+.option-container.home:hover .option-background.home {
+  top: -10px;
+  height: 55px;
+  width: 105px;
+  transform: skew(-30deg) rotate(-45deg);
+}
+
+.option-container.chats:hover .option-background.chats {
+  top: 10px;
+  height: 40px;
+  width: 85px;
+  transform: skew(-30deg) rotate(-40deg);
+}
+
+.option-container.settings:hover .option-background.settings {
+  bottom: -10px;
+  height: 50px;
+  width: 160px;
+  transform: skew(20deg) rotate(20deg);
+}
+
+.option-container.logout:hover .option-background.logout {
+  bottom: 0;
+  height: 40px;
+  width: 120px;
+  transform: skew(-10deg) rotate(10deg);
 }
 
 .sidebar-option {
