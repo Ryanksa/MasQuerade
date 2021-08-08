@@ -15,6 +15,14 @@ export class SidebarComponent implements OnInit {
 
   ngOnInit(): void {}
 
+  navigateToHome() {
+    this.router.navigate(['/home']);
+  }
+
+  navigateToChats() {
+    this.router.navigate(['/chats']);
+  }
+
   handleSignOut() {
     this.userSerivce.signout().subscribe(() => {
       this.router.navigate(['/']);
