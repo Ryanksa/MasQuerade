@@ -19,6 +19,7 @@ export class MasquerTextComponent implements OnInit {
   @Input() rotateOrigin: string = "50% 50%";
   @Input() hoverWiggle: boolean = false;
   @Input() hoverInvert: boolean = false;
+  @Input() hoverBackdrop: boolean = false;
   public charArray: MasquerChar[] = [];
 
   constructor() {}

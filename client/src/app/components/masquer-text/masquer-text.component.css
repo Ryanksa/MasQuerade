@@ -100,3 +100,21 @@ span.fore.flip {
   color: var(--lightBase2);
   -webkit-text-stroke: 1.5px var(--darkBase3);
 }
+
+/* hover backdrop effect */
+.masquer-text-container.hoverbackdrop::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 10px;
+  width: 0;
+  height: 50%;
+  border-radius: 2px;
+  background-color: var(--primary2);
+  transition: width 0.25s;
+  box-shadow: 3px -5px 10px var(--darkBase3);
+}
+
+.masquer-text-container.hoverbackdrop:hover::before {
+  width: 100%;
+}

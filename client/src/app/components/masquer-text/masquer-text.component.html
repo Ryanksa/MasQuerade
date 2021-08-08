@@ -1,8 +1,12 @@
 <div
   class="masquer-text-container"
-  [ngClass]="{ hoverwiggle: hoverWiggle, hoverinvert: hoverInvert }"
+  [ngClass]="{
+    hoverwiggle: hoverWiggle,
+    hoverinvert: hoverInvert,
+    hoverbackdrop: hoverBackdrop
+  }"
   [ngStyle]="{
-    'transform': getRotationString(),
+    transform: getRotationString(),
     'transform-origin': rotateOrigin
   }"
 >

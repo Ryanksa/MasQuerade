@@ -10,6 +10,7 @@
       rotateAngle="-20deg"
       rotateOrigin="left 100%"
       [hoverInvert]="true"
+      [hoverBackdrop]="true"
       class="sidebar-option home"
     ></app-masquer-text>
   </div>
@@ -23,20 +24,22 @@
       rotateAngle="-10deg"
       rotateOrigin="left 50%"
       [hoverInvert]="true"
+      [hoverBackdrop]="true"
       class="sidebar-option chats"
     ></app-masquer-text>
   </div>
 
-  <div class="option-container settings">
+  <div class="option-container profile">
     <app-masquer-text
-      text="SetTinGs"
-      [flipIndices]="[3, 6]"
+      text="ProFile"
+      [flipIndices]="[0, 3]"
       [leftFontSize]="32"
-      [fontSizeStep]="5"
+      [fontSizeStep]="6"
       rotateAngle="10deg"
       rotateOrigin="left 50%"
       [hoverInvert]="true"
-      class="sidebar-option settings"
+      [hoverBackdrop]="true"
+      class="sidebar-option profile"
     ></app-masquer-text>
   </div>
 
@@ -49,6 +52,7 @@
       rotateAngle="20deg"
       rotateOrigin="left 0%"
       [hoverInvert]="true"
+      [hoverBackdrop]="true"
       class="sidebar-option logout"
       (click)="handleSignOut()"
     ></app-masquer-text>

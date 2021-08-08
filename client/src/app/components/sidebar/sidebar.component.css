@@ -42,7 +42,7 @@
   left: 300px;
 }
 
-.option-container.settings {
+.option-container.profile {
   top: 210px;
   left: 300px;
 }
@@ -66,14 +66,14 @@
   left: 260px;
 }
 
-.sidebar:hover .option-container.settings {
+.sidebar:hover .option-container.profile {
   top: 160px;
-  left: 260px;
+  left: 250px;
 }
 
 .sidebar:hover .option-container.logout {
-  top: 240px;
-  left: 180px;
+  top: 230px;
+  left: 170px;
 }
 
 .option-container:hover {
@@ -90,14 +90,14 @@
   left: 270px !important;
 }
 
-.option-container.settings:hover {
+.option-container.profile:hover {
   top: 165px !important;
-  left: 270px !important;
+  left: 260px !important;
 }
 
 .option-container.logout:hover {
-  top: 250px !important;
-  left: 190px !important;
+  top: 240px !important;
+  left: 180px !important;
 }
 
 .sidebar-option {
