@@ -11,6 +11,7 @@
   align-items: center;
   overflow: hidden;
   transition: left 0.5s;
+  z-index: 10;
 }
 
 .sidebar:hover {
@@ -78,26 +79,6 @@
 
 .option-container:hover {
   transition: top 0.1s, left 0.1s !important;
-}
-
-.option-container.home:hover {
-  top: -30px !important;
-  left: 190px !important;
-}
-
-.option-container.chats:hover {
-  top: 55px !important;
-  left: 270px !important;
-}
-
-.option-container.profile:hover {
-  top: 165px !important;
-  left: 260px !important;
-}
-
-.option-container.logout:hover {
-  top: 240px !important;
-  left: 180px !important;
 }
 
 .sidebar-option {

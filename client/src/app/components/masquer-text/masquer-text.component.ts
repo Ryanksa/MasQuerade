@@ -1,5 +1,11 @@
 import { Component, OnInit, Input } from '@angular/core';
-import MasquerChar from 'src/app/models/MasquerChar';
+
+interface MasquerChar {
+  char: string;
+  class: string;
+  flip: boolean;
+  fontSize: string;
+}
 
 const getRandomInt = (max: number) => {
   return Math.floor(Math.random() * max);

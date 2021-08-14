@@ -30,13 +30,17 @@ const routes: Routes = [
     component: AuthViewComponent,
     data: { component: 'chats' }
   },
+  {
+    path: 'chat/:id',
+    component: AuthViewComponent,
+    data: { component: 'chat' }
+  },
   { 
     path: 'profile',
     component: AuthViewComponent,
     data: { component: 'profile' }
   },
   // TODO: refactor these to their correct place
-  { path: 'chat/:id', component: ChatComponent },
   { path: 'credits', component: CreditsComponent },
 ];
 

@@ -1,1 +1,23 @@
-<div class="chat-list-container"></div>
+<div class="chat-list-container">
+  <div class="outer-chat-list">
+    <div class="inner-chat-list">
+      <div
+        class="chat-list-room"
+        *ngFor="let room of chatRooms"
+        (click)="handleRoomClick(room.id)"
+      >
+        <h3>
+          {{ room.name }}
+        </h3>
+      </div>
+    </div>
+  </div>
+  <app-masquer-text
+    text="ChatS"
+    [flipIndices]="[0, 1, 2]"
+    [leftFontSize]="108"
+    [fontSizeStep]="-12"
+    rotateAngle="10deg"
+    class="chat-list-title"
+  ></app-masquer-text>
+</div>

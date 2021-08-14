@@ -1,15 +1,57 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import ChatRoom from 'src/app/models/ChatRoom';
+import { ChatroomService } from 'src/app/services/chatroom.service';
 
 @Component({
   selector: 'app-chat-list',
   templateUrl: './chat-list.component.html',
-  styleUrls: ['./chat-list.component.css']
+  styleUrls: ['./chat-list.component.css'],
 })
 export class ChatListComponent implements OnInit {
+  chatRooms: ChatRoom[] = [];
+  page: number = 0;
+  newRoomName: string = '';
 
-  constructor() { }
+  constructor(
+    private chatRoomService: ChatroomService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
+    this.chatRoomService.getMyChatRooms(this.page).subscribe((rooms) => {
+      this.chatRooms = rooms;
+    });
   }
 
+  handlePrevPage(): void {
+    if (this.page <= 0) return;
+    this.page -= 1;
+    this.chatRoomService.getMyChatRooms(this.page).subscribe((rooms) => {
+      this.chatRooms = rooms;
+    });
+  }
+
+  handleNextPage(): void {
+    this.page += 1;
+    this.chatRoomService.getMyChatRooms(this.page).subscribe((rooms) => {
+      if (rooms.length === 0) {
+        this.page -= 1;
+      } else {
+        this.chatRooms = rooms;
+      }
+    });
+  }
+
+  handleCreateRoom(): void {
+    this.chatRoomService
+      .createChatRoom(this.newRoomName)
+      .subscribe((newRoom) => {
+        this.chatRooms = [...this.chatRooms, newRoom];
+      });
+  }
+
+  handleRoomClick(roomId: string): void {
+    this.router.navigate([`/chat/${roomId}`]);
+  }
 }
