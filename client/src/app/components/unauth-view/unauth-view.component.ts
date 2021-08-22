@@ -16,12 +16,12 @@ export class UnauthViewComponent {
   constructor(private route: ActivatedRoute, private router: Router) {}
 
   ngOnInit(): void {
-    this.dataSubscription = this.route.data.subscribe((data: any) => {
-      this.component = data.component;
-    });
     if (getUsername()) {
       this.router.navigate(['/home']);
     }
+    this.dataSubscription = this.route.data.subscribe((data: any) => {
+      this.component = data.component;
+    });
   }
 
   ngOnDestroy():void {

@@ -12,6 +12,13 @@ export class ChatmessageService {
 
   constructor(private http: HttpClient) {}
 
+  listenForNewMessages(): Observable<ChatMessage[]> {
+    return this.http.get<ChatMessage[]>(
+      `${this.apiUrl}/listen`,
+      httpOptions
+    );
+  }
+
   getChatMessages(roomId: string, page: number): Observable<ChatMessage[]> {
     return this.http.get<ChatMessage[]>(
       `${this.apiUrl}/${roomId}?page=${page}`,

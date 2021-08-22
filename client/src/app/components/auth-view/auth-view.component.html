@@ -2,5 +2,8 @@
 <div class="auth-view-content">
   <app-home *ngIf="component === 'home'"></app-home>
   <app-chat-list *ngIf="component === 'chats'"></app-chat-list>
-  <app-chat *ngIf="component === 'chat'"></app-chat>
+  <app-chat
+    *ngIf="component === 'chat'"
+    [events]="eventsSubject.asObservable()"
+  ></app-chat>
 </div>

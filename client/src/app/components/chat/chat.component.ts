@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Observable, Subscription } from 'rxjs';
 import { ChatmessageService } from 'src/app/services/chatmessage.service';
 import ChatMessage from '../../models/ChatMessage';
 
@@ -9,6 +10,8 @@ import ChatMessage from '../../models/ChatMessage';
   styleUrls: ['./chat.component.css'],
 })
 export class ChatComponent implements OnInit {
+  private eventsSubscription: Subscription = new Subscription();
+  @Input() events: Observable<ChatMessage[]> = new Observable();
   room: string = '';
   page: number = 0;
   messages: ChatMessage[] = [];
@@ -22,12 +25,23 @@ export class ChatComponent implements OnInit {
   ngOnInit(): void {
     this.route.paramMap.subscribe((paramMap) => {
       this.room = paramMap.get('id') || '';
-      this.chatMsgService
-        .getChatMessages(this.room, this.page)
-        .subscribe((msgs) => {
-          this.messages = msgs;
-        });
+      this.getMessages();
     });
+    this.eventsSubscription = this.events.subscribe((newMessages) => {
+      this.messages = [...newMessages, ...this.messages];
+    });
+  }
+
+  ngOnDestroy() {
+    this.eventsSubscription.unsubscribe();
+  }
+
+  getMessages(): void {
+    this.chatMsgService
+      .getChatMessages(this.room, this.page)
+      .subscribe((msgs) => {
+        this.messages = msgs;
+      });
   }
 
   sendMessage(): void {
