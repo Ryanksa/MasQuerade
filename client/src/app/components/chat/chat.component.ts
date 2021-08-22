@@ -12,6 +12,7 @@ export class ChatComponent implements OnInit {
   room: string = '';
   page: number = 0;
   messages: ChatMessage[] = [];
+  currMsg: string = '';
 
   constructor(
     private chatMsgService: ChatmessageService,
@@ -24,8 +25,21 @@ export class ChatComponent implements OnInit {
       this.chatMsgService
         .getChatMessages(this.room, this.page)
         .subscribe((msgs) => {
-          this.messages = msgs.reverse();
+          this.messages = msgs;
         });
     });
+  }
+
+  sendMessage(): void {
+    this.chatMsgService
+      .postChatMessage(this.room, this.currMsg)
+      .subscribe((msg) => {
+        this.messages.unshift(msg);
+        this.currMsg = '';
+      });
+  }
+
+  sendOnEnter(event: any) {
+    this.sendMessage();
   }
 }

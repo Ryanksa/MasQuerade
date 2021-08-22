@@ -1,5 +1,24 @@
 <div class="chat-container">
   <div class="chat-screen">
+    <div class="chat-form">
+      <input
+        type="text"
+        class="chat-input"
+        placeholder="Send a message!"
+        [(ngModel)]="currMsg"
+        (keydown.enter)="sendOnEnter($event)"
+      />
+      <app-masquer-text
+        text="Send"
+        [flipIndices]="[]"
+        [leftFontSize]="36"
+        [fontSizeStep]="0"
+        rotateAngle="-8deg"
+        class="send-button"
+        [hoverInvert]="true"
+        (click)="sendMessage()"
+      ></app-masquer-text>
+    </div>
     <app-chat-message
       *ngFor="let message of messages"
       [message]="message"

@@ -8,7 +8,6 @@ import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { ChatComponent } from './components/chat/chat.component';
 import { ChatMessageComponent } from './components/chat-message/chat-message.component';
-import { CreditsComponent } from './components/credits/credits.component';
 import { LandingComponent } from './components/landing/landing.component';
 import { MasquerTextComponent } from './components/masquer-text/masquer-text.component';
 import { UnauthHeaderComponent } from './components/unauth-header/unauth-header.component';
@@ -25,7 +24,6 @@ import { ChatListComponent } from './components/chat-list/chat-list.component';
     AppComponent,
     ChatComponent,
     ChatMessageComponent,
-    CreditsComponent,
     LandingComponent,
     MasquerTextComponent,
     UnauthHeaderComponent,

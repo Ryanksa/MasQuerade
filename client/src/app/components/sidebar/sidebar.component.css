@@ -35,22 +35,22 @@
 
 .option-container.home {
   top: -60px;
-  left: 220px;
+  left: 240px;
 }
 
 .option-container.chats {
   top: 20px;
-  left: 300px;
+  left: 320px;
 }
 
 .option-container.profile {
   top: 210px;
-  left: 300px;
+  left: 320px;
 }
 
 .option-container.logout {
   top: 290px;
-  left: 220px;
+  left: 240px;
 }
 
 .sidebar:hover .option-container {

@@ -16,8 +16,7 @@
 }
 
 .outer-chat-list {
-  margin-top: 100px;
-  margin-left: 500px;
+  margin: 6% auto 6% 500px;
   padding: 35px 25px 40px 40px;
   width: max-content;
   height: max-content;

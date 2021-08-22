@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import ChatMessage from '../../models/ChatMessage';
 import { getUsername } from 'src/app/utils/userUtils';
+import { faUser } from '@fortawesome/free-solid-svg-icons';
 
 const getNumberOfLines = (text: string): number => {
   const words = text.split(' ');
@@ -36,6 +37,7 @@ export class ChatMessageComponent implements OnInit {
   private lines: number = 1;
   public height: number = 45;
   public mine: boolean = false;
+  userIcon = faUser;
 
   constructor() {}
 

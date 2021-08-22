@@ -18,4 +18,13 @@ export class ChatmessageService {
       httpOptions
     );
   }
+
+  postChatMessage(roomId: string, content: string): Observable<ChatMessage> {
+    const postMsgRequestBody = { roomId, content };
+    return this.http.post<ChatMessage>(
+      `${this.apiUrl}/`,
+      postMsgRequestBody,
+      httpOptions
+    );
+  }
 }
