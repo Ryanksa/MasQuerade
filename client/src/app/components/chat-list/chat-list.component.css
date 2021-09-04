@@ -7,16 +7,16 @@
 
 .chat-list-container {
   position: relative;
+  margin: 5% auto;
 }
 
 .chat-list-title {
   position: absolute;
-  top: -20px;
-  left: 350px;
+  top: 0;
+  left: -150px;
 }
 
 .outer-chat-list {
-  margin: 6% auto 6% 500px;
   padding: 35px 25px 40px 40px;
   width: max-content;
   height: max-content;
@@ -25,6 +25,10 @@
 }
 
 .inner-chat-list {
+  font-size: 2rem;
+  width: 80vw;
+  max-width: 30ch;
+  min-width: 20ch;
   min-height: 200px;
   color: var(--lightBase2);
   background-color: var(--darkBase1);
@@ -32,10 +36,9 @@
 }
 
 .chat-list-room {
-  width: 30ch;
+  width: 100%;
   cursor: pointer;
   position: relative;
-  font-size: 2rem;
   font-weight: 600;
   text-align: center;
 }
@@ -65,4 +68,12 @@
 .chat-list-room:hover::before {
   animation: adjust 0.25s;
   transform: scale(1, 1) rotateZ(5deg) skew(-2deg, -4deg);
+}
+
+@media screen and (max-width: 850px) {
+  .chat-list-title {
+    top: -50px;
+    left: auto;
+    right: 0;
+  }
 }

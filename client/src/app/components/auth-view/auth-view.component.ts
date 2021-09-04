@@ -53,7 +53,7 @@ export class AuthViewComponent {
         }
       }
 
-      this.newMessages = newMessagesOut;
+      this.newMessages = [...newMessagesOut, ...this.newMessages];
       setTimeout(() => {
         this.newMessages = this.newMessages.filter((msg) => !msgs.includes(msg));
       }, 5000);
