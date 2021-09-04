@@ -1,0 +1,6 @@
+.new-messages-container {
+  position: absolute;
+  bottom: 0;
+  right: 10px;
+  font-family: 'KoHo', sans-serif;
+}

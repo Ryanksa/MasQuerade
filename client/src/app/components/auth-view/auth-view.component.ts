@@ -56,7 +56,7 @@ export class AuthViewComponent {
       this.newMessages = newMessagesOut;
       setTimeout(() => {
         this.newMessages = this.newMessages.filter((msg) => !msgs.includes(msg));
-      }, 3000);
+      }, 5000);
 
       if (newMessagesIn.length > 0) {
         this.eventsSubject.next(newMessagesIn);
@@ -64,5 +64,9 @@ export class AuthViewComponent {
 
       this.listenForChatMessages();
     });
+  }
+
+  navigateToChatRoom(roomId: string): void {
+    this.router.navigate([`/chat/${roomId}`]);
   }
 }

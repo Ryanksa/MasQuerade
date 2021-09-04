@@ -7,3 +7,10 @@
     [events]="eventsSubject.asObservable()"
   ></app-chat>
 </div>
+<div class="new-messages-container">
+  <app-new-message
+    *ngFor="let message of newMessages"
+    [message]="message"
+    (click)="navigateToChatRoom(message.room)"
+  ></app-new-message>
+</div>
