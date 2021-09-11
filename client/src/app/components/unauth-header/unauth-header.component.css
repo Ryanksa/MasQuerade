@@ -9,7 +9,7 @@
   width: 700px;
   height: 150px;
   transform: rotate(8deg);
-  background-color: var(--primary1);
+  background-color: rgb(var(--primary1));
   z-index: -1;
 }
 
@@ -20,9 +20,9 @@
   width: 1000px;
   height: 150px;
   transform: rotate(20deg);
-  background-color: var(--primary1);
+  background-color: rgb(var(--primary1));
   z-index: -1;
-  border-bottom: 3px solid var(--lightBase1);
+  border-bottom: 3px solid rgb(var(--lightBase1));
 }
 
 .title-background3 {
@@ -32,9 +32,9 @@
   width: 1200px;
   height: 140px;
   transform: rotate(-15deg);
-  background-color: var(--primary1);
+  background-color: rgb(var(--primary1));
   z-index: -1;
-  border-bottom: 3px solid var(--lightBase1);
+  border-bottom: 3px solid rgb(var(--lightBase1));
 }
 
 .title-background4 {
@@ -44,7 +44,7 @@
   width: 800px;
   height: 140px;
   transform: rotate(-25deg);
-  background-color: var(--primary1);
+  background-color: rgb(var(--primary1));
   z-index: -1;
 }
 
@@ -60,7 +60,7 @@
   position: absolute;
   top: -20px;
   left: 50px;
-  color: var(--lightBase2);
+  color: rgb(var(--lightBase2));
 }
 
 .logo-text {
@@ -77,7 +77,7 @@
   position: absolute;
   top: 15px;
   right: -50px;
-  background-color: var(--primary2);
+  background-color: rgb(var(--primary2));
   width: 100px;
   height: 100px;
   border-radius: 50px;

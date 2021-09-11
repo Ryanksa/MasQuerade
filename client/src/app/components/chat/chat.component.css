@@ -2,18 +2,18 @@
   margin: 10vh auto;
   width: 450px;
   height: 750px;
-  border-top: 30px solid var(--lightBase1);
-  border-bottom: 30px solid var(--lightBase1);
-  border-left: 11px solid var(--lightBase1);
-  border-right: 11px solid var(--lightBase1);
+  border-top: 30px solid rgb(var(--lightBase1));
+  border-bottom: 30px solid rgb(var(--lightBase1));
+  border-left: 11px solid rgb(var(--lightBase1));
+  border-right: 11px solid rgb(var(--lightBase1));
   border-radius: 5px;
-  background-color: var(--primary1);
+  background-color: rgb(var(--primary1));
   font-family: 'KoHo', sans-serif;
   transform: rotateZ(3deg);
 }
 
 .chat-screen {
-  border: 5px solid var(--darkBase3);
+  border: 5px solid rgb(var(--darkBase3));
   width: 440px;
   height: 740px;
   overflow-x: hidden;
@@ -37,7 +37,7 @@
 
 .comment-icon {
   margin: 5px;
-  color: var(--darkBase3);
+  color: rgb(var(--darkBase3));
 }
 
 .chat-input {
@@ -45,7 +45,7 @@
   font-size: 24px;
   font-family: inherit;
   padding: 4px;
-  border: 3px solid var(--darkBase3);
+  border: 3px solid rgb(var(--darkBase3));
   border-radius: 5px;
 }
 

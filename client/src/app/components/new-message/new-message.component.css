@@ -8,12 +8,12 @@
   position: relative;
   height: 80px;
   width: 100px;
-  border-left: 4px solid var(--lightBase2);
-  border-top: 6px solid var(--lightBase2);
-  border-bottom: 4px solid var(--lightBase2);
-  border-right: 6px solid var(--lightBase2);
+  border-left: 4px solid rgb(var(--lightBase2));
+  border-top: 6px solid rgb(var(--lightBase2));
+  border-bottom: 4px solid rgb(var(--lightBase2));
+  border-right: 6px solid rgb(var(--lightBase2));
   transform: rotate3d(-1, 1, 0, -30deg);
-  background-color: var(--darkBase3);
+  background-color: rgb(var(--darkBase3));
   display: flex;
   align-items: flex-end;
   justify-content: center;
@@ -25,7 +25,7 @@
   display: flex;
   justify-content: center;
   align-items:flex-end;
-  color: var(--lightBase2);
+  color: rgb(var(--lightBase2));
 }
 
 .msg-author {
@@ -37,7 +37,7 @@
   display: flex;
   justify-content: center;
   padding-bottom: 5px;
-  color: var(--lightBase2);
+  color: rgb(var(--lightBase2));
   background: linear-gradient(
     rgba(50, 50, 50, 0.7),
     rgba(50, 50, 50, 0.5) 50%,
@@ -74,11 +74,11 @@ svg {
 }
 
 .light-polygon {
-  fill: var(--lightBase2);
+  fill: rgb(var(--lightBase2));
 }
 
 .dark-polygon {
-  fill: var(--darkBase3);
+  fill: rgb(var(--darkBase3));
 }
 
 @keyframes wiggle {

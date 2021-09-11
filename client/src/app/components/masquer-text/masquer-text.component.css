@@ -16,23 +16,23 @@ span {
 }
 
 span.back {
-  color: var(--darkBase3);
-  -webkit-text-stroke: 15px var(--darkBase3);
+  color: rgb(var(--darkBase3));
+  -webkit-text-stroke: 15px rgb(var(--darkBase3));
 }
 
 span.back.flip {
-  color: var(--lightBase2);
-  -webkit-text-stroke: 15px var(--lightBase2);
+  color: rgb(var(--lightBase2));
+  -webkit-text-stroke: 15px rgb(var(--lightBase2));
 }
 
 span.fore {
-  color: var(--lightBase2);
-  -webkit-text-stroke: 1.5px var(--darkBase3);
+  color: rgb(var(--lightBase2));
+  -webkit-text-stroke: 1.5px rgb(var(--darkBase3));
 }
 
 span.fore.flip {
-  color: var(--darkBase3);
-  -webkit-text-stroke: 1.5px var(--lightBase2);
+  color: rgb(var(--darkBase3));
+  -webkit-text-stroke: 1.5px rgb(var(--lightBase2));
 }
 
 .masquer-char-span0 {
@@ -82,23 +82,23 @@ span.fore.flip {
 
 /* hover invert effect */
 .masquer-text-container.hoverinvert:hover span.back {
-  color: var(--lightBase2);
-  -webkit-text-stroke: 15px var(--lightBase2);
+  color: rgb(var(--lightBase2));
+  -webkit-text-stroke: 15px rgb(var(--lightBase2));
 }
 
 .masquer-text-container.hoverinvert:hover span.back.flip {
-  color: var(--darkBase3);
-  -webkit-text-stroke: 15px var(--darkBase3);
+  color: rgb(var(--darkBase3));
+  -webkit-text-stroke: 15px rgb(var(--darkBase3));
 }
 
 .masquer-text-container.hoverinvert:hover span.fore {
-  color: var(--darkBase3);
-  -webkit-text-stroke: 1.5px var(--lightBase2);
+  color: rgb(var(--darkBase3));
+  -webkit-text-stroke: 1.5px rgb(var(--lightBase2));
 }
 
 .masquer-text-container.hoverinvert:hover span.fore.flip {
-  color: var(--lightBase2);
-  -webkit-text-stroke: 1.5px var(--darkBase3);
+  color: rgb(var(--lightBase2));
+  -webkit-text-stroke: 1.5px rgb(var(--darkBase3));
 }
 
 /* hover backdrop effect */
@@ -110,7 +110,7 @@ span.fore.flip {
   width: 0;
   height: 60%;
   border-radius: 2px;
-  background-color: var(--primary2);
+  background-color: rgb(var(--primary2));
   transform: skewX(-5deg);
   box-shadow: none;
   transition: width 0.5s ease;
@@ -118,5 +118,5 @@ span.fore.flip {
 
 .masquer-text-container.hoverbackdrop:hover::before {
   width: 100%;
-  box-shadow: 3px -5px 10px var(--darkBase3);
+  box-shadow: 3px -5px 10px rgb(var(--darkBase3));
 }

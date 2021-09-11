@@ -43,9 +43,9 @@
   top: 55px;
   right: 20px;
   width: 300px;
-  background: var(--darkBase2);
+  background: rgba(var(--darkBase2), 0.95);
   border-radius: 10px;
-  border: 2px solid var(--lightBase2);
+  border: 2px solid rgb(var(--lightBase2));
   padding: 5px 10px 10px 10px;
 }
 
@@ -56,7 +56,7 @@
   font-size: 1.5rem;
   border-radius: 5px;
   padding: 2.5px 5px;
-  border: 1.5px solid var(--darkBase2);
+  border: 1.5px solid rgb(var(--darkBase2));
 }
 
 .new-room-input:focus {
@@ -78,8 +78,8 @@
 }
 
 .add-room-icon {
-  color: var(--darkBase2);
-  stroke: var(--lightBase2);
+  color: rgb(var(--darkBase2));
+  stroke: rgb(var(--lightBase2));
   stroke-width: 20;
   position: absolute;
   top: -25px;
@@ -88,13 +88,13 @@
 }
 
 .add-room-icon:hover {
-  color: var(--primary3);
+  color: rgb(var(--primary3));
   transform: none;
 }
 
 .prev-page-icon {
-  color: var(--darkBase3);
-  stroke: var(--lightBase2);
+  color: rgb(var(--darkBase3));
+  stroke: rgb(var(--lightBase2));
   stroke-width: 20;
   position: absolute;
   top: calc(50% - 80px);
@@ -102,14 +102,14 @@
 }
 
 .prev-page-icon:hover {
-  stroke: var(--primary3);
+  stroke: rgb(var(--primary3));
   stroke-width: 30;
   transform: rotate(9deg);
 }
 
 .next-page-icon {
-  color: var(--darkBase3);
-  stroke: var(--lightBase2);
+  color: rgb(var(--darkBase3));
+  stroke: rgb(var(--lightBase2));
   stroke-width: 20;
   position: absolute;
   top: calc(50% - 80px);
@@ -117,7 +117,7 @@
 }
 
 .next-page-icon:hover {
-  stroke: var(--primary3);
+  stroke: rgb(var(--primary3));
   stroke-width: 30;
   transform: rotate(8deg);
 }
@@ -126,7 +126,7 @@
   padding: 35px 25px 40px 40px;
   width: max-content;
   height: max-content;
-  background-color: var(--lightBase2);
+  background-color: rgb(var(--lightBase2));
   transform: skew(-3deg, -6deg);
   position: relative;
 }
@@ -137,8 +137,8 @@
   max-width: 30ch;
   min-width: 20ch;
   min-height: 200px;
-  color: var(--lightBase2);
-  background-color: var(--darkBase1);
+  color: rgb(var(--lightBase2));
+  background-color: rgb(var(--darkBase1));
   transform: skew(1deg, 2deg);
 }
 
@@ -156,7 +156,7 @@
 }
 
 .chat-list-room:hover {
-  color: var(--secondary2);
+  color: rgb(var(--secondary2));
 }
 
 .chat-list-room::before {
@@ -166,7 +166,7 @@
   left: 10%;
   width: 80%;
   height: 70%;
-  background-color: var(--darkBase2);
+  background-color: rgb(var(--darkBase2));
   z-index: -1;
   transform: scale(0, 0);
   transition: transform 0.25s;
