@@ -1,5 +1,25 @@
 <div class="chat-list-container">
+  <app-masquer-text
+    text="ChatS"
+    [flipIndices]="[0, 1, 2]"
+    [leftFontSize]="108"
+    [fontSizeStep]="-12"
+    rotateAngle="10deg"
+    class="chat-list-title"
+  ></app-masquer-text>
   <div class="outer-chat-list">
+    <fa-icon
+      [icon]="prevPageIcon"
+      class="prev-page-icon fa-7x"
+      *ngIf="page > 0"
+      (click)="handlePrevPage()"
+    ></fa-icon>
+    <fa-icon
+      [icon]="nextPageIcon"
+      class="next-page-icon fa-7x"
+      *ngIf="chatRooms.length === 10"
+      (click)="handleNextPage()"
+    ></fa-icon>
     <div class="inner-chat-list">
       <div
         class="chat-list-room"
@@ -12,12 +32,4 @@
       </div>
     </div>
   </div>
-  <app-masquer-text
-    text="ChatS"
-    [flipIndices]="[0, 1, 2]"
-    [leftFontSize]="108"
-    [fontSizeStep]="-12"
-    rotateAngle="10deg"
-    class="chat-list-title"
-  ></app-masquer-text>
 </div>

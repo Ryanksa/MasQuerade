@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import ChatRoom from 'src/app/models/ChatRoom';
 import { ChatroomService } from 'src/app/services/chatroom.service';
+import { faChevronRight, faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-chat-list',
@@ -9,6 +10,9 @@ import { ChatroomService } from 'src/app/services/chatroom.service';
   styleUrls: ['./chat-list.component.css'],
 })
 export class ChatListComponent implements OnInit {
+  nextPageIcon = faChevronRight;
+  prevPageIcon = faChevronLeft;
+
   chatRooms: ChatRoom[] = [];
   page: number = 0;
   newRoomName: string = '';
@@ -35,11 +39,7 @@ export class ChatListComponent implements OnInit {
   handleNextPage(): void {
     this.page += 1;
     this.chatRoomService.getMyChatRooms(this.page).subscribe((rooms) => {
-      if (rooms.length === 0) {
-        this.page -= 1;
-      } else {
-        this.chatRooms = rooms;
-      }
+      this.chatRooms = rooms;
     });
   }
 

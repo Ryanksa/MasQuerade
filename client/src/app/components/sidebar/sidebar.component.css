@@ -12,7 +12,7 @@
   align-items: center;
   overflow: hidden;
   transition: left 0.5s, bottom 0.5s;
-  z-index: 2;
+  z-index: 11;
 }
 
 .sidebar:hover {

@@ -7,13 +7,48 @@
 
 .chat-list-container {
   position: relative;
-  margin: 5% auto;
+  margin: 10vh auto;
 }
 
 .chat-list-title {
   position: absolute;
   top: 0;
   left: -150px;
+  z-index: 1;
+}
+
+.prev-page-icon {
+  z-index: 1;
+  color: var(--darkBase3);
+  stroke: var(--lightBase2);
+  stroke-width: 20;
+  cursor: pointer;
+  position: absolute;
+  top: calc(50% - 80px);
+  left: -20px;
+}
+
+.prev-page-icon:hover {
+  stroke: var(--primary3);
+  stroke-width: 30;
+  transform: rotate(9deg);
+}
+
+.next-page-icon {
+  z-index: 1;
+  color: var(--darkBase3);
+  stroke: var(--lightBase2);
+  stroke-width: 20;
+  cursor: pointer;
+  position: absolute;
+  top: calc(50% - 80px);
+  right: -20px;
+}
+
+.next-page-icon:hover {
+  stroke: var(--primary3);
+  stroke-width: 30;
+  transform: rotate(8deg);
 }
 
 .outer-chat-list {
@@ -22,6 +57,7 @@
   height: max-content;
   background-color: var(--lightBase2);
   transform: skew(-3deg, -6deg);
+  position: relative;
 }
 
 .inner-chat-list {

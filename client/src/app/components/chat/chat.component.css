@@ -1,5 +1,5 @@
 .chat-container {
-  margin: 5% auto;
+  margin: 10vh auto;
   width: 450px;
   height: 750px;
   border-top: 30px solid var(--lightBase1);
