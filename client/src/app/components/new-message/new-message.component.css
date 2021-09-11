@@ -12,7 +12,7 @@
   border-top: 6px solid rgb(var(--lightBase2));
   border-bottom: 4px solid rgb(var(--lightBase2));
   border-right: 6px solid rgb(var(--lightBase2));
-  transform: rotate3d(-1, 1, 0, -30deg);
+  transform: rotate3d(-1, 1.8, 0, -30deg);
   background-color: rgb(var(--darkBase3));
   display: flex;
   align-items: flex-end;
