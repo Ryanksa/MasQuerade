@@ -9,17 +9,23 @@
   ></app-masquer-text>
   <div class="outer-chat-list">
     <fa-icon
+      [icon]="addRoomIcon"
+      class="icon-button add-room-icon fa-4x"
+      (click)="openNewRoomInput()"
+    ></fa-icon>
+    <fa-icon
       [icon]="prevPageIcon"
-      class="prev-page-icon fa-7x"
+      class="icon-button prev-page-icon fa-7x"
       *ngIf="page > 0"
       (click)="handlePrevPage()"
     ></fa-icon>
     <fa-icon
       [icon]="nextPageIcon"
-      class="next-page-icon fa-7x"
-      *ngIf="chatRooms.length === 10"
+      class="icon-button next-page-icon fa-7x"
+      *ngIf="!isLastPage"
       (click)="handleNextPage()"
     ></fa-icon>
+
     <div class="inner-chat-list">
       <div
         class="chat-list-room"
@@ -29,6 +35,36 @@
         <h3>
           {{ room.name }}
         </h3>
+      </div>
+
+      <div class="empty-content" *ngIf="!isLoading && chatRooms.length === 0">
+        <div class="empty-text">Start a New Chat!</div>
+        <fa-icon [icon]="pointToAddIcon" class="empty-icon fa-3x"></fa-icon>
+      </div>
+    </div>
+
+    <div class="new-room-input-container" *ngIf="isInputOpen">
+      <input
+        type="text"
+        placeholder="Name of Chat Room"
+        class="new-room-input"
+        [(ngModel)]="newRoomName"
+      />
+      <div class="new-room-buttons-container">
+        <app-masquer-text
+          text="ConFirm"
+          [leftFontSize]="32"
+          [hoverInvert]="true"
+          class="new-room-button"
+          (click)="handleCreateRoom()"
+        ></app-masquer-text>
+        <app-masquer-text
+          text="Cancel"
+          [leftFontSize]="32"
+          [hoverInvert]="true"
+          class="new-room-button"
+          (click)="closeNewRoomInput()"
+        ></app-masquer-text>
       </div>
     </div>
   </div>

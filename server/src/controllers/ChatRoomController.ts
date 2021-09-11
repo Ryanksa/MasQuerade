@@ -13,6 +13,11 @@ export const createChatRoom = (req: Request, res: Response) => {
   const roomId = crypto.randomBytes(16).toString("hex");
   const roomName = req.body.roomName;
 
+  if (!roomName) {
+    res.status(400).json("Cannot create chat room without room name");
+    return;
+  }
+
   pool.connect((err, client, release) => {
     // error acquiring client to query db
     if (err) {
@@ -130,6 +135,7 @@ export const getChatRooms = (req: Request, res: Response) => {
     }
 
     // query at most 10 rooms at the specified page
+    // this actually queries for 11 rooms, so that FE can know if last page or not
     let query =
       "SELECT id, name " +
       "FROM (" +
@@ -140,7 +146,7 @@ export const getChatRooms = (req: Request, res: Response) => {
       "WHERE row_num >= $2 AND row_num <= $3 " +
       "ORDER BY row_num";
     return client
-      .query(query, [reqUser, page * 10 + 1, page * 10 + 10])
+      .query(query, [reqUser, page * 10 + 1, page * 10 + 11])
       .then((result) => {
         res.json(result.rows);
       })

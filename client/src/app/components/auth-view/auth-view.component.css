@@ -19,7 +19,7 @@
 }
 
 .new-messages-container {
-  position: absolute;
+  position: fixed;
   bottom: 0;
   right: 10px;
   font-family: 'KoHo', sans-serif;
