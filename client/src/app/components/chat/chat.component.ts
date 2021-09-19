@@ -83,8 +83,8 @@ export class ChatComponent implements OnInit, AfterViewInit {
     };
     this.observer = new IntersectionObserver((entries, observer) => {
       entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          this.observer.unobserve(this.lastMessage);
+        if (entry.target === this.lastMessage && entry.isIntersecting) {
+          observer.unobserve(this.lastMessage);
           this.page += 1;
           this.getMessages();
         }
