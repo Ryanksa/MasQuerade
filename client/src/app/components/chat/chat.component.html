@@ -20,8 +20,14 @@
       ></app-masquer-text>
     </div>
     <app-chat-message
+      *ngFor="let message of latestMessages"
+      [message]="message"
+      [initAnimation]="true"
+    ></app-chat-message>
+    <app-chat-message
       *ngFor="let message of messages"
       [message]="message"
+      [initAnimation]="false"
       #messages
     ></app-chat-message>
   </div>

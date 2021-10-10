@@ -21,6 +21,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
   room: string = '';
   page: number = 0;
   messages: ChatMessage[] = [];
+  latestMessages: ChatMessage[] = [];
   currMsg: string = '';
 
   constructor(
@@ -34,7 +35,8 @@ export class ChatComponent implements OnInit, AfterViewInit {
       this.getMessages();
     });
     this.eventsSubscription = this.events.subscribe((newMessages) => {
-      this.messages = [...newMessages, ...this.messages];
+      this.messages = [...this.latestMessages, ...this.messages];
+      this.latestMessages = newMessages;
     });
 
     this.setupObserver();
@@ -57,7 +59,6 @@ export class ChatComponent implements OnInit, AfterViewInit {
     this.chatMsgService
       .getChatMessages(this.room, this.page)
       .subscribe((msgs) => {
-        // this.observer.unobserve(this.lastMessage);
         this.messages = [...this.messages, ...msgs];
       });
   }
@@ -66,7 +67,8 @@ export class ChatComponent implements OnInit, AfterViewInit {
     this.chatMsgService
       .postChatMessage(this.room, this.currMsg)
       .subscribe((msg) => {
-        this.messages.unshift(msg);
+        this.messages = [...this.latestMessages, ...this.messages];
+        this.latestMessages = [msg];
         this.currMsg = '';
       });
   }

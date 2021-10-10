@@ -10,16 +10,10 @@
     </div>
   </div>
 
-  <div class="msg-content-container">
+  <div class="msg-content-container" [ngClass]="initAnimation ? 'wiggle' : ''">
     <svg [attr.height]="height" width="350">
-      <polygon
-        class="light-polygon"
-        [attr.points]="getOuterPolygonPoints()"
-      />
-      <polygon
-        class="dark-polygon"
-        [attr.points]="getInnerPolygonPoints()"
-      />
+      <polygon class="light-polygon" [attr.points]="getOuterPolygonPoints()" />
+      <polygon class="dark-polygon" [attr.points]="getInnerPolygonPoints()" />
     </svg>
 
     <div class="msg-content" [style.height.px]="height">

@@ -47,7 +47,6 @@
 .msg-content-container {
   position: relative;
   width: 100%;
-  animation: wiggle 1s;
 }
 
 .to-you .msg-content-container {
@@ -74,7 +73,9 @@
   position: absolute;
   top: 15px;
   color: white;
-  font-size: 20px;
+  font-size: 2ch;
+  font-family: monospace;
+  font-weight: 600;
   overflow: scroll;
   scrollbar-width: none;
   -ms-overflow-style: none;
@@ -86,13 +87,12 @@
 .to-you .msg-content {
   width: 22ch;
   left: 30px;
-  transform: rotate(-0.5deg);
 }
 
 .from-you .msg-content {
   width: 23.5ch;
-  right: 45px;
-  transform: rotate(-2deg);
+  right: 55px;
+  top: 20px;
 }
 
 .light-polygon {
@@ -101,6 +101,10 @@
 
 .dark-polygon {
   fill: rgb(var(--darkBase2));
+}
+
+.wiggle {
+  animation: wiggle 1s;
 }
 
 @keyframes wiggle {

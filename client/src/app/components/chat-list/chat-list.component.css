@@ -88,7 +88,7 @@
 }
 
 .add-room-icon:hover {
-  color: rgb(var(--primary3));
+  color: rgb(var(--complementary1));
   transform: none;
 }
 

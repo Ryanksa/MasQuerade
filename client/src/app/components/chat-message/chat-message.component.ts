@@ -17,6 +17,7 @@ export class ChatMessageComponent implements OnInit {
     content: "",
     posted_on: "",
   };
+  @Input() initAnimation: boolean = true;
   private lines: number = 1;
   public height: number = 45;
   public mine: boolean = false;
