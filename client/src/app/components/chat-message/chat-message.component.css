@@ -6,7 +6,8 @@
 
 .msg-author-icon {
   position: relative;
-  height: 80px;
+  top: 30px;
+  height: 60px;
   width: 100px;
   border-left: 10px solid rgb(var(--darkBase2));
   border-top: 4px solid rgb(var(--darkBase2));
@@ -17,20 +18,31 @@
   display: flex;
   align-items: flex-end;
   justify-content: center;
+  transform-style: preserve-3d;
 }
 
-.userIcon {
+.user-icon {
   width: 70px;
   height: 70px;
-  display: flex;
-  justify-content: center;
-  align-items:flex-end;
+  position: absolute;
+  left: 12px;
+  transform: rotateX(-20deg) translateZ(5px) translateY(-12px);
+  color: rgb(var(--darkBase2));
+}
+
+.user-icon-shadow {
+  width: 70px;
+  height: 70px;
+  position: absolute;
+  left: 9px;
+  transform: rotateX(-20deg) translateZ(5px) translateY(-12px);
+  color: rgb(var(--darkBase1));
 }
 
 .msg-author {
   position: absolute;
   left: 0;
-  top: 0;
+  bottom: 0;
   font-size: 16px;
   width: 100%;
   display: flex;
@@ -38,9 +50,9 @@
   padding-bottom: 5px;
   color: white;
   background: linear-gradient(
-    rgba(50, 50, 50, 0.7),
+    rgba(50, 50, 50, 0),
     rgba(50, 50, 50, 0.5) 50%,
-    rgba(50, 50, 50, 0)
+    rgba(50, 50, 50, 0.7)
   );
 }
 
@@ -55,6 +67,34 @@
 
 .from-you .msg-content-container {
   transform-origin: right 30px;
+}
+
+.msg-content-container > .msg-posted-time {
+  position: absolute;
+  top: 10px;
+  padding: 1px 8px;
+  color: rgb(var(--darkBase2));
+  background-color: rgb(var(--lightBase2));
+  font-weight: 900;
+  border-radius: 3px 3px 0 0;
+  transition: top 0.5s;
+}
+
+.to-you .msg-content-container > .msg-posted-time {
+  left: 30px;
+}
+
+.to-you .msg-content-container:hover > .msg-posted-time {
+  top: -15px;
+}
+
+.from-you .msg-content-container > .msg-posted-time {
+  right: 35px;
+  transform: rotateZ(-2deg);
+}
+
+.from-you .msg-content-container:hover > .msg-posted-time {
+  top: -18px;
 }
 
 .msg-content-container > svg {
@@ -73,9 +113,7 @@
   position: absolute;
   top: 15px;
   color: white;
-  font-size: 2ch;
-  font-family: monospace;
-  font-weight: 600;
+  font-size: 20px;
   overflow: scroll;
   scrollbar-width: none;
   -ms-overflow-style: none;
@@ -85,13 +123,13 @@
 }
 
 .to-you .msg-content {
-  width: 22ch;
+  width: 270px;
   left: 30px;
 }
 
 .from-you .msg-content {
-  width: 23.5ch;
-  right: 55px;
+  width: 280px;
+  left: 130px;
   top: 20px;
 }
 

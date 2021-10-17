@@ -21,6 +21,8 @@ export class ChatMessageComponent implements OnInit {
   private lines: number = 1;
   public height: number = 45;
   public mine: boolean = false;
+  public postedDate: string = "";
+  public postedTime: string = "";
   userIcon = faUser;
 
   constructor() {}
@@ -29,6 +31,8 @@ export class ChatMessageComponent implements OnInit {
     this.lines = getNumberOfLines(this.message.content);
     this.height = 50 + this.lines * 25;
     this.mine = this.message.author === getUsername();
+    this.postedDate = this.message.posted_on.match(/\d{4}-\d{2}-\d{2}/g)![0];
+    this.postedTime = this.message.posted_on.match(/\d{2}:\d{2}/g)![0];
   }
 
   getOuterPolygonPoints(): string {

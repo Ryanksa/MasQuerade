@@ -1,4 +1,4 @@
-const CHARS_PER_LINE = 25;
+const CHARS_PER_LINE = 30;
 
 export const getNumberOfLines = (text: string): number => {
   const words = text.split(' ');

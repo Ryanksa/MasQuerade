@@ -4,19 +4,24 @@
   [style.height.px]="height"
 >
   <div class="msg-author-icon" *ngIf="!mine">
-    <fa-icon [icon]="userIcon" class="userIcon fa-4x"></fa-icon>
+    <fa-icon [icon]="userIcon" class="user-icon-shadow fa-4x"></fa-icon>
+    <fa-icon [icon]="userIcon" class="user-icon fa-4x"></fa-icon>
     <div class="msg-author" *ngIf="!mine">
       {{ message.author }}
     </div>
   </div>
 
   <div class="msg-content-container" [ngClass]="initAnimation ? 'wiggle' : ''">
+    <div class="msg-posted-time">
+      {{ postedDate }} {{ postedTime }}
+    </div>
+
     <svg [attr.height]="height" width="350">
       <polygon class="light-polygon" [attr.points]="getOuterPolygonPoints()" />
       <polygon class="dark-polygon" [attr.points]="getInnerPolygonPoints()" />
     </svg>
 
-    <div class="msg-content" [style.height.px]="height">
+    <div class="msg-content" [style.height.px]="height - 40">
       {{ message.content }}
     </div>
   </div>
