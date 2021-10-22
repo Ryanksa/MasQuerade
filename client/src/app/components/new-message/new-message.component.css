@@ -6,43 +6,51 @@
 
 .msg-author-icon {
   position: relative;
-  height: 80px;
+  top: 20px;
+  height: 60px;
   width: 100px;
   border-left: 4px solid rgb(var(--lightBase2));
   border-top: 6px solid rgb(var(--lightBase2));
   border-bottom: 4px solid rgb(var(--lightBase2));
   border-right: 6px solid rgb(var(--lightBase2));
-  transform: rotate3d(-1, 1.8, 0, -30deg);
+  transform: rotate3d(-1.2, 1 , 0, -35deg);
   background-color: rgb(var(--darkBase3));
   display: flex;
   align-items: flex-end;
   justify-content: center;
+  transform-style: preserve-3d;
+  z-index: -1;
 }
 
-.userIcon {
+.user-icon {
   width: 70px;
   height: 70px;
   display: flex;
   justify-content: center;
   align-items:flex-end;
   color: rgb(var(--lightBase2));
+  transform: rotateX(-16deg) translateZ(3px) translateY(-12px);
+}
+
+.user-icon-shadow {
+  width: 70px;
+  height: 70px;
+  position: absolute;
+  left: 9px;
+  color: rgb(var(--lightBase1));
+  transform: rotateX(-16deg) translateZ(3px) translateY(-15px);
 }
 
 .msg-author {
   position: absolute;
   left: 0;
-  top: 0;
+  bottom: 0;
   font-size: 16px;
   width: 100%;
   display: flex;
   justify-content: center;
   padding-bottom: 5px;
   color: rgb(var(--lightBase2));
-  background: linear-gradient(
-    rgba(50, 50, 50, 0.7),
-    rgba(50, 50, 50, 0.5) 50%,
-    rgba(50, 50, 50, 0)
-  );
 }
 
 .msg-content-container {
@@ -54,19 +62,19 @@
 
 svg {
   position: absolute;
-  right: 0;
+  right: -15px;
 }
 
 .msg-content {
   position: absolute;
   top: 15px;
+  right: 30px;
   color: white;
   font-size: 20px;
   overflow: scroll;
   scrollbar-width: none;
   -ms-overflow-style: none;
   width: 23.5ch;
-  right: 45px;
   transform: rotate(-2deg);
 }
 .msg-content::-webkit-scrollbar {
