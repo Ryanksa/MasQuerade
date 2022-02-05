@@ -4,7 +4,7 @@
       text="SignUp"
       [flipIndices]="[4]"
       [leftFontSize]="40"
-      rotateAngle="2deg"
+      transform="rotate(2deg)"
       class="signup-title"
     >
     </app-masquer-text>
@@ -24,8 +24,6 @@
       <input type="password" id="signup-password" [(ngModel)]="password" />
     </div>
 
-    <button class="signup-button" (click)="handleSignUp()">
-      Sign Up
-    </button>
+    <button class="signup-button" (click)="handleSignUp()">Sign Up</button>
   </div>
 </div>

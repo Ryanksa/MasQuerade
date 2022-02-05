@@ -11,7 +11,7 @@
       [flipIndices]="[3, 8]"
       [leftFontSize]="100"
       [fontSizeStep]="0"
-      rotateAngle="-20deg"
+      transform="rotate(-20deg)"
       class="logo-text"
     >
     </app-masquer-text>
@@ -25,9 +25,9 @@
       [flipIndices]="[4]"
       [leftFontSize]="48"
       [fontSizeStep]="-4"
-      rotateAngle="8deg"
-      rotateOrigin="right 50%"
-      [hoverWiggle]="true"
+      transform="rotate(8deg)"
+      transformOrigin="right 50%"
+      [hoverInvert]="true"
       class="signin-button"
       (click)="navigateToSignup()"
     >
@@ -37,9 +37,9 @@
       [flipIndices]="[1]"
       [leftFontSize]="48"
       [fontSizeStep]="-4"
-      rotateAngle="-15deg"
-      rotateOrigin="right 50%"
-      [hoverWiggle]="true"
+      transform="rotate(-15deg)"
+      transformOrigin="right 50%"
+      [hoverInvert]="true"
       class="signin-button"
       (click)="navigateToLogin()"
     >

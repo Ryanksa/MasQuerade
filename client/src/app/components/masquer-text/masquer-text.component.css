@@ -1,9 +1,5 @@
-@keyframes hoverWiggle {
-  50% { transform: rotate(0) }
-}
-
 .masquer-text-container {
-  font-family: 'Fira Sans', sans-serif;
+  font-family: "Fira Sans", sans-serif;
   position: relative;
 }
 
@@ -75,11 +71,6 @@ span.fore.flip {
   transform: rotateY(40deg) scale(1.05, 0.95) translateY(-1px);
 }
 
-/* hover wiggle effect */
-.masquer-text-container.hoverwiggle:hover{
-  animation: hoverWiggle 0.5s;
-}
-
 /* hover invert effect */
 .masquer-text-container.hoverinvert:hover span.back {
   color: rgb(var(--lightBase2));
@@ -109,7 +100,7 @@ span.fore.flip {
   left: 10px;
   width: 0;
   height: 60%;
-  border-radius: 2px;
+  border-radius: 30px;
   background-color: rgb(var(--primary2));
   transform: skewX(-5deg);
   box-shadow: none;

@@ -4,13 +4,12 @@
   <div class="option-container home">
     <app-masquer-text
       text="HoMe"
-      [flipIndices]="[2]"
-      [leftFontSize]="32"
-      [fontSizeStep]="15"
-      rotateAngle="-40deg"
-      rotateOrigin="left 100%"
+      [flipIndices]="[]"
+      [leftFontSize]="36"
+      [fontSizeStep]="18"
+      transform="rotate(-5deg)"
+      transformOrigin="left 100%"
       [hoverInvert]="true"
-      [hoverBackdrop]="true"
       class="sidebar-option home"
       (click)="navigateToHome()"
     ></app-masquer-text>
@@ -20,12 +19,11 @@
     <app-masquer-text
       text="CHats"
       [flipIndices]="[2]"
-      [leftFontSize]="32"
-      [fontSizeStep]="15"
-      rotateAngle="-30deg"
-      rotateOrigin="left 50%"
+      [leftFontSize]="36"
+      [fontSizeStep]="18"
+      transform="rotate(-10deg)"
+      transformOrigin="left 50%"
       [hoverInvert]="true"
-      [hoverBackdrop]="true"
       class="sidebar-option chats"
       (click)="navigateToChats()"
     ></app-masquer-text>
@@ -37,11 +35,11 @@
       [flipIndices]="[0, 3]"
       [leftFontSize]="32"
       [fontSizeStep]="8"
-      rotateAngle="-10deg"
-      rotateOrigin="left 50%"
+      transform="rotate(-10deg)"
+      transformOrigin="left 50%"
       [hoverInvert]="true"
-      [hoverBackdrop]="true"
       class="sidebar-option profile"
+      (click)="navigateToProfile()"
     ></app-masquer-text>
   </div>
 
@@ -51,10 +49,9 @@
       [flipIndices]="[3]"
       [leftFontSize]="32"
       [fontSizeStep]="10"
-      rotateAngle="5deg"
-      rotateOrigin="left 0%"
+      transform="rotate(5deg)"
+      transformOrigin="left 0%"
       [hoverInvert]="true"
-      [hoverBackdrop]="true"
       class="sidebar-option logout"
       (click)="handleSignOut()"
     ></app-masquer-text>

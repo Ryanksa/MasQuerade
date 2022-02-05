@@ -7,6 +7,7 @@
     *ngIf="component === 'chat'"
     [events]="eventsSubject.asObservable()"
   ></app-chat>
+  <app-profile *ngIf="component === 'profile'"></app-profile>
 </div>
 <div class="new-messages-container">
   <app-new-message

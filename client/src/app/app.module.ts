@@ -19,6 +19,7 @@ import { UnauthViewComponent } from './components/unauth-view/unauth-view.compon
 import { AuthViewComponent } from './components/auth-view/auth-view.component';
 import { ChatListComponent } from './components/chat-list/chat-list.component';
 import { NewMessageComponent } from './components/new-message/new-message.component';
+import { ProfileComponent } from './profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { NewMessageComponent } from './components/new-message/new-message.compon
     AuthViewComponent,
     ChatListComponent,
     NewMessageComponent,
+    ProfileComponent,
   ],
   imports: [
     BrowserModule,

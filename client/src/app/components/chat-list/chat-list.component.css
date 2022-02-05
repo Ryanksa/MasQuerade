@@ -40,13 +40,44 @@
 .new-room-input-container {
   z-index: 2;
   position: absolute;
-  top: 55px;
+  top: 70px;
   right: 20px;
-  width: 300px;
+  width: 340px;
   background: rgba(var(--darkBase2), 0.95);
-  border-radius: 10px;
-  border: 2px solid rgb(var(--lightBase2));
+  border-top: 12px solid;
+  border-bottom: 7px solid;
+  border-left: 14px solid;
+  border-right: 4px solid;
+  border-color: rgb(var(--lightBase2));
   padding: 5px 10px 10px 10px;
+  transform: rotateY(9deg) translateZ(45px);
+  box-shadow: -20px 5px 20px rgb(var(--darkBase2));
+}
+
+.new-room-input-container::before {
+  content: "";
+  position: absolute;
+  top: -12px;
+  left: -22px;
+  width: 0;
+  height: 0;
+  border-right: 10px solid rgb(var(--lightBase2));
+  border-bottom: 135px solid transparent;
+  border-top: 0;
+  border-left: 0;
+}
+
+.new-room-input-container::after {
+  content: "";
+  position: absolute;
+  bottom: -22px;
+  right: -4px;
+  width: 0;
+  height: 0;
+  border-top: 15px solid rgb(var(--lightBase2));
+  border-left: 380px solid transparent;
+  border-right: 0;
+  border-bottom: 0;
 }
 
 .new-room-input {
@@ -129,6 +160,8 @@
   background-color: rgb(var(--lightBase2));
   transform: skew(-3deg, -6deg);
   position: relative;
+  transform-style: preserve-3d;
+  perspective: 500px;
 }
 
 .inner-chat-list {

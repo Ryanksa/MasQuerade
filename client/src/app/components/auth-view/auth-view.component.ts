@@ -31,7 +31,7 @@ export class AuthViewComponent {
     this.dataSubscription = this.route.data.subscribe((data: any) => {
       this.component = data.component;
     });
-    this.currRoom = window.location.href.split("/").slice(-1)[0];
+    this.currRoom = window.location.href.split('/').slice(-1)[0];
     this.listenForChatMessages();
   }
 
@@ -55,7 +55,9 @@ export class AuthViewComponent {
 
       this.newMessages = [...newMessagesOut, ...this.newMessages];
       setTimeout(() => {
-        this.newMessages = this.newMessages.filter((msg) => !msgs.includes(msg));
+        this.newMessages = this.newMessages.filter(
+          (msg) => !msgs.includes(msg)
+        );
       }, 5000);
 
       if (newMessagesIn.length > 0) {

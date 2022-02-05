@@ -23,6 +23,10 @@ export class SidebarComponent implements OnInit {
     this.router.navigate(['/chats']);
   }
 
+  navigateToProfile() {
+    this.router.navigate(['/profile']);
+  }
+
   handleSignOut() {
     this.userSerivce.signout().subscribe(() => {
       this.router.navigate(['/']);

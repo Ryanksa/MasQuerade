@@ -21,9 +21,8 @@ export class MasquerTextComponent implements OnInit {
   @Input() flipIndices: number[] = [];
   @Input() leftFontSize: number = 48;
   @Input() fontSizeStep: number = 0;
-  @Input() rotateAngle: string = "0deg";
-  @Input() rotateOrigin: string = "50% 50%";
-  @Input() hoverWiggle: boolean = false;
+  @Input() transform: string = '';
+  @Input() transformOrigin: string = '';
   @Input() hoverInvert: boolean = false;
   @Input() hoverBackdrop: boolean = false;
   public charArray: MasquerChar[] = [];
@@ -34,14 +33,10 @@ export class MasquerTextComponent implements OnInit {
     this.charArray = this.text.split('').map((c, idx) => {
       return {
         char: c,
-        class: "masquer-char-span" + getRandomInt(10),
+        class: 'masquer-char-span' + getRandomInt(10),
         flip: this.flipIndices.includes(idx),
-        fontSize: this.leftFontSize + idx*this.fontSizeStep + "px"
-      }
+        fontSize: this.leftFontSize + idx * this.fontSizeStep + 'px',
+      };
     });
-  }
-
-  getRotationString() {
-    return `rotate(${this.rotateAngle})`;
   }
 }
