@@ -1,6 +1,6 @@
 # Project: Masquerade
 
-## Preview
+## Description and Preview
 
 A messaging app themed after the game Persona 5
 
@@ -9,12 +9,13 @@ A messaging app themed after the game Persona 5
 
 ## Development
 
-0. Install Node.js and npm
+0. Install PostgreSQL, Node.js and npm
 1. Install and start Redis: `service redis-server start`
 2. Install Typescript and transpile server code:
 
 ```
 cd server
+npm install
 tsc
 ```
 
@@ -29,5 +30,6 @@ node dist/app.js
 
 ```
 cd client
+npm install
 ng serve
 ```
