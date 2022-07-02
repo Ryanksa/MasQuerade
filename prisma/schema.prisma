@@ -11,12 +11,13 @@ datasource db {
 }
 
 model User {
-  id       String         @id @default(cuid())
-  username String         @unique @db.VarChar(255)
-  password String
-  name     String         @db.VarChar(255)
-  included RoomIncludes[]
-  messages ChatMessage[]
+  id          String         @id @default(cuid())
+  username    String         @unique @db.VarChar(255)
+  password    String
+  name        String         @db.VarChar(255)
+  socialStats Float          @default(0)
+  included    RoomIncludes[]
+  messages    ChatMessage[]
 }
 
 model ChatRoom {
