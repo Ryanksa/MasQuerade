@@ -5,7 +5,7 @@ import { User } from "../../../models/user";
 
 type ResponseData = {
   message: string;
-  user?: User;
+  data?: User;
 };
 
 function get(req: NextApiRequest, res: NextApiResponse<ResponseData>) {
@@ -31,7 +31,7 @@ function get(req: NextApiRequest, res: NextApiResponse<ResponseData>) {
 
       res.status(200).json({
         message: `User ${username}`,
-        user: {
+        data: {
           name: user.name,
           username: user.username,
           socialStats: user.socialStats,
@@ -65,7 +65,7 @@ function update(req: NextApiRequest, res: NextApiResponse<ResponseData>) {
     .then((user) => {
       res.status(200).json({
         message: `Updated user ${user.username}`,
-        user: {
+        data: {
           name: user.name,
           username: user.username,
           socialStats: user.socialStats,

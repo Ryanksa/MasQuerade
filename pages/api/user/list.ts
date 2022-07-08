@@ -5,7 +5,7 @@ import { User } from "../../../models/user";
 
 type ResponseData = {
   message: string;
-  users?: User[];
+  data?: User[];
 };
 
 function get(req: NextApiRequest, res: NextApiResponse<ResponseData>) {
@@ -40,7 +40,7 @@ function get(req: NextApiRequest, res: NextApiResponse<ResponseData>) {
     .then((users) => {
       res.status(200).json({
         message: `Users retrieved`,
-        users: users.map((user) => ({
+        data: users.map((user) => ({
           username: user.username,
           name: user.name,
           socialStats: user.socialStats,

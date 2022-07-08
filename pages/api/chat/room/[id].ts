@@ -5,7 +5,7 @@ import { ChatRoom } from "../../../../models/chat";
 
 type ResponseData = {
   message: string;
-  chatRoom?: ChatRoom;
+  data?: ChatRoom;
 };
 
 function getHandler(req: NextApiRequest, res: NextApiResponse<ResponseData>) {
@@ -31,7 +31,7 @@ function getHandler(req: NextApiRequest, res: NextApiResponse<ResponseData>) {
 
       res.status(200).json({
         message: `Chat room ${id}`,
-        chatRoom: {
+        data: {
           id: chatRoom.id,
           room: chatRoom.name,
           lastActive: chatRoom.lastActive,
@@ -74,7 +74,7 @@ function updateHandler(
     .then((chatRoom) => {
       res.status(200).json({
         message: `Updated chat room ${id}`,
-        chatRoom: {
+        data: {
           id: chatRoom.id,
           room: chatRoom.name,
           lastActive: chatRoom.lastActive,
@@ -108,7 +108,7 @@ function deleteHandler(
     .then((chatRoom) => {
       res.status(200).json({
         message: `Deleted chat room ${id}`,
-        chatRoom: {
+        data: {
           id: chatRoom.id,
           room: chatRoom.name,
           lastActive: chatRoom.lastActive,

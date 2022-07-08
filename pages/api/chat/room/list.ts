@@ -5,7 +5,7 @@ import { ChatRoom } from "../../../../models/chat";
 
 type ResponseData = {
   message: string;
-  rooms?: ChatRoom[];
+  data?: ChatRoom[];
 };
 
 function get(req: NextApiRequest, res: NextApiResponse<ResponseData>) {
@@ -36,7 +36,7 @@ function get(req: NextApiRequest, res: NextApiResponse<ResponseData>) {
     .then((rooms) => {
       res.status(200).json({
         message: `Chat rooms retrieved`,
-        rooms: rooms.map((room) => ({
+        data: rooms.map((room) => ({
           id: room.id,
           room: room.name,
           lastActive: room.lastActive,
