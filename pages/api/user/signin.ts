@@ -10,13 +10,12 @@ const jwtSecret: jwt.Secret = process.env.JWT_SECRET ?? "";
 const isHttps: boolean = process.env.IS_HTTPS === "true";
 
 function post(req: NextApiRequest, res: NextApiResponse<string>) {
-  const username: string = req.body.username;
-  const password: string = req.body.password;
-
-  if (username === "" || password === "") {
+  if (!req.body.username || !req.body.password) {
     res.status(400).send("Username and password are required");
     return;
   }
+  const username: string = req.body.username;
+  const password: string = req.body.password;
 
   return prisma.user
     .findUnique({

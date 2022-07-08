@@ -1,3 +1,9 @@
+export interface ChatRoom {
+  id: string;
+  room: string;
+  lastActive: Date;
+}
+
 export interface ChatMessage {
   id: string;
   username: string;

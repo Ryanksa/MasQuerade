@@ -5,14 +5,13 @@ import crypto from "crypto";
 const hmacKey: crypto.BinaryLike = process.env.HMAC_KEY ?? "";
 
 function post(req: NextApiRequest, res: NextApiResponse<string>) {
+  if (!req.body.username || !req.body.password || !req.body.name) {
+    res.status(400).send("Username, password, and name are required");
+    return;
+  }
   const username: string = req.body.username;
   const password: string = req.body.password;
   const name: string = req.body.name;
-
-  if (username === "" || password === "") {
-    res.status(400).send("Username and password are required");
-    return;
-  }
 
   return prisma.user
     .findFirst({

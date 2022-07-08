@@ -4,6 +4,7 @@ CREATE TABLE "User" (
     "username" VARCHAR(255) NOT NULL,
     "password" TEXT NOT NULL,
     "name" VARCHAR(255) NOT NULL,
+    "socialStats" DOUBLE PRECISION NOT NULL DEFAULT 0,
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );
@@ -12,6 +13,7 @@ CREATE TABLE "User" (
 CREATE TABLE "ChatRoom" (
     "id" TEXT NOT NULL,
     "name" VARCHAR(255) NOT NULL,
+    "lastActive" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "ChatRoom_pkey" PRIMARY KEY ("id")
 );

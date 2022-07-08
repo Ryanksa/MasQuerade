@@ -4,11 +4,6 @@ import { addListener, removeListener } from "../../../../lib/message-listener";
 import { ChatMessage } from "../../../../models/chat";
 
 function get(req: NextApiRequest, res: NextApiResponse) {
-  if (!isAuthenticated(req)) {
-    res.status(401).send("Unauthorized access");
-    return;
-  }
-
   const userId: string = req.cookies.id ?? "";
 
   res.setHeader("Content-Type", "text/event-stream;charset=utf-8");
@@ -29,6 +24,11 @@ function get(req: NextApiRequest, res: NextApiResponse) {
 }
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
+  if (!isAuthenticated(req)) {
+    res.status(401).send("Unauthorized access");
+    return;
+  }
+
   switch (req.method) {
     case "GET":
       get(req, res);

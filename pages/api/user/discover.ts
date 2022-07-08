@@ -9,37 +9,38 @@ type ResponseData = {
 };
 
 function get(req: NextApiRequest, res: NextApiResponse<ResponseData>) {
-  let search: string = "";
-  if (req.body.search) {
-    search = req.body.search;
-  }
-  let page: number = 0;
-  if (req.body.page) {
-    page = +req.body.page;
-  }
-  let size: number = 10;
-  if (req.body.size) {
-    size = +req.body.size;
-  }
+  const userId: string = req.cookies.id ?? "";
 
-  return prisma.user
+  return prisma.chatRoom
     .findMany({
+      select: { includes: true },
       where: {
-        OR: [
-          {
-            username: { contains: search },
-          },
-          {
-            name: { contains: search },
-          },
-        ],
+        includes: {
+          some: { userId: userId },
+        },
       },
-      skip: page * size,
-      take: size,
+      orderBy: { lastActive: "desc" },
+      skip: 0,
+      take: 5,
+    })
+    .then((chatRooms) => {
+      let usersInSameRoom: string[] = [];
+      chatRooms.forEach((room) => {
+        const inRoom = room.includes
+          .filter((include) => include.userId !== userId)
+          .map((include) => include.userId);
+        usersInSameRoom = [...usersInSameRoom, ...inRoom];
+      });
+
+      return prisma.user.findMany({
+        where: {
+          id: { in: usersInSameRoom },
+        },
+      });
     })
     .then((users) => {
       res.status(200).json({
-        message: `Users retrieved`,
+        message: "Recommended users",
         users: users.map((user) => ({
           username: user.username,
           name: user.name,
