@@ -8,10 +8,20 @@ function post(req: NextApiRequest, res: NextApiResponse<string>) {
     return;
   }
   const roomName: string = req.body.roomName;
+  const userId: string = req.cookies.id ?? "";
 
   return prisma.chatRoom
     .create({
       data: { name: roomName },
+    })
+    .then((chatRoom) => {
+      return prisma.roomIncludes.create({
+        data: {
+          userId: userId,
+          roomId: chatRoom.id,
+          moderator: true,
+        },
+      });
     })
     .then(() => {
       res.status(200).send(`Created chat room ${roomName}`);

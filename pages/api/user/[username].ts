@@ -46,16 +46,16 @@ function get(req: NextApiRequest, res: NextApiResponse<ResponseData>) {
     });
 }
 
-function update(req: NextApiRequest, res: NextApiResponse<ResponseData>) {
-  if (!req.query.name) {
+function put(req: NextApiRequest, res: NextApiResponse<ResponseData>) {
+  if (!req.body.name) {
     res.status(400).json({
-      message: "Unauthorized access",
+      message: "name is required",
     });
     return;
   }
 
   const userId: string = req.cookies.id ?? "";
-  const name: string = "" + req.query.name;
+  const name: string = req.body.name;
 
   return prisma.user
     .update({
@@ -95,8 +95,8 @@ export default function handler(
     case "GET":
       get(req, res);
       break;
-    case "UPDATE":
-      update(req, res);
+    case "PUT":
+      put(req, res);
       break;
     default:
       res.status(404).end();

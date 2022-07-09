@@ -16,6 +16,7 @@ function getHandler(req: NextApiRequest, res: NextApiResponse<ResponseData>) {
     });
     return;
   }
+  const userId: string = req.cookies.id ?? "";
 
   return prisma.chatRoom
     .findUnique({
@@ -29,14 +30,30 @@ function getHandler(req: NextApiRequest, res: NextApiResponse<ResponseData>) {
         return;
       }
 
-      res.status(200).json({
-        message: `Chat room ${id}`,
-        data: {
-          id: chatRoom.id,
-          room: chatRoom.name,
-          lastActive: chatRoom.lastActive,
-        },
-      });
+      return prisma.roomIncludes
+        .findMany({
+          where: {
+            roomId: chatRoom.id,
+            userId: userId,
+          },
+        })
+        .then((includes) => {
+          if (includes.length === 0) {
+            res.status(403).json({
+              message: "Must be in the chat room to get it",
+            });
+            return;
+          }
+
+          res.status(200).json({
+            message: `Chat room ${id}`,
+            data: {
+              id: chatRoom.id,
+              room: chatRoom.name,
+              lastActive: chatRoom.lastActive,
+            },
+          });
+        });
     })
     .catch((err) => {
       console.error(err);
@@ -46,10 +63,7 @@ function getHandler(req: NextApiRequest, res: NextApiResponse<ResponseData>) {
     });
 }
 
-function updateHandler(
-  req: NextApiRequest,
-  res: NextApiResponse<ResponseData>
-) {
+function putHandler(req: NextApiRequest, res: NextApiResponse<ResponseData>) {
   const { id } = req.query;
   if (typeof id !== "string" || id === "") {
     res.status(400).json({
@@ -58,20 +72,52 @@ function updateHandler(
     return;
   }
 
-  if (!req.body.name) {
+  if (!req.body.roomName) {
     res.status(400).json({
       message: "New room name is required",
     });
     return;
   }
-  const name: string = req.body.name;
+  const roomName: string = req.body.roomName;
 
-  return prisma.chatRoom
-    .update({
+  const userId: string = req.cookies.id ?? "";
+
+  prisma.chatRoom
+    .findUnique({
       where: { id: id },
-      data: { name: name },
     })
     .then((chatRoom) => {
+      if (!chatRoom) {
+        res.status(404).json({
+          message: `Chat room ${id} not found`,
+        });
+        return;
+      }
+
+      return prisma.roomIncludes.findMany({
+        where: {
+          roomId: chatRoom.id,
+          userId: userId,
+          moderator: true,
+        },
+      });
+    })
+    .then((includes) => {
+      if (!includes || includes.length === 0) {
+        res.status(403).json({
+          message: "Must be a moderator of the chat room to update it",
+        });
+        return;
+      }
+
+      return prisma.chatRoom.update({
+        where: { id: id },
+        data: { name: roomName },
+      });
+    })
+    .then((chatRoom) => {
+      if (!chatRoom) return;
+
       res.status(200).json({
         message: `Updated chat room ${id}`,
         data: {
@@ -100,12 +146,48 @@ function deleteHandler(
     });
     return;
   }
+  const userId: string = req.cookies.id ?? "";
 
   return prisma.chatRoom
-    .delete({
+    .findUnique({
       where: { id: id },
     })
     .then((chatRoom) => {
+      if (!chatRoom) {
+        res.status(404).json({
+          message: `Chat room ${id} not found`,
+        });
+        return;
+      }
+
+      return prisma.roomIncludes.findMany({
+        where: {
+          roomId: chatRoom.id,
+          userId: userId,
+          moderator: true,
+        },
+      });
+    })
+    .then((includes) => {
+      if (!includes || includes.length === 0) {
+        res.status(403).json({
+          message: "Must be an moderator of the chat room to delete it",
+        });
+        return;
+      }
+
+      return prisma.roomIncludes.deleteMany({
+        where: { roomId: id },
+      });
+    })
+    .then(() => {
+      return prisma.chatRoom.delete({
+        where: { id: id },
+      });
+    })
+    .then((chatRoom) => {
+      if (!chatRoom) return;
+
       res.status(200).json({
         message: `Deleted chat room ${id}`,
         data: {
@@ -138,8 +220,8 @@ export default function handler(
     case "GET":
       getHandler(req, res);
       break;
-    case "UPDATE":
-      updateHandler(req, res);
+    case "PUT":
+      putHandler(req, res);
       break;
     case "DELETE":
       deleteHandler(req, res);

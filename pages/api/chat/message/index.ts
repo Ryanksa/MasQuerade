@@ -1,7 +1,12 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../../../lib/prisma";
 import { isAuthenticated } from "../../../../middleware/auth";
-import { notifyListeners } from "../../../../lib/message-listener";
+import {
+  addListener,
+  removeListener,
+  notifyListeners,
+} from "../../../../lib/message-listener";
+import { ChatMessage } from "../../../../models/chat";
 
 function post(req: NextApiRequest, res: NextApiResponse<string>) {
   if (!req.body.roomId || !req.body.content) {
@@ -50,8 +55,7 @@ function post(req: NextApiRequest, res: NextApiResponse<string>) {
         postedOn: chatMessage.postedOn,
       };
 
-      // Notify all message listeners of this new message
-      prisma.roomIncludes
+      return prisma.roomIncludes
         .findMany({
           where: {
             roomId: msg.roomId,
@@ -61,20 +65,40 @@ function post(req: NextApiRequest, res: NextApiResponse<string>) {
           includes.forEach((include) => {
             notifyListeners(include.userId, msg);
           });
+
+          return prisma.chatRoom.update({
+            data: { lastActive: new Date() },
+            where: { id: msg.roomId },
+          });
         });
-
-      // Update lastActive date of this chat room
-      prisma.chatRoom.update({
-        data: { lastActive: new Date() },
-        where: { id: msg.roomId },
-      });
-
+    })
+    .then(() => {
       res.status(200).send(`Posted message in chat room ${roomId}`);
     })
     .catch((err) => {
       console.error(err);
       res.status(500).send("Something went wrong on the server");
     });
+}
+
+function get(req: NextApiRequest, res: NextApiResponse) {
+  const userId: string = req.cookies.id ?? "";
+
+  res.setHeader("Content-Type", "text/event-stream;charset=utf-8");
+  res.setHeader("Cache-Control", "no-cache, no-transform");
+  res.setHeader("X-Accel-Buffering", "no");
+
+  const callback = (msg: ChatMessage) => {
+    res.write(JSON.stringify({ ...msg }));
+  };
+  addListener(userId, callback);
+
+  const close = () => {
+    removeListener(userId, callback);
+    res.status(200).end();
+  };
+  req.on("aborted", close);
+  req.on("close", close);
 }
 
 export default function handler(
@@ -89,6 +113,9 @@ export default function handler(
   switch (req.method) {
     case "POST":
       post(req, res);
+      break;
+    case "GET":
+      get(req, res);
       break;
     default:
       res.status(404).end();

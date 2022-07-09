@@ -65,10 +65,7 @@ function getHandler(req: NextApiRequest, res: NextApiResponse<ResponseData>) {
     });
 }
 
-function updateHandler(
-  req: NextApiRequest,
-  res: NextApiResponse<ResponseData>
-) {
+function putHandler(req: NextApiRequest, res: NextApiResponse<ResponseData>) {
   const { id } = req.query;
   if (typeof id !== "string" || id === "") {
     res.status(400).json({
@@ -210,8 +207,8 @@ export default function handler(
     case "GET":
       getHandler(req, res);
       break;
-    case "UPDATE":
-      updateHandler(req, res);
+    case "PUT":
+      putHandler(req, res);
       break;
     case "DELETE":
       deleteHandler(req, res);
