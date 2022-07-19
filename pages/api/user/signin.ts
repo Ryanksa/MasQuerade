@@ -46,8 +46,8 @@ function post(req: NextApiRequest, res: NextApiResponse<string>) {
         cookie.serialize("token", token, {
           path: "/",
           maxAge: 60 * 60 * 24 * 7,
-          httpOnly: true, // Inaccessible from Document.cookie
-          secure: isHttps, // Only sent to HTTPS servers
+          httpOnly: true, // Inaccessible from document.cookie
+          secure: isHttps, // Only set when using https
           sameSite: true,
         })
       );

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import styles from "../styles/MasquerText.module.css";
 import { getRandomInt } from "../lib/utils";
 
@@ -45,12 +45,16 @@ function MasquerText(props: Props) {
     hoverBackdrop,
   } = props;
 
-  const chars: MasquerChar[] = text.split("").map((c, i) => ({
-    char: c,
-    class: VARIATIONS[getRandomInt(0, 10)],
-    flip: flipIndices.includes(i),
-    fontSize: leftFontSize + i * fontStepSize,
-  }));
+  const chars: MasquerChar[] = useMemo(
+    () =>
+      text.split("").map((c, i) => ({
+        char: c,
+        class: VARIATIONS[getRandomInt(0, 10)],
+        flip: flipIndices.includes(i),
+        fontSize: leftFontSize + i * fontStepSize,
+      })),
+    [text, flipIndices, leftFontSize, fontStepSize]
+  );
 
   return (
     <div

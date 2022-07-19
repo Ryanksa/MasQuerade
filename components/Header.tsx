@@ -2,11 +2,19 @@ import React from "react";
 import MasquerText from "./MasquerText";
 import { useRouter } from "next/router";
 
-function Header() {
+type Props = {
+  signedIn: boolean;
+};
+
+function Header(props: Props) {
   const router = useRouter();
 
   const goToHome = () => {
-    router.push("/");
+    if (props.signedIn) {
+      router.push("/home");
+    } else {
+      router.push("/");
+    }
   };
 
   const goToSignup = () => {
@@ -32,37 +40,41 @@ function Header() {
         />
       </div>
 
-      <div className="w-32 h-32 rounded-full bg-red-500 absolute -right-20"></div>
-      <div
-        className="absolute top-8 right-4 cursor-pointer"
-        onClick={goToSignup}
-      >
-        <MasquerText
-          text="SignUp"
-          flipIndices={[4]}
-          leftFontSize={48}
-          fontStepSize={-4}
-          transform="rotate(8deg)"
-          transformOrigin="right 50%"
-          hoverInvert={true}
-          hoverBackdrop={false}
-        />
-      </div>
-      <div
-        className="absolute top-24 right-4 cursor-pointer"
-        onClick={goToLogin}
-      >
-        <MasquerText
-          text="LogIn"
-          flipIndices={[1]}
-          leftFontSize={48}
-          fontStepSize={-4}
-          transform="rotate(-15deg)"
-          transformOrigin="right 50%"
-          hoverInvert={true}
-          hoverBackdrop={false}
-        />
-      </div>
+      {!props.signedIn && (
+        <>
+          <div className="w-24 h-24 rounded-full bg-red-500 absolute -right-14"></div>
+          <div
+            className="absolute top-6 right-4 cursor-pointer"
+            onClick={goToSignup}
+          >
+            <MasquerText
+              text="SignUp"
+              flipIndices={[4]}
+              leftFontSize={48}
+              fontStepSize={-4}
+              transform="rotate(8deg)"
+              transformOrigin="right 50%"
+              hoverInvert={true}
+              hoverBackdrop={false}
+            />
+          </div>
+          <div
+            className="absolute top-20 right-4 cursor-pointer"
+            onClick={goToLogin}
+          >
+            <MasquerText
+              text="LogIn"
+              flipIndices={[1]}
+              leftFontSize={48}
+              fontStepSize={-4}
+              transform="rotate(-15deg)"
+              transformOrigin="right 50%"
+              hoverInvert={true}
+              hoverBackdrop={false}
+            />
+          </div>
+        </>
+      )}
     </div>
   );
 }
