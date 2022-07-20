@@ -3,17 +3,24 @@ import MasquerText from "../../components/MasquerText";
 import UnauthenticatedLayout from "../../layouts/UnauthenticatedLayout";
 import { signUp } from "../../services/auth";
 import { useRouter } from "next/router";
+import { AiOutlineLoading } from "react-icons/ai";
 
 function Signup() {
   const [name, setName] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
   const handleSignUp = () => {
-    signUp(name, username, password).then(() => {
-      router.push("/login");
-    });
+    setIsLoading(true);
+    signUp(name, username, password)
+      .then(() => {
+        router.push("/login");
+      })
+      .catch(() => {
+        setIsLoading(false);
+      });
   };
 
   return (
@@ -27,7 +34,6 @@ function Signup() {
             fontStepSize={-3}
             transform="rotate(9deg)"
             transformOrigin=""
-            hoverBackdrop={false}
             hoverInvert={false}
           />
         </div>
@@ -59,10 +65,15 @@ function Signup() {
           />
         </div>
         <button
-          className="block w-fit m-auto bg-rose-600 rounded p-2 text-gray-100 hover:bg-rose-500"
+          className="flex justify-center items-center gap-2 w-24 h-11 m-auto bg-rose-600 rounded p-2 text-gray-100 enabled:hover:bg-rose-500 enabled:active:bg-rose-700 disabled:opacity-50"
           onClick={handleSignUp}
+          disabled={isLoading}
         >
-          Sign Up
+          {isLoading ? (
+            <AiOutlineLoading className="animate-spin" />
+          ) : (
+            <>Sign Up</>
+          )}
         </button>
       </div>
     </UnauthenticatedLayout>
