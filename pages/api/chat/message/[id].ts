@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { isAuthenticated } from "../../../../middleware/auth";
+import { isAuthenticated } from "../../../../lib/auth";
 import prisma from "../../../../lib/prisma";
 import { ChatMessage } from "../../../../models/chat";
 

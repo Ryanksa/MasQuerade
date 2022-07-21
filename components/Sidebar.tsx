@@ -14,68 +14,67 @@ function Sidebar() {
   };
 
   return (
-    <div className="fixed -bottom-12 left-1/2">
-      <div className="absolute -bottom-32 -left-36 hover:bottom-12 bg-red-500 w-52 h-52 rounded-full flex justify-center items-center transition-all">
+    <div className="fixed -bottom-12 left-1/2 z-50">
+      <div className="absolute -bottom-32 -left-24 bg-red-500 w-48 h-48 rounded-full flex justify-center items-center transition-all group hover:bottom-14">
         <FaTheaterMasks size="10rem" color="#ffffff" />
-        <div
-          className="absolute -left-24 -top-8 cursor-pointer"
-          style={{ transform: "rotateY(35deg)" }}
-          onClick={() => router.push("/home")}
-        >
-          <MasquerText
-            text="HoMe"
-            flipIndices={[]}
-            leftFontSize={81}
-            fontStepSize={-15}
-            transform="rotate(2deg)"
-            transformOrigin="right 100%"
-            hoverInvert={true}
-          />
-        </div>
-        <div
-          className="absolute -right-32 -top-12 cursor-pointer"
-          style={{ transform: "rotateY(35deg)" }}
-          onClick={() => router.push("/chats")}
-        >
-          <MasquerText
-            text="CHats"
-            flipIndices={[2]}
-            leftFontSize={36}
-            fontStepSize={18}
-            transform="rotate(-10deg)"
-            transformOrigin="left 100%"
-            hoverInvert={true}
-          />
-        </div>
-        <div
-          className="absolute -left-20 top-24 cursor-pointer"
-          style={{ transform: "rotateY(25deg)" }}
-          onClick={() => router.push("/profile")}
-        >
-          <MasquerText
-            text="ProFile"
-            flipIndices={[0, 3]}
-            leftFontSize={56}
-            fontStepSize={-4}
-            transform="rotate(-20deg)"
-            transformOrigin="right 100%"
-            hoverInvert={true}
-          />
-        </div>
-        <div
-          className="absolute -right-32 top-16 cursor-pointer"
-          style={{ transform: "rotateY(35deg)" }}
-          onClick={handleLogout}
-        >
-          <MasquerText
-            text="LogOut"
-            flipIndices={[3]}
-            leftFontSize={32}
-            fontStepSize={10}
-            transform="rotate(15deg)"
-            transformOrigin="left 100%"
-            hoverInvert={true}
-          />
+
+        <div className="absolute left-0 top-0 w-full h-full rounded-full overflow-hidden group-hover:animate-sidebar-option-overflow">
+          <div
+            className="absolute -left-48 -top-16 rotate-y-35 cursor-pointer origin-right group-hover:animate-sidebar-option-home"
+            onClick={() => router.push("/home")}
+          >
+            <MasquerText
+              text="HoMe"
+              flipIndices={[]}
+              leftFontSize={81}
+              fontStepSize={-15}
+              transform="rotate(2deg)"
+              transformOrigin="right 100%"
+              hoverInvert={true}
+            />
+          </div>
+          <div
+            className="absolute -right-64 -top-24 rotate-y-35 cursor-pointer origin-left group-hover:animate-sidebar-option-chats"
+            onClick={() => router.push("/chats")}
+          >
+            <MasquerText
+              text="CHats"
+              flipIndices={[2]}
+              leftFontSize={36}
+              fontStepSize={18}
+              transform="rotate(-10deg)"
+              transformOrigin="left 100%"
+              hoverInvert={true}
+            />
+          </div>
+          <div
+            className="absolute -left-60 top-36 rotate-y-25 cursor-pointer origin-right group-hover:animate-sidebar-option-profile"
+            onClick={() => router.push("/profile")}
+          >
+            <MasquerText
+              text="ProFile"
+              flipIndices={[0, 3]}
+              leftFontSize={56}
+              fontStepSize={-4}
+              transform="rotate(-20deg)"
+              transformOrigin="right 100%"
+              hoverInvert={true}
+            />
+          </div>
+          <div
+            className="absolute -right-64 top-32 rotate-y-35 cursor-pointer origin-left group-hover:animate-sidebar-option-logout"
+            onClick={handleLogout}
+          >
+            <MasquerText
+              text="LogOut"
+              flipIndices={[3]}
+              leftFontSize={32}
+              fontStepSize={10}
+              transform="rotate(15deg)"
+              transformOrigin="left 100%"
+              hoverInvert={true}
+            />
+          </div>
         </div>
       </div>
     </div>

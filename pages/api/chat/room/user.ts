@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../../../lib/prisma";
-import { isAuthenticated } from "../../../../middleware/auth";
+import { isAuthenticated } from "../../../../lib/auth";
 
 function postHandler(req: NextApiRequest, res: NextApiResponse<string>) {
   if (!req.body.roomId || !req.body.username) {

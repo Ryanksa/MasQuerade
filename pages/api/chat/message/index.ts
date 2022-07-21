@@ -1,11 +1,11 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../../../lib/prisma";
-import { isAuthenticated } from "../../../../middleware/auth";
+import { isAuthenticated } from "../../../../lib/auth";
 import {
   addListener,
   removeListener,
   notifyListeners,
-} from "../../../../lib/message-listener";
+} from "../../../../listeners/message";
 import { ChatMessage } from "../../../../models/chat";
 
 function post(req: NextApiRequest, res: NextApiResponse<string>) {

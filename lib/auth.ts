@@ -26,16 +26,3 @@ export function isAuthenticated(req: NextApiRequest): boolean {
   };
   return true;
 }
-
-export function isAuthenticatedCookie(
-  cookies: Partial<{ [key: string]: string }>
-) {
-  if (!cookies.token) {
-    return false;
-  }
-  const decoded = jwt.verify(cookies.token, jwtSecret) as JWTData;
-  if (!decoded) {
-    return false;
-  }
-  return true;
-}

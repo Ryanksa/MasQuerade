@@ -1,7 +1,7 @@
 import React from "react";
 import AuthenticatedLayout from "../../layouts/AuthenticatedLayout";
 
-function Home() {
+function Chats() {
   return (
     <AuthenticatedLayout>
       <></>
@@ -9,4 +9,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default Chats;
