@@ -38,7 +38,7 @@ export const signIn = (username: string, password: string) => {
 };
 
 export const signOut = () => {
-  return fetch("/api/user/signin")
+  return fetch("/api/user/signout")
     .then((data) => {
       return data.json();
     })

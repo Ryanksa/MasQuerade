@@ -21,11 +21,18 @@ function get(req: NextApiRequest, res: NextApiResponse<ResponseData>) {
   if (req.body.size) {
     size = +req.body.size;
   }
+  const userId: string = req.cookies.id ?? "";
 
   return prisma.chatRoom
     .findMany({
+      select: { id: true, name: true, lastActive: true, includes: true },
       where: {
-        name: { contains: search },
+        name: {
+          contains: search,
+        },
+        includes: {
+          some: { userId: userId },
+        },
       },
       orderBy: {
         lastActive: "desc",
@@ -36,11 +43,17 @@ function get(req: NextApiRequest, res: NextApiResponse<ResponseData>) {
     .then((rooms) => {
       res.status(200).json({
         message: `Chat rooms retrieved`,
-        data: rooms.map((room) => ({
-          id: room.id,
-          room: room.name,
-          lastActive: room.lastActive,
-        })),
+        data: rooms.map((room) => {
+          const userRoomIncludes = room.includes.filter(
+            (i) => i.userId === userId
+          )[0];
+          return {
+            id: room.id,
+            room: room.name,
+            lastActive: room.lastActive,
+            seenLatest: userRoomIncludes.lastActive >= room.lastActive,
+          };
+        }),
       });
     })
     .catch((err) => {

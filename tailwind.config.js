@@ -26,7 +26,7 @@ module.exports = {
           },
         },
         "sidebar-option-home": {
-          "75%": {
+          "99%": {
             left: "-4rem",
             top: "-2rem",
             transform: "scaleX(0.25)",
@@ -38,7 +38,7 @@ module.exports = {
           },
         },
         "sidebar-option-chats": {
-          "75%": {
+          "99%": {
             right: "-6rem",
             top: "-3rem",
             transform: "scale(0.3, 0.9)",
@@ -50,7 +50,7 @@ module.exports = {
           },
         },
         "sidebar-option-profile": {
-          "75%": {
+          "99%": {
             left: "-3rem",
             top: "6rem",
             transform: "scaleX(0.25)",
@@ -62,7 +62,7 @@ module.exports = {
           },
         },
         "sidebar-option-logout": {
-          "75%": {
+          "99%": {
             right: "-6rem",
             top: "4rem",
             transform: "scale(0.3, 0.9)",
@@ -76,15 +76,15 @@ module.exports = {
       },
       animation: {
         "sidebar-option-overflow":
-          "sidebar-option-overflow 250ms linear 0ms forwards",
+          "sidebar-option-overflow 200ms linear 0ms forwards",
         "sidebar-option-home":
-          "sidebar-option-home 200ms linear 150ms forwards",
+          "sidebar-option-home 100ms linear 150ms forwards",
         "sidebar-option-chats":
-          "sidebar-option-chats 200ms linear 200ms forwards",
+          "sidebar-option-chats 100ms linear 200ms forwards",
         "sidebar-option-profile":
-          "sidebar-option-profile 200ms linear 200ms forwards",
+          "sidebar-option-profile 100ms linear 200ms forwards",
         "sidebar-option-logout":
-          "sidebar-option-logout 200ms linear 150ms forwards",
+          "sidebar-option-logout 100ms linear 150ms forwards",
       },
     },
   },

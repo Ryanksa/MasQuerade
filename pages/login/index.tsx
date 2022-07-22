@@ -1,6 +1,8 @@
 import React, { useState } from "react";
-import MasquerText from "../../components/MasquerText";
+import { GetServerSideProps } from "next";
+import { getServerSidePropsAuth } from "../../lib/auth";
 import UnauthenticatedLayout from "../../layouts/UnauthenticatedLayout";
+import MasquerText from "../../components/MasquerText";
 import { signIn } from "../../services/auth";
 import { useRouter } from "next/router";
 import { AiOutlineLoading } from "react-icons/ai";
@@ -14,10 +16,10 @@ function Login() {
   const handleSignIn = () => {
     setIsLoading(true);
     signIn(username, password)
-      .then(() => {
+      .then((res) => {
         router.push("/home");
       })
-      .catch(() => {
+      .finally(() => {
         setIsLoading(false);
       });
   };
@@ -69,5 +71,13 @@ function Login() {
     </UnauthenticatedLayout>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  return getServerSidePropsAuth(context, {
+    ifUnauth: false,
+    ifAuth: true,
+    url: "/home",
+  });
+};
 
 export default Login;

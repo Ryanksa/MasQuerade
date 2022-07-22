@@ -1,6 +1,8 @@
 import React, { useState } from "react";
-import MasquerText from "../../components/MasquerText";
+import { GetServerSideProps } from "next";
+import { getServerSidePropsAuth } from "../../lib/auth";
 import UnauthenticatedLayout from "../../layouts/UnauthenticatedLayout";
+import MasquerText from "../../components/MasquerText";
 import { signUp } from "../../services/auth";
 import { useRouter } from "next/router";
 import { AiOutlineLoading } from "react-icons/ai";
@@ -18,7 +20,7 @@ function Signup() {
       .then(() => {
         router.push("/login");
       })
-      .catch(() => {
+      .finally(() => {
         setIsLoading(false);
       });
   };
@@ -79,5 +81,13 @@ function Signup() {
     </UnauthenticatedLayout>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  return getServerSidePropsAuth(context, {
+    ifUnauth: false,
+    ifAuth: true,
+    url: "/home",
+  });
+};
 
 export default Signup;

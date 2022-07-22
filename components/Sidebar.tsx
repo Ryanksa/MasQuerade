@@ -15,7 +15,7 @@ function Sidebar() {
 
   return (
     <div className="fixed -bottom-12 left-1/2 z-50">
-      <div className="absolute -bottom-32 -left-24 bg-red-500 w-48 h-48 rounded-full flex justify-center items-center transition-all group hover:bottom-14">
+      <div className="absolute -bottom-40 -left-28 bg-red-500 w-56 h-56 rounded-full flex justify-center items-center transition-all group hover:bottom-12">
         <FaTheaterMasks size="10rem" color="#ffffff" />
 
         <div className="absolute left-0 top-0 w-full h-full rounded-full overflow-hidden group-hover:animate-sidebar-option-overflow">
@@ -34,7 +34,7 @@ function Sidebar() {
             />
           </div>
           <div
-            className="absolute -right-64 -top-24 rotate-y-35 cursor-pointer origin-left group-hover:animate-sidebar-option-chats"
+            className="absolute -right-64 -top-20 rotate-y-35 cursor-pointer origin-left group-hover:animate-sidebar-option-chats"
             onClick={() => router.push("/chats")}
           >
             <MasquerText
