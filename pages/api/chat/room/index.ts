@@ -2,9 +2,15 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { isAuthenticated } from "../../../../lib/auth";
 import prisma from "../../../../lib/prisma";
 
-function post(req: NextApiRequest, res: NextApiResponse<string>) {
+type ResponseData = {
+  message: string;
+};
+
+function post(req: NextApiRequest, res: NextApiResponse<ResponseData>) {
   if (!req.body.roomName) {
-    res.status(400).send("Cannot create chat room without room name");
+    res.status(400).send({
+      message: "Cannot create chat room without room name",
+    });
     return;
   }
   const roomName: string = req.body.roomName;
@@ -24,20 +30,24 @@ function post(req: NextApiRequest, res: NextApiResponse<string>) {
       });
     })
     .then(() => {
-      res.status(200).send(`Created chat room ${roomName}`);
+      res.status(200).send({
+        message: `Created chat room ${roomName}`,
+      });
     })
     .catch((err) => {
       console.error(err);
-      res.status(500).send("Something went wrong on the server");
+      res.status(500).send({
+        message: "Something went wrong on the server",
+      });
     });
 }
 
 export default function handler(
   req: NextApiRequest,
-  res: NextApiResponse<string>
+  res: NextApiResponse<ResponseData>
 ) {
   if (!isAuthenticated(req)) {
-    res.status(401).send("Unauthorized access");
+    res.status(401).send({ message: "Unauthorized access" });
     return;
   }
 

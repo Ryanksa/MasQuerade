@@ -8,7 +8,7 @@ function Sidebar() {
   const router = useRouter();
 
   const handleLogout = () => {
-    signOut().then(() => {
+    return signOut().then(() => {
       router.push("/");
     });
   };

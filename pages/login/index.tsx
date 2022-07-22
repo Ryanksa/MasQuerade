@@ -15,8 +15,8 @@ function Login() {
 
   const handleSignIn = () => {
     setIsLoading(true);
-    signIn(username, password)
-      .then((res) => {
+    return signIn(username, password)
+      .then(() => {
         router.push("/home");
       })
       .finally(() => {

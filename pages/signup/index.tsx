@@ -16,7 +16,7 @@ function Signup() {
 
   const handleSignUp = () => {
     setIsLoading(true);
-    signUp(name, username, password)
+    return signUp(name, username, password)
       .then(() => {
         router.push("/login");
       })

@@ -1,17 +1,13 @@
+import axios from "axios";
+
 export const signUp = (name: string, username: string, password: string) => {
-  return fetch("/api/user/signup", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      name,
-      username,
-      password,
-    }),
-  })
-    .then((data) => {
-      return data.json();
+  return axios
+    .post("/api/user/signup", { name, username, password })
+    .then((res) => {
+      if (res.status !== 200) {
+        throw new Error(`${res.status}: ${res.data.message}`);
+      }
+      return res.data;
     })
     .catch((err) => {
       return err;
@@ -19,18 +15,13 @@ export const signUp = (name: string, username: string, password: string) => {
 };
 
 export const signIn = (username: string, password: string) => {
-  return fetch("/api/user/signin", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      username,
-      password,
-    }),
-  })
-    .then((data) => {
-      return data.json();
+  return axios
+    .post("/api/user/signin", { username, password })
+    .then((res) => {
+      if (res.status !== 200) {
+        throw new Error(`${res.status}: ${res.data.message}`);
+      }
+      return res.data;
     })
     .catch((err) => {
       return err;
@@ -38,9 +29,13 @@ export const signIn = (username: string, password: string) => {
 };
 
 export const signOut = () => {
-  return fetch("/api/user/signout")
-    .then((data) => {
-      return data.json();
+  return axios
+    .get("/api/user/signout")
+    .then((res) => {
+      if (res.status !== 200) {
+        throw new Error(`${res.status}: ${res.data.message}`);
+      }
+      return res.data;
     })
     .catch((err) => {
       return err;

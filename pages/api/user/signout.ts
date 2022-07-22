@@ -1,7 +1,11 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import cookie from "cookie";
 
-function get(req: NextApiRequest, res: NextApiResponse<string>) {
+type ResponseData = {
+  message: string;
+};
+
+function get(req: NextApiRequest, res: NextApiResponse<ResponseData>) {
   res.setHeader(
     "Set-Cookie",
     cookie.serialize("token", "", {
@@ -9,12 +13,12 @@ function get(req: NextApiRequest, res: NextApiResponse<string>) {
       maxAge: 0,
     })
   );
-  res.status(200).send("Signed out");
+  res.status(200).send({ message: "Signed out" });
 }
 
 export default function handler(
   req: NextApiRequest,
-  res: NextApiResponse<string>
+  res: NextApiResponse<ResponseData>
 ) {
   switch (req.method) {
     case "GET":

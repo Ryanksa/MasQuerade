@@ -8,9 +8,15 @@ import {
 } from "../../../../listeners/message";
 import { ChatMessage } from "../../../../models/chat";
 
-function post(req: NextApiRequest, res: NextApiResponse<string>) {
+type ResponseData = {
+  message: string;
+};
+
+function post(req: NextApiRequest, res: NextApiResponse<ResponseData>) {
   if (!req.body.roomId || !req.body.content) {
-    res.status(400).send("roomId and content are required");
+    res.status(400).send({
+      message: "roomId and content are required",
+    });
     return;
   }
   const roomId = req.body.roomId;
@@ -23,9 +29,9 @@ function post(req: NextApiRequest, res: NextApiResponse<string>) {
     })
     .then((includes) => {
       if (!includes) {
-        res
-          .status(403)
-          .send("Must be in the chat room to post a message there");
+        res.status(403).send({
+          message: "Must be in the chat room to post a message there",
+        });
       }
 
       return prisma.chatMessage.create({
@@ -73,11 +79,15 @@ function post(req: NextApiRequest, res: NextApiResponse<string>) {
         });
     })
     .then(() => {
-      res.status(200).send(`Posted message in chat room ${roomId}`);
+      res.status(200).send({
+        message: `Posted message in chat room ${roomId}`,
+      });
     })
     .catch((err) => {
       console.error(err);
-      res.status(500).send("Something went wrong on the server");
+      res.status(500).send({
+        message: "Something went wrong on the server",
+      });
     });
 }
 
@@ -103,10 +113,10 @@ function get(req: NextApiRequest, res: NextApiResponse) {
 
 export default function handler(
   req: NextApiRequest,
-  res: NextApiResponse<string>
+  res: NextApiResponse<ResponseData>
 ) {
   if (!isAuthenticated(req)) {
-    res.status(401).send("Unauthorized access");
+    res.status(401).send({ message: "Unauthorized access" });
     return;
   }
 
