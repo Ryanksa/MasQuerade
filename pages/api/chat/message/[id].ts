@@ -53,7 +53,7 @@ function getHandler(req: NextApiRequest, res: NextApiResponse<ResponseData>) {
           roomId: chatMessage.room.id,
           room: chatMessage.room.name,
           content: chatMessage.content,
-          postedOn: chatMessage.postedOn,
+          postedOn: chatMessage.postedOn.toISOString(),
         },
       });
     })
@@ -120,7 +120,7 @@ function putHandler(req: NextApiRequest, res: NextApiResponse<ResponseData>) {
           roomId: chatMessage.room.id,
           room: chatMessage.room.name,
           content: chatMessage.content,
-          postedOn: chatMessage.postedOn,
+          postedOn: chatMessage.postedOn.toISOString(),
         },
       });
     })
@@ -180,7 +180,7 @@ function deleteHandler(
           roomId: chatMessage.room.id,
           room: chatMessage.room.name,
           content: chatMessage.content,
-          postedOn: chatMessage.postedOn,
+          postedOn: chatMessage.postedOn.toISOString(),
         },
       });
     })

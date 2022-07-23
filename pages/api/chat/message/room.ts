@@ -72,7 +72,7 @@ function get(req: NextApiRequest, res: NextApiResponse<ResponseData>) {
           roomId: msg.room.id,
           room: msg.room.name,
           content: msg.content,
-          postedOn: msg.postedOn,
+          postedOn: msg.postedOn.toISOString(),
         })),
       });
     })

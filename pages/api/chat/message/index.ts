@@ -58,7 +58,7 @@ function post(req: NextApiRequest, res: NextApiResponse<ResponseData>) {
         roomId: chatMessage.room.id,
         room: chatMessage.room.name,
         content: chatMessage.content,
-        postedOn: chatMessage.postedOn,
+        postedOn: chatMessage.postedOn.toISOString(),
       };
 
       return prisma.roomIncludes

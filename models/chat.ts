@@ -1,7 +1,7 @@
 export interface ChatRoom {
   id: string;
   room: string;
-  lastActive: Date;
+  lastActive: string;
   seenLatest?: boolean;
 }
 
@@ -12,5 +12,5 @@ export interface ChatMessage {
   roomId: string;
   room: string;
   content: string;
-  postedOn: Date;
+  postedOn: string;
 }

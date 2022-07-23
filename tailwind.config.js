@@ -20,9 +20,23 @@ module.exports = {
   theme: {
     extend: {
       keyframes: {
-        "sidebar-option-overflow": {
+        "overflow-visible": {
           "100%": {
             overflow: "visible",
+          },
+        },
+        wiggle: {
+          "25%": {
+            transform: "rotate(-3deg)",
+          },
+          "50%": {
+            transform: "rotate(8deg)",
+          },
+          "75%": {
+            transform: "rotate(5deg)",
+          },
+          "100%": {
+            transform: "rotate(5deg) skew(-2deg, -4deg)",
           },
         },
         "sidebar-option-home": {
@@ -75,8 +89,7 @@ module.exports = {
         },
       },
       animation: {
-        "sidebar-option-overflow":
-          "sidebar-option-overflow 200ms linear 0ms forwards",
+        "sidebar-option-overflow": "overflow-visible 200ms linear 0ms forwards",
         "sidebar-option-home":
           "sidebar-option-home 100ms linear 150ms forwards",
         "sidebar-option-chats":
@@ -85,6 +98,7 @@ module.exports = {
           "sidebar-option-profile 100ms linear 200ms forwards",
         "sidebar-option-logout":
           "sidebar-option-logout 100ms linear 150ms forwards",
+        "chat-room-wiggle": "wiggle 250ms",
       },
     },
   },

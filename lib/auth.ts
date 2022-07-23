@@ -28,16 +28,20 @@ export function isAuthenticated(req: NextApiRequest): boolean {
   return true;
 }
 
-export function getServerSidePropsAuth(
+export function getServerSidePropsAuth<T>(
   context: GetServerSidePropsContext,
   redirect: { ifAuth: boolean; ifUnauth: boolean; url: string },
-  getServerSideProps?: GetServerSideProps
+  getServerSideProps?: GetServerSideProps<T>
 ) {
   let isAuthenticated = false;
   const cookies = context.req.cookies;
   if (cookies.token) {
     const decoded = jwt.verify(cookies.token, jwtSecret) as JWTData;
-    if (decoded) isAuthenticated = true;
+    if (decoded) {
+      isAuthenticated = true;
+      context.req.cookies["id"] = decoded.id;
+      context.req.cookies["username"] = decoded.username;
+    }
   }
 
   if (

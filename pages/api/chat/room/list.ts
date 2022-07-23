@@ -50,7 +50,7 @@ function get(req: NextApiRequest, res: NextApiResponse<ResponseData>) {
           return {
             id: room.id,
             room: room.name,
-            lastActive: room.lastActive,
+            lastActive: room.lastActive.toISOString(),
             seenLatest: userRoomIncludes.lastActive >= room.lastActive,
           };
         }),

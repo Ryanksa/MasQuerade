@@ -50,7 +50,7 @@ function getHandler(req: NextApiRequest, res: NextApiResponse<ResponseData>) {
             data: {
               id: chatRoom.id,
               room: chatRoom.name,
-              lastActive: chatRoom.lastActive,
+              lastActive: chatRoom.lastActive.toISOString(),
             },
           });
         });
@@ -123,7 +123,7 @@ function putHandler(req: NextApiRequest, res: NextApiResponse<ResponseData>) {
         data: {
           id: chatRoom.id,
           room: chatRoom.name,
-          lastActive: chatRoom.lastActive,
+          lastActive: chatRoom.lastActive.toISOString(),
         },
       });
     })
@@ -193,7 +193,7 @@ function deleteHandler(
         data: {
           id: chatRoom.id,
           room: chatRoom.name,
-          lastActive: chatRoom.lastActive,
+          lastActive: chatRoom.lastActive.toISOString(),
         },
       });
     })
