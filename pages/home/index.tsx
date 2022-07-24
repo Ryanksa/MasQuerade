@@ -1,6 +1,6 @@
 import React from "react";
 import { GetServerSideProps } from "next";
-import { getServerSidePropsAuth } from "../../lib/auth";
+import { getServerSidePropsAuth } from "../../utils/auth";
 import AuthenticatedLayout from "../../layouts/AuthenticatedLayout";
 
 function Home() {

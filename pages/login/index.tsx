@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { GetServerSideProps } from "next";
-import { getServerSidePropsAuth } from "../../lib/auth";
+import { getServerSidePropsAuth } from "../../utils/auth";
 import UnauthenticatedLayout from "../../layouts/UnauthenticatedLayout";
 import MasquerText from "../../components/MasquerText";
 import { signIn } from "../../services/auth";

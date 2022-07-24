@@ -2,8 +2,12 @@ import React from "react";
 import { GetServerSideProps } from "next";
 import { getServerSidePropsAuth } from "../../utils/auth";
 import AuthenticatedLayout from "../../layouts/AuthenticatedLayout";
+import { useRouter } from "next/router";
 
-function Profile() {
+function Chat() {
+  const router = useRouter();
+  const { id } = router.query;
+
   return (
     <AuthenticatedLayout>
       <></>
@@ -19,4 +23,4 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   });
 };
 
-export default Profile;
+export default Chat;

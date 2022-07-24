@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import prisma from "../../../../lib/prisma";
-import { isAuthenticated } from "../../../../lib/auth";
+import prisma from "../../../../utils/prisma";
+import { isAuthenticated } from "../../../../utils/auth";
 import {
   addListener,
   removeListener,

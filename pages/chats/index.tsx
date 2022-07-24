@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { GetServerSideProps } from "next";
-import { getServerSidePropsAuth } from "../../lib/auth";
+import { getServerSidePropsAuth } from "../../utils/auth";
 import AuthenticatedLayout from "../../layouts/AuthenticatedLayout";
 import { ChatRoom } from "../../models/chat";
-import prisma from "../../lib/prisma";
+import prisma from "../../utils/prisma";
 import MasquerText from "../../components/MasquerText";
 import { IoAddCircle } from "react-icons/io5";
 import { BsExclamationLg } from "react-icons/bs";
@@ -31,17 +31,14 @@ function Chats(props: Props) {
 
   useEffect(() => {
     subscribeNewChatRooms((room) => {
-      setPage((currPage) => {
-        if (currPage === 0) {
-          setChatRooms((prevRooms) => [room, ...prevRooms.slice(0, 9)]);
-        }
-        return currPage;
-      });
+      if (page === 0) {
+        setChatRooms((prevRooms) => [room, ...prevRooms.slice(0, 9)]);
+      }
     });
     return () => {
       unsubscribeNewChatRooms();
     };
-  }, []);
+  }, [page]);
 
   const handleCreateChatRoom = () => {
     if (newRoomName === "") return;

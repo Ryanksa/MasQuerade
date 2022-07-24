@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import crypto from "crypto";
 import jwt from "jsonwebtoken";
 import cookie from "cookie";
-import prisma from "../../../lib/prisma";
+import prisma from "../../../utils/prisma";
 import { JWTData } from "../../../models/user";
 
 const hmacKey: crypto.BinaryLike = process.env.HMAC_KEY ?? "";

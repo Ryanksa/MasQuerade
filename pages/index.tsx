@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import { GetServerSideProps } from "next";
-import { getServerSidePropsAuth } from "../lib/auth";
+import { getServerSidePropsAuth } from "../utils/auth";
 import UnauthenticatedLayout from "../layouts/UnauthenticatedLayout";
 
 const Home: NextPage = () => {

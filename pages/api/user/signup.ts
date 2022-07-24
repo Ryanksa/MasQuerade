@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import prisma from "../../../lib/prisma";
+import prisma from "../../../utils/prisma";
 import crypto from "crypto";
 
 const hmacKey: crypto.BinaryLike = process.env.HMAC_KEY ?? "";
