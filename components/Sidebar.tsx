@@ -1,4 +1,5 @@
 import React from "react";
+import styles from "../styles/Sidebar.module.css";
 import MasquerText from "./MasquerText";
 import { FaTheaterMasks } from "react-icons/fa";
 import { useRouter } from "next/router";
@@ -14,13 +15,13 @@ function Sidebar() {
   };
 
   return (
-    <div className="fixed -bottom-12 left-1/2 z-50">
-      <div className="absolute -bottom-40 -left-28 bg-red-500 w-56 h-56 rounded-full flex justify-center items-center transition-all group hover:bottom-12">
+    <div className={styles.anchor}>
+      <div className={styles.container}>
         <FaTheaterMasks size="10rem" color="#ffffff" />
 
-        <div className="absolute left-0 top-0 w-full h-full rounded-full overflow-hidden group-hover:animate-sidebar-option-overflow">
+        <div className={styles.optionsContainer}>
           <div
-            className="absolute -left-48 -top-16 rotate-y-35 cursor-pointer origin-right group-hover:animate-sidebar-option-home"
+            className={`${styles.option} ${styles.home}`}
             onClick={() => router.push("/home")}
           >
             <MasquerText
@@ -34,7 +35,7 @@ function Sidebar() {
             />
           </div>
           <div
-            className="absolute -right-64 -top-20 rotate-y-35 cursor-pointer origin-left group-hover:animate-sidebar-option-chats"
+            className={`${styles.option} ${styles.chats}`}
             onClick={() => router.push("/chats")}
           >
             <MasquerText
@@ -48,7 +49,7 @@ function Sidebar() {
             />
           </div>
           <div
-            className="absolute -left-60 top-36 rotate-y-25 cursor-pointer origin-right group-hover:animate-sidebar-option-profile"
+            className={`${styles.option} ${styles.profile}`}
             onClick={() => router.push("/profile")}
           >
             <MasquerText
@@ -62,7 +63,7 @@ function Sidebar() {
             />
           </div>
           <div
-            className="absolute -right-64 top-32 rotate-y-35 cursor-pointer origin-left group-hover:animate-sidebar-option-logout"
+            className={`${styles.option} ${styles.logout}`}
             onClick={handleLogout}
           >
             <MasquerText
