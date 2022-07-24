@@ -13,6 +13,7 @@ import {
   subscribeNewChatRooms,
   unsubscribeNewChatRooms,
 } from "../../services/chat";
+import { useRouter } from "next/router";
 
 type Props = {
   data: ChatRoom[];
@@ -28,6 +29,7 @@ function Chats(props: Props) {
   const [isLastPage, setIsLastPage] = useState(!hasMore);
   const [newRoomInput, setNewRoomInput] = useState(false);
   const [newRoomName, setNewRoomName] = useState("");
+  const router = useRouter();
 
   useEffect(() => {
     subscribeNewChatRooms((room) => {
@@ -93,7 +95,12 @@ function Chats(props: Props) {
             />
           )}
           {newRoomInput && (
-            <div className="absolute -bottom-4 -right-12 w-96 h-48 flex flex-col justify-center py-2 px-14 skew-y-3 skew-x-6 bg-gray-50 before:absolute before:left-8 before:top-6 before:-z-10 before:w-80 before:h-36 before:bg-neutral-700 before:-skew-x-6 before:-skew-y-3">
+            <div
+              className={`
+                absolute -bottom-52 right-0 sm:-bottom-4 sm:-right-12 w-96 h-48 flex flex-col justify-center py-2 px-14 skew-y-3 skew-x-6 bg-gray-50
+                before:absolute before:left-8 before:top-6 before:-z-10 before:w-80 before:h-36 before:bg-neutral-700 before:-skew-x-6 before:-skew-y-3
+              `}
+            >
               <input
                 type="text"
                 placeholder="Name of chat room"
@@ -171,7 +178,8 @@ function Chats(props: Props) {
           {chatRooms.map((room, idx) => (
             <div
               key={idx}
-              className="w-full cursor-pointer relative before:absolute before:top-[15%] before:left-[10%] before:w-4/5 before:h-3/4 before:bg-neutral-800 before:transition-all before:scale-0 before:-z-10 hover:before:scale-100 hover:before:rotate-6 hover:before:-skew-x-2 hover:before:-skew-y-3 hover:before:animate-chat-room-wiggle"
+              className="w-full cursor-pointer relative before:absolute before:top-[15%] before:left-[10%] before:w-4/5 before:h-3/4 before:bg-neutral-800 before:transition-all before:scale-0 before:-z-10 hover:before:scale-100 hover:before:rotate-6 hover:before:-skew-x-2 hover:before:-skew-y-3 hover:before:animate-wiggle"
+              onClick={() => router.push(`/chats/${room.id}`)}
             >
               <div className="relative w-fit font-semibold m-auto p-2">
                 {room.room}

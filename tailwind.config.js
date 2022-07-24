@@ -7,7 +7,7 @@ module.exports = {
   theme: {
     extend: {
       keyframes: {
-        "chat-room-wiggle": {
+        wiggle: {
           "25%": {
             transform: "rotate(-3deg)",
           },
@@ -23,7 +23,7 @@ module.exports = {
         },
       },
       animation: {
-        "chat-room-wiggle": "wiggle 250ms",
+        wiggle: "wiggle 250ms",
       },
     },
   },

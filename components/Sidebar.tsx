@@ -15,13 +15,27 @@ function Sidebar() {
   };
 
   return (
-    <div className={styles.anchor}>
-      <div className={styles.container}>
+    <div className="fixed -bottom-12 left-1/2 z-50">
+      <div
+        className={`
+          absolute -bottom-40 -left-28 bg-red-500 w-56 h-56
+          rounded-full flex justify-center items-center
+          ${styles.container}
+        `}
+      >
         <FaTheaterMasks size="10rem" color="#ffffff" />
 
-        <div className={styles.optionsContainer}>
+        <div
+          className={`
+            absolute left-0 top-0 w-full h-full rounded-full overflow-hidden 
+            ${styles.optionsContainer}
+          `}
+        >
           <div
-            className={`${styles.option} ${styles.home}`}
+            className={`
+              absolute -left-48 -top-16 cursor-pointer origin-right
+              ${styles.option} ${styles.home}
+            `}
             onClick={() => router.push("/home")}
           >
             <MasquerText
@@ -35,7 +49,10 @@ function Sidebar() {
             />
           </div>
           <div
-            className={`${styles.option} ${styles.chats}`}
+            className={`
+              absolute -right-64 -top-20 cursor-pointer origin-left 
+              ${styles.option} ${styles.chats}
+            `}
             onClick={() => router.push("/chats")}
           >
             <MasquerText
@@ -49,7 +66,10 @@ function Sidebar() {
             />
           </div>
           <div
-            className={`${styles.option} ${styles.profile}`}
+            className={`
+              absolute -left-60 top-36 cursor-pointer origin-right 
+              ${styles.option} ${styles.profile}
+            `}
             onClick={() => router.push("/profile")}
           >
             <MasquerText
@@ -63,7 +83,10 @@ function Sidebar() {
             />
           </div>
           <div
-            className={`${styles.option} ${styles.logout}`}
+            className={`
+              absolute -right-64 top-32 cursor-pointer origin-left
+              ${styles.option} ${styles.logout}
+            `}
             onClick={handleLogout}
           >
             <MasquerText

@@ -1,0 +1,24 @@
+.shell {
+  font-family: 'KoHo', sans-serif;
+  box-shadow: none;
+  transform: none;
+}
+
+.screen {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.screen::-webkit-scrollbar {
+  display: none;
+}
+
+/* sm: */
+@media (min-width: 640px) {
+  .shell {
+    box-shadow: 4px -2px 0 2px rgb(156 163 175); /* gray-400 */
+    transform: rotate3d(1, -2, 0, 25deg);
+  }
+}

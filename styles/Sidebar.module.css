@@ -1,65 +1,24 @@
-.anchor {
-  position: fixed;
-  bottom: -3rem;
-  left: 50%;
-  z-index: 50;
-}
-
 .container {
-  position: absolute;
-  bottom: -10rem;
-  left: -7rem;
-  background-color: rgb(239 68 68); /* bg-red-500 */
-  width: 14rem;
-  height: 14rem;
-  border-radius: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transition: bottom 150ms cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.optionsContainer {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  border-radius: 100%;
-  overflow: hidden;
-}
-
-.option {
-  position: absolute;
-  cursor: pointer;
+  --tr-sidebar: 75ms;
+  --tr-option: 100ms;
+  --tr-stagger: 50ms;
+  transition: bottom var(--tr-sidebar) cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .option.home {
-  left: -12rem;
-  top: -4rem;
   transform: rotateY(35deg);
-  transform-origin: right;
 }
 
 .option.chats {
-  right: -16rem;
-  top: -5rem;
   transform: rotateY(35deg);
-  transform-origin: left;
 }
 
 .option.profile {
-  left: -15rem;
-  top: 9rem;
   transform: rotateY(25deg);
-  transform-origin: right;
 }
 
 .option.logout {
-  right: -16rem;
-  top: 8rem;
   transform: rotateY(35deg);
-  transform-origin: left;
 }
 
 .container:hover,
@@ -71,31 +30,31 @@
 .container:hover .optionsContainer,
 .container:active .optionsContainer,
 .container:focus-visible .optionsContainer {
-  animation: overflow-visible 200ms linear 0ms forwards;
+  animation: overflow-visible calc(var(--tr-sidebar) + var(--tr-stagger)) linear 0ms forwards;
 }
 
 .container:hover .option.home,
 .container:active .option.home,
 .container:focus-visible .option.home {
-  animation: option-home 100ms linear 150ms forwards;
+  animation: option-home var(--tr-option) linear var(--tr-sidebar) forwards;
 }
 
 .container:hover .option.chats,
 .container:active .option.chats,
 .container:focus-visible .option.chats {
-  animation: option-chats 100ms linear 200ms forwards;
+  animation: option-chats var(--tr-option) linear calc(var(--tr-sidebar) + var(--tr-stagger)) forwards;
 }
 
 .container:hover .option.profile,
 .container:active .option.profile,
 .container:focus-visible .option.profile {
-  animation: option-profile 100ms linear 200ms forwards;
+  animation: option-profile var(--tr-option) linear calc(var(--tr-sidebar) + var(--tr-stagger)) forwards;
 }
 
 .container:hover .option.logout,
 .container:active .option.logout,
 .container:focus-visible .option.logout {
-  animation: option-logout 100ms linear 150ms forwards;
+  animation: option-logout var(--tr-option) linear var(--tr-sidebar) forwards;
 }
 
 @keyframes overflow-visible {
@@ -121,7 +80,7 @@
   99% {
     right: -6rem;
     top: -3rem;
-    transform: scaleX(0.3, 0.9);
+    transform: scaleX(0.5);
   }
   100% {
     right: -8rem;
@@ -147,7 +106,7 @@
   99% {
     right: -6rem;
     top: 4rem;
-    transform: scaleX(0.3, 0.9);
+    transform: scaleX(0.5);
   }
   100% {
     right: -8rem;

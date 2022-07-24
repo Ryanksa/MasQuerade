@@ -27,8 +27,11 @@ function Header(props: Props) {
   };
 
   return (
-    <div className="w-full flex justify-between py-12 px-8 overflow-hidden relative">
-      <div className="relative cursor-pointer" onClick={goToHome}>
+    <div className="w-full flex justify-between flex-row-reverse sm:flex-row py-12 pl-8 relative">
+      <div
+        className="relative cursor-pointer hidden sm:block"
+        onClick={goToHome}
+      >
         <FaTheaterMasks
           size="8rem"
           color="#ffffff"
@@ -44,12 +47,10 @@ function Header(props: Props) {
           hoverInvert={false}
         />
       </div>
-
       {!props.signedIn && (
-        <>
-          <div className="w-24 h-24 rounded-full bg-red-500 absolute -right-14"></div>
+        <div className="w-12 h-24 rounded-tl-full rounded-bl-full bg-red-500 relative">
           <div
-            className="absolute top-6 right-4 cursor-pointer"
+            className="absolute -top-6 right-4 cursor-pointer w-max"
             onClick={goToSignup}
           >
             <MasquerText
@@ -63,7 +64,7 @@ function Header(props: Props) {
             />
           </div>
           <div
-            className="absolute top-20 right-4 cursor-pointer"
+            className="absolute top-6 right-4 cursor-pointer w-max"
             onClick={goToLogin}
           >
             <MasquerText
@@ -76,7 +77,7 @@ function Header(props: Props) {
               hoverInvert={true}
             />
           </div>
-        </>
+        </div>
       )}
     </div>
   );

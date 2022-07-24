@@ -1,8 +1,8 @@
 .container {
+  --dark: #000000;
+  --light: #ffffff;
   font-family: "Fira Sans", sans-serif;
   position: relative;
-  --dark: #000000;
-  --light: #fffbff;
 }
 
 span.back {

@@ -3,5 +3,5 @@
 @tailwind utilities;
 
 html {
-  background-color: #25272b;
+  background-color: rgb(38 38 38); /* neutral-800 */
 }
