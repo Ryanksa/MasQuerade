@@ -10,7 +10,7 @@ type ResponseData = {
 
 function getHandler(req: NextApiRequest, res: NextApiResponse<ResponseData>) {
   const { id } = req.query;
-  if (typeof id !== "string" || id === "") {
+  if (typeof id !== "string") {
     res.status(400).json({
       message: "id is required",
     });

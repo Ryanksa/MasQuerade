@@ -9,22 +9,22 @@ type ResponseData = {
 };
 
 function get(req: NextApiRequest, res: NextApiResponse<ResponseData>) {
-  if (!req.body.roomId) {
+  const roomId = req.query.id;
+  if (typeof roomId !== "string") {
     res.status(400).json({
       message: "roomId is required",
     });
     return;
   }
-  const roomId: string = req.body.roomId;
 
   let page: number = 0;
-  if (req.body.page) {
-    page = +req.body.page;
+  if (req.query.page) {
+    page = +req.query.page;
   }
 
   let size: number = 10;
-  if (req.body.size) {
-    size = +req.body.size;
+  if (req.query.size) {
+    size = +req.query.size;
   }
 
   const userId = req.cookies.id ?? "";

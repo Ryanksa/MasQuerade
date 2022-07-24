@@ -10,16 +10,16 @@ type ResponseData = {
 
 function get(req: NextApiRequest, res: NextApiResponse<ResponseData>) {
   let search: string = "";
-  if (req.body.search) {
-    search = req.body.search;
+  if (req.query.search) {
+    search = String(req.query.search);
   }
   let page: number = 0;
-  if (req.body.page) {
-    page = +req.body.page;
+  if (req.query.page) {
+    page = +req.query.page;
   }
   let size: number = 10;
-  if (req.body.size) {
-    size = +req.body.size;
+  if (req.query.size) {
+    size = +req.query.size;
   }
 
   return prisma.user

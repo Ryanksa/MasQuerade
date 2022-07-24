@@ -3,23 +3,24 @@ import { isAuthenticated } from "../../../../lib/auth";
 import prisma from "../../../../lib/prisma";
 import { ChatRoom } from "../../../../models/chat";
 
-type ResponseData = {
+export type ResponseData = {
   message: string;
   data?: ChatRoom[];
+  hasMore?: boolean;
 };
 
 function get(req: NextApiRequest, res: NextApiResponse<ResponseData>) {
   let search: string = "";
-  if (req.body.search) {
-    search = "" + req.body.search;
+  if (req.query.search) {
+    search = String(req.query.search);
   }
   let page: number = 0;
-  if (req.body.page) {
-    page = +req.body.page;
+  if (req.query.page) {
+    page = +req.query.page;
   }
   let size: number = 10;
-  if (req.body.size) {
-    size = +req.body.size;
+  if (req.query.size) {
+    size = +req.query.size;
   }
   const userId: string = req.cookies.id ?? "";
 
@@ -38,12 +39,12 @@ function get(req: NextApiRequest, res: NextApiResponse<ResponseData>) {
         lastActive: "desc",
       },
       skip: page * size,
-      take: size,
+      take: size + 1,
     })
     .then((rooms) => {
       res.status(200).json({
         message: `Chat rooms retrieved`,
-        data: rooms.map((room) => {
+        data: rooms.slice(0, size).map((room) => {
           const userRoomIncludes = room.includes.filter(
             (i) => i.userId === userId
           )[0];
@@ -54,6 +55,7 @@ function get(req: NextApiRequest, res: NextApiResponse<ResponseData>) {
             seenLatest: userRoomIncludes.lastActive >= room.lastActive,
           };
         }),
+        hasMore: rooms.length > size,
       });
     })
     .catch((err) => {

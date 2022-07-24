@@ -10,7 +10,7 @@ type ResponseData = {
 
 function get(req: NextApiRequest, res: NextApiResponse<ResponseData>) {
   const { username } = req.query;
-  if (typeof username !== "string" || username === "") {
+  if (typeof username !== "string") {
     res.status(400).json({
       message: "Username is required",
     });

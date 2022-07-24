@@ -99,13 +99,13 @@ function get(req: NextApiRequest, res: NextApiResponse) {
   res.setHeader("X-Accel-Buffering", "no");
 
   const callback = (msg: ChatMessage) => {
-    res.write(JSON.stringify({ ...msg }));
+    res.write(`data: ${JSON.stringify(msg)}`);
+    res.end("\n\n");
   };
   addListener(userId, callback);
 
   const close = () => {
     removeListener(userId, callback);
-    res.status(200).end();
   };
   req.on("aborted", close);
   req.on("close", close);

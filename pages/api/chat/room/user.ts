@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../../../lib/prisma";
 import { isAuthenticated } from "../../../../lib/auth";
+import { notifyListeners } from "../../../../listeners/room";
 
 type ResponseData = {
   message: string;
@@ -68,6 +69,20 @@ function postHandler(req: NextApiRequest, res: NextApiResponse<ResponseData>) {
         });
     })
     .then(() => {
+      prisma.chatRoom
+        .findUnique({
+          where: { id: roomId },
+        })
+        .then((room) => {
+          if (room) {
+            notifyListeners(reqUserId, {
+              id: room.id,
+              room: room.name,
+              lastActive: room.lastActive.toISOString(),
+            });
+          }
+        });
+
       res.status(200).send({
         message: `Added user ${username} to chat room ${roomId}`,
       });
