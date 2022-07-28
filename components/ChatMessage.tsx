@@ -45,16 +45,16 @@ function ChatMessage(props: Props) {
       {received && (
         <div
           className={`
-            relative top-[30px] h-[60px] w-[100px] bg-white flex items-end justify-center
+            relative top-[45px] h-[60px] w-[100px] bg-white flex items-end justify-center
             border-neutral-800 border-top-[4px] border-r-[2px] border-b-[8px] border-l-[10px] 
             ${styles.messager}
           `}
         >
           <FaUser
-            className={`absolute left-[7px] bottom-[13px] w-[45px] h-[45px] text-neutral-800 ${styles.messagerIcon}`}
+            className={`absolute left-[7px] bottom-[13px] w-[48px] h-[48px] text-neutral-800 ${styles.messagerIcon}`}
           />
           <FaUser
-            className={`absolute left-[9px] bottom-[12px] w-[45px] h-[45px] text-neutral-700 ${styles.messagerIcon}`}
+            className={`absolute left-[9px] bottom-[12px] w-[48px] h-[48px] text-neutral-700 ${styles.messagerIcon}`}
           />
           <div
             className={`
@@ -70,7 +70,7 @@ function ChatMessage(props: Props) {
 
       <div
         className={`
-          relative w-full ${enterAnimation ? styles.enter : ""} 
+          relative w-full group ${enterAnimation ? styles.enter : ""} 
           ${received ? "origin-[-30px_40px]" : "origin-[100%_30px]"}
         `}
       >
@@ -80,8 +80,8 @@ function ChatMessage(props: Props) {
             text-neutral-800 font-black rounded-t-[3px] transition-all
             ${
               received
-                ? "left-[30px] hover:top-[-15px]"
-                : "right-[35px] rotate-[-2deg] hover:top-[-18px]"
+                ? "left-[30px] rotate-[-1deg] group-hover:top-[-18px] group-active:top-[-18px]"
+                : "right-[35px] rotate-[-2deg] group-hover:top-[-18px] group-active:top-[-18px]"
             }
           `}
         >
@@ -96,15 +96,13 @@ function ChatMessage(props: Props) {
           <polygon className="fill-gray-50" points={outerPolygon} />
           <polygon className="fill-neutral-800" points={innerPolygon} />
         </svg>
-
         <div
           className={`
-            absolute top-[15px] text-white text-[20px] overflow-scroll
-            ${styles.messageContent}
+            absolute top-[15px] text-white text-[20px] overflow-scroll scrollbar-hidden
             ${
               received
                 ? "w-[270px] left-[30px]"
-                : "w-[280px] left-[130px] top-[20px]"
+                : "w-[280px] right-[45px] top-[20px]"
             }
           `}
           style={{ height: BASE_HEIGHT + height - 40 }}

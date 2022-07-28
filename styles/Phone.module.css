@@ -1,12 +1,10 @@
 .shell {
-  font-family: 'KoHo', sans-serif;
+  font-family: "KoHo", sans-serif;
   box-shadow: none;
   transform: none;
 }
 
 .screen {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
   display: flex;
   flex-direction: column-reverse;
 }

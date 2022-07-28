@@ -15,15 +15,6 @@
   );
 }
 
-.messageContent {
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-}
-
-.messageContent::-webkit-scrollbar {
-  display: none;
-}
-
 .enter {
   animation: enter 0.3s;
 }
