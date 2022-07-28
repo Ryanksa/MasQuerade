@@ -1,0 +1,44 @@
+.messager {
+  transform: rotate3d(1, 1, 0, 35deg);
+  transform-style: preserve-3d;
+}
+
+.messagerIcon {
+  transform: rotateX(-20deg) translateZ(5px) translateY(-12px);
+}
+
+.messagerName {
+  background: linear-gradient(
+    rgba(50, 50, 50, 0),
+    rgba(50, 50, 50, 0.5) 50%,
+    rgba(50, 50, 50, 0.7)
+  );
+}
+
+.messageContent {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.messageContent::-webkit-scrollbar {
+  display: none;
+}
+
+.enter {
+  animation: enter 0.3s;
+}
+
+@keyframes enter {
+  0% {
+    transform: rotate(0deg);
+  }
+  45% {
+    transform: rotate(3deg);
+  }
+  90% {
+    transform: rotate(-1deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}

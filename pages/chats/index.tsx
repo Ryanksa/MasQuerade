@@ -208,38 +208,37 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     },
     async (context) => {
       const userId = context.req.cookies.id ?? "";
-      return prisma.chatRoom
-        .findMany({
-          select: { id: true, name: true, lastActive: true, includes: true },
-          where: {
-            includes: {
-              some: { userId: userId },
-            },
+
+      const rooms = await prisma.chatRoom.findMany({
+        select: { id: true, name: true, lastActive: true, includes: true },
+        where: {
+          includes: {
+            some: { userId: userId },
           },
-          orderBy: {
-            lastActive: "desc",
-          },
-          skip: 0,
-          take: 11,
-        })
-        .then((rooms) => {
-          return {
-            props: {
-              data: rooms.slice(0, 10).map((room) => {
-                const userRoomIncludes = room.includes.filter(
-                  (i) => i.userId === userId
-                )[0];
-                return {
-                  id: room.id,
-                  room: room.name,
-                  lastActive: room.lastActive.toISOString(),
-                  seenLatest: userRoomIncludes.lastActive >= room.lastActive,
-                };
-              }),
-              hasMore: rooms.length > 10,
-            },
-          };
-        });
+        },
+        orderBy: {
+          lastActive: "desc",
+        },
+        skip: 0,
+        take: 11,
+      });
+
+      return {
+        props: {
+          data: rooms.slice(0, 10).map((room) => {
+            const userRoomIncludes = room.includes.filter(
+              (i) => i.userId === userId
+            )[0];
+            return {
+              id: room.id,
+              room: room.name,
+              lastActive: room.lastActive.toISOString(),
+              seenLatest: userRoomIncludes.lastActive >= room.lastActive,
+            };
+          }),
+          hasMore: rooms.length > 10,
+        },
+      };
     }
   );
 };

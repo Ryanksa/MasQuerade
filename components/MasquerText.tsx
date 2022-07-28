@@ -43,16 +43,18 @@ function MasquerText(props: Props) {
     hoverInvert,
   } = props;
 
-  const chars: MasquerChar[] = useMemo(
-    () =>
-      text.split("").map((c, i) => ({
-        char: c,
-        class: VARIATIONS[getRandomInt(0, 10)],
-        flip: flipIndices.includes(i),
-        fontSize: leftFontSize + i * fontStepSize,
-      })),
-    [text, flipIndices, leftFontSize, fontStepSize]
-  );
+  const chars: MasquerChar[] = useMemo(() => {
+    const flipIndicesMap: { [index: number]: boolean } = {};
+    flipIndices.forEach((i) => {
+      flipIndicesMap[i] = true;
+    });
+    return text.split("").map((c, i) => ({
+      char: c,
+      class: VARIATIONS[getRandomInt(0, 10)],
+      flip: !!flipIndicesMap[i],
+      fontSize: leftFontSize + i * fontStepSize,
+    }));
+  }, []);
 
   return (
     <div
