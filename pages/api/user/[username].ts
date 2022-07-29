@@ -1,14 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../../utils/prisma";
 import { isAuthenticated } from "../../../utils/auth";
-import { User } from "../../../models/user";
+import { UserResponseData } from "../../../models/response";
 
-type ResponseData = {
-  message: string;
-  data?: User;
-};
-
-function get(req: NextApiRequest, res: NextApiResponse<ResponseData>) {
+function get(req: NextApiRequest, res: NextApiResponse<UserResponseData>) {
   const { username } = req.query;
   if (typeof username !== "string") {
     res.status(400).json({
@@ -46,7 +41,7 @@ function get(req: NextApiRequest, res: NextApiResponse<ResponseData>) {
     });
 }
 
-function put(req: NextApiRequest, res: NextApiResponse<ResponseData>) {
+function put(req: NextApiRequest, res: NextApiResponse<UserResponseData>) {
   if (!req.body.name) {
     res.status(400).json({
       message: "name is required",
@@ -82,7 +77,7 @@ function put(req: NextApiRequest, res: NextApiResponse<ResponseData>) {
 
 export default function handler(
   req: NextApiRequest,
-  res: NextApiResponse<ResponseData>
+  res: NextApiResponse<UserResponseData>
 ) {
   if (!isAuthenticated(req)) {
     res.status(401).json({

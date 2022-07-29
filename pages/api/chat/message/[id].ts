@@ -1,14 +1,12 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { isAuthenticated } from "../../../../utils/auth";
 import prisma from "../../../../utils/prisma";
-import { ChatMessage } from "../../../../models/chat";
+import { ChatMessageResponseData } from "../../../../models/response";
 
-type ResponseData = {
-  message: string;
-  data?: ChatMessage;
-};
-
-function getHandler(req: NextApiRequest, res: NextApiResponse<ResponseData>) {
+function getHandler(
+  req: NextApiRequest,
+  res: NextApiResponse<ChatMessageResponseData>
+) {
   const { id } = req.query;
   if (typeof id !== "string") {
     res.status(400).json({
@@ -65,7 +63,10 @@ function getHandler(req: NextApiRequest, res: NextApiResponse<ResponseData>) {
     });
 }
 
-function putHandler(req: NextApiRequest, res: NextApiResponse<ResponseData>) {
+function putHandler(
+  req: NextApiRequest,
+  res: NextApiResponse<ChatMessageResponseData>
+) {
   const { id } = req.query;
   if (typeof id !== "string" || id === "") {
     res.status(400).json({
@@ -134,7 +135,7 @@ function putHandler(req: NextApiRequest, res: NextApiResponse<ResponseData>) {
 
 function deleteHandler(
   req: NextApiRequest,
-  res: NextApiResponse<ResponseData>
+  res: NextApiResponse<ChatMessageResponseData>
 ) {
   const { id } = req.query;
   if (typeof id !== "string" || id === "") {
@@ -194,7 +195,7 @@ function deleteHandler(
 
 export default function handler(
   req: NextApiRequest,
-  res: NextApiResponse<ResponseData>
+  res: NextApiResponse<ChatMessageResponseData>
 ) {
   if (!isAuthenticated(req)) {
     res.status(401).json({

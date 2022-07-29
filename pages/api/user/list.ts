@@ -1,14 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../../utils/prisma";
 import { isAuthenticated } from "../../../utils/auth";
-import { User } from "../../../models/user";
+import { UsersResponseData } from "../../../models/response";
 
-type ResponseData = {
-  message: string;
-  data?: User[];
-};
-
-function get(req: NextApiRequest, res: NextApiResponse<ResponseData>) {
+function get(req: NextApiRequest, res: NextApiResponse<UsersResponseData>) {
   let search: string = "";
   if (req.query.search) {
     search = String(req.query.search);
@@ -57,7 +52,7 @@ function get(req: NextApiRequest, res: NextApiResponse<ResponseData>) {
 
 export default function handler(
   req: NextApiRequest,
-  res: NextApiResponse<ResponseData>
+  res: NextApiResponse<UsersResponseData>
 ) {
   if (!isAuthenticated(req)) {
     res.status(401).json({

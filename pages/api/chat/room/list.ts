@@ -1,15 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { isAuthenticated } from "../../../../utils/auth";
 import prisma from "../../../../utils/prisma";
-import { ChatRoom } from "../../../../models/chat";
+import { ChatRoomsResponseData } from "../../../../models/response";
 
-export type ResponseData = {
-  message: string;
-  data?: ChatRoom[];
-  hasMore?: boolean;
-};
-
-function get(req: NextApiRequest, res: NextApiResponse<ResponseData>) {
+function get(req: NextApiRequest, res: NextApiResponse<ChatRoomsResponseData>) {
   let search: string = "";
   if (req.query.search) {
     search = String(req.query.search);
@@ -68,7 +62,7 @@ function get(req: NextApiRequest, res: NextApiResponse<ResponseData>) {
 
 export default function handler(
   req: NextApiRequest,
-  res: NextApiResponse<ResponseData>
+  res: NextApiResponse<ChatRoomsResponseData>
 ) {
   if (!isAuthenticated(req)) {
     res.status(401).json({

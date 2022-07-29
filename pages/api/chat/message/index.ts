@@ -7,11 +7,8 @@ import {
   notifyListeners,
 } from "../../../../listeners/message";
 import { ChatMessage } from "../../../../models/chat";
+import { ResponseData } from "../../../../models/response";
 import { incrementSocialStats } from "../../../../utils/general";
-
-type ResponseData = {
-  message: string;
-};
 
 function post(req: NextApiRequest, res: NextApiResponse<ResponseData>) {
   if (!req.body.roomId || !req.body.content) {

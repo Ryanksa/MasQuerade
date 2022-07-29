@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useLayoutEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { GetServerSideProps } from "next";
 import { getServerSidePropsAuth } from "../../utils/auth";
 import { useRouter } from "next/router";
@@ -71,7 +71,7 @@ function Chat(props: Props) {
 
   const handleGetMoreMessages = () => {
     getChatMessages(roomId, page + 1, PAGE_SIZE).then((res) => {
-      const chatMessages = res.data as ChatMessageType[];
+      const chatMessages = res.data ?? [];
       if (chatMessages.length > 0) {
         setMessages((prevMsgs) => {
           const lut = prevMsgs.reduce<{ [id: string]: ChatMessageType }>(
@@ -97,47 +97,52 @@ function Chat(props: Props) {
   return (
     <div className="sm:p-8">
       <Phone>
-        <div className="w-full flex items-center p-[8px] overflow-visible relative">
-          <input
-            type="text"
-            className="w-10/12 text-[24px] p-[4px] border-[3px] border-neutral-900 rounded-[5px]"
-            placeholder="Send a message!"
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") handleSend();
-            }}
-          />
-          <div className="cursor-pointer absolute right-0" onClick={handleSend}>
-            <MasquerText
-              text="Send"
-              flipIndices={[]}
-              leftFontSize={42}
-              fontStepSize={0}
-              transform="rotate(-8deg)"
-              transformOrigin=""
-              hoverInvert={true}
-            />
+        <div className="w-full h-full overflow-hidden flex flex-col overflow-anchor-none">
+          <div className="w-full h-[calc(100%-66px)] pb-8 flex flex-col-reverse overflow-scroll scrollbar-hidden">
+            {messages.map((msg, idx) => {
+              const isFirst = idx === 0;
+              const isLast = idx === messages.length - 1;
+              return (
+                <div
+                  key={msg.id}
+                  className="mt-8"
+                  ref={isFirst ? newestRef : isLast ? oldestRef : null}
+                >
+                  <ChatMessage
+                    message={msg}
+                    received={msg.username !== username}
+                    enterAnimation={isFirst}
+                  />
+                </div>
+              );
+            })}
           </div>
-        </div>
-        <div className="w-full h-[calc(100% - 66px)] pb-8 flex flex-col-reverse overflow-scroll scrollbar-hidden">
-          {messages.map((msg, idx) => {
-            const isFirst = idx === 0;
-            const isLast = idx === messages.length - 1;
-            return (
-              <div
-                key={msg.id}
-                className="mt-8"
-                ref={isFirst ? newestRef : isLast ? oldestRef : null}
-              >
-                <ChatMessage
-                  message={msg}
-                  received={msg.username !== username}
-                  enterAnimation={isFirst}
-                />
-              </div>
-            );
-          })}
+          <div className="w-full flex items-center p-[8px] overflow-visible">
+            <input
+              type="text"
+              className="w-10/12 text-[24px] p-[4px] border-[3px] border-neutral-900 rounded-[5px]"
+              placeholder="Send a message"
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") handleSend();
+              }}
+            />
+            <div
+              className="cursor-pointer absolute right-0"
+              onClick={handleSend}
+            >
+              <MasquerText
+                text="Send"
+                flipIndices={[]}
+                leftFontSize={42}
+                fontStepSize={0}
+                transform="rotate(-8deg)"
+                transformOrigin=""
+                hoverInvert={true}
+              />
+            </div>
+          </div>
         </div>
       </Phone>
     </div>

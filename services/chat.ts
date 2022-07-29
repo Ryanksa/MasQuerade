@@ -1,31 +1,39 @@
 import axios from "axios";
 import { ChatRoom, ChatMessage } from "../models/chat";
+import {
+  ResponseData,
+  ChatRoomsResponseData,
+  ChatMessagesResponseData,
+} from "../models/response";
 
 let chatRoomSubEvent: EventSource | null;
 let chatMessageSubEvent: EventSource | null;
 
-export const getChatRooms = (page: number, size: number) => {
+export const getChatRooms = (
+  page: number,
+  size: number
+): Promise<ChatRoomsResponseData> => {
   return axios
     .get(`/api/chat/room/list?page=${page}&size=${size}`)
     .then((res) => {
       if (res.status !== 200) {
         throw new Error(`${res.status}: ${res.data.message}`);
       }
-      return res.data;
+      return res.data as ChatRoomsResponseData;
     })
     .catch((err) => {
       return err;
     });
 };
 
-export const createChatRoom = (roomName: string) => {
+export const createChatRoom = (roomName: string): Promise<ResponseData> => {
   return axios
     .post("/api/chat/room/", { roomName })
     .then((res) => {
       if (res.status !== 200) {
         throw new Error(`${res.status}: ${res.data.message}`);
       }
-      return res.data;
+      return res.data as ResponseData;
     })
     .catch((err) => {
       return err;
@@ -48,28 +56,35 @@ export const unsubscribeNewChatRooms = () => {
   }
 };
 
-export const getChatMessages = (roomId: string, page: number, size: number) => {
+export const getChatMessages = (
+  roomId: string,
+  page: number,
+  size: number
+): Promise<ChatMessagesResponseData> => {
   return axios
     .get(`/api/chat/message/room?id=${roomId}&page=${page}&size=${size}`)
     .then((res) => {
       if (res.status !== 200) {
         throw new Error(`${res.status}: ${res.data.message}`);
       }
-      return res.data;
+      return res.data as ChatMessagesResponseData;
     })
     .catch((err) => {
       return err;
     });
 };
 
-export const sendChatMessage = (roomId: string, content: string) => {
+export const sendChatMessage = (
+  roomId: string,
+  content: string
+): Promise<ResponseData> => {
   return axios
     .post("/api/chat/message/", { roomId, content })
     .then((res) => {
       if (res.status !== 200) {
         throw new Error(`${res.status}: ${res.data.message}`);
       }
-      return res.data;
+      return res.data as ResponseData;
     })
     .catch((err) => {
       return err;
@@ -92,14 +107,14 @@ export const unsubscribeNewChatMessages = () => {
   }
 };
 
-export const updateLastActive = (roomId: string) => {
+export const updateLastActive = (roomId: string): Promise<ResponseData> => {
   return axios
     .post(`/api/chat/room/${roomId}`)
     .then((res) => {
       if (res.status !== 200) {
         throw new Error(`${res.status}: ${res.data.message}`);
       }
-      return res.data;
+      return res.data as ResponseData;
     })
     .catch((err) => {
       return err;

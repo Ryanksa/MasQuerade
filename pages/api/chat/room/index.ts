@@ -7,10 +7,7 @@ import {
   notifyListeners,
 } from "../../../../listeners/room";
 import { ChatRoom } from "../../../../models/chat";
-
-type ResponseData = {
-  message: string;
-};
+import { ResponseData } from "../../../../models/response";
 
 function post(req: NextApiRequest, res: NextApiResponse<ResponseData>) {
   if (!req.body.roomName) {

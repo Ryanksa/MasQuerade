@@ -2,10 +2,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../../../utils/prisma";
 import { isAuthenticated } from "../../../../utils/auth";
 import { notifyListeners } from "../../../../listeners/room";
-
-type ResponseData = {
-  message: string;
-};
+import { ResponseData } from "../../../../models/response";
 
 function postHandler(req: NextApiRequest, res: NextApiResponse<ResponseData>) {
   if (!req.body.roomId || !req.body.username) {

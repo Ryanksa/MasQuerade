@@ -1,14 +1,12 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../../../utils/prisma";
 import { isAuthenticated } from "../../../../utils/auth";
-import { ChatMessage } from "../../../../models/chat";
+import { ChatMessagesResponseData } from "../../../../models/response";
 
-type ResponseData = {
-  message: string;
-  data?: ChatMessage[];
-};
-
-function get(req: NextApiRequest, res: NextApiResponse<ResponseData>) {
+function get(
+  req: NextApiRequest,
+  res: NextApiResponse<ChatMessagesResponseData>
+) {
   const roomId = req.query.id;
   if (typeof roomId !== "string") {
     res.status(400).json({
@@ -81,7 +79,7 @@ function get(req: NextApiRequest, res: NextApiResponse<ResponseData>) {
 
 export default function handler(
   req: NextApiRequest,
-  res: NextApiResponse<ResponseData>
+  res: NextApiResponse<ChatMessagesResponseData>
 ) {
   if (!isAuthenticated(req)) {
     res.status(401).json({

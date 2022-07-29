@@ -4,14 +4,11 @@ import jwt from "jsonwebtoken";
 import cookie from "cookie";
 import prisma from "../../../utils/prisma";
 import { JWTData } from "../../../models/user";
+import { ResponseData } from "../../../models/response";
 
 const hmacKey: crypto.BinaryLike = process.env.HMAC_KEY ?? "";
 const jwtSecret: jwt.Secret = process.env.JWT_SECRET ?? "";
 const isHttps: boolean = process.env.IS_HTTPS === "true";
-
-type ResponseData = {
-  message: string;
-};
 
 function post(req: NextApiRequest, res: NextApiResponse<ResponseData>) {
   if (!req.body.username || !req.body.password) {

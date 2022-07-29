@@ -52,12 +52,13 @@ function Chats(props: Props) {
 
   const handlePageChange = (page: number) => {
     return getChatRooms(page, PAGE_SIZE).then((res) => {
+      const rooms = res.data ?? [];
       if (res.hasMore) {
         setIsLastPage(false);
       } else {
         setIsLastPage(true);
       }
-      setChatRooms(res.data.slice(0, PAGE_SIZE));
+      setChatRooms(rooms.slice(0, PAGE_SIZE));
       setPage(page);
     });
   };

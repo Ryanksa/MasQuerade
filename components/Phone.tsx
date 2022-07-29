@@ -14,13 +14,7 @@ function Phone(props: Props) {
         ${styles.shell}
       `}
     >
-      <div
-        className={`
-          w-full h-full overflow-x-hidden overflow-y-scroll 
-          border-0 sm:border-[5px] sm:border-neutral-900
-          ${styles.screen}
-        `}
-      >
+      <div className="w-full h-full overflow-hidden border-0 sm:border-[5px] sm:border-neutral-900">
         {props.children}
       </div>
     </div>

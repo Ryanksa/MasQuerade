@@ -4,15 +4,6 @@
   transform: none;
 }
 
-.screen {
-  display: flex;
-  flex-direction: column-reverse;
-}
-
-.screen::-webkit-scrollbar {
-  display: none;
-}
-
 /* sm: */
 @media (min-width: 640px) {
   .shell {

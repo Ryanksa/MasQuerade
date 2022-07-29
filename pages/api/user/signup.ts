@@ -1,12 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../../utils/prisma";
 import crypto from "crypto";
+import { ResponseData } from "../../../models/response";
 
 const hmacKey: crypto.BinaryLike = process.env.HMAC_KEY ?? "";
-
-type ResponseData = {
-  message: string;
-};
 
 function post(req: NextApiRequest, res: NextApiResponse<ResponseData>) {
   if (!req.body.username || !req.body.password || !req.body.name) {
