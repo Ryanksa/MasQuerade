@@ -6,6 +6,10 @@ export const getRandomArbitrary = (min: number, max: number) => {
   return Math.random() * (max - min) + min;
 };
 
+export const incrementSocialStats = () => {
+  return getRandomArbitrary(0, 3);
+};
+
 export const getNumberOfLines = (
   text: string,
   charsPerLine: number

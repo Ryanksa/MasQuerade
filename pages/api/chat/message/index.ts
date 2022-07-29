@@ -7,6 +7,7 @@ import {
   notifyListeners,
 } from "../../../../listeners/message";
 import { ChatMessage } from "../../../../models/chat";
+import { incrementSocialStats } from "../../../../utils/general";
 
 type ResponseData = {
   message: string;
@@ -71,10 +72,24 @@ function post(req: NextApiRequest, res: NextApiResponse<ResponseData>) {
           includes.forEach((include) => {
             notifyListeners(include.userId, msg);
           });
-
-          return prisma.chatRoom.update({
-            data: { lastActive: new Date() },
-            where: { id: msg.roomId },
+        });
+    })
+    .then(() => {
+      return prisma.chatRoom.update({
+        data: { lastActive: new Date() },
+        where: { id: roomId },
+      });
+    })
+    .then(() => {
+      return prisma.user
+        .findUnique({
+          where: { id: userId },
+        })
+        .then((user) => {
+          if (!user) return;
+          return prisma.user.update({
+            where: { id: userId },
+            data: { socialStats: user.socialStats + incrementSocialStats() },
           });
         });
     })
@@ -99,13 +114,13 @@ function get(req: NextApiRequest, res: NextApiResponse) {
   res.setHeader("X-Accel-Buffering", "no");
 
   const callback = (msg: ChatMessage) => {
-    res.write(`data: ${JSON.stringify(msg)}`);
-    res.end("\n\n");
+    res.write(`data: ${JSON.stringify(msg)}\n\n`);
   };
   addListener(userId, callback);
 
   const close = () => {
     removeListener(userId, callback);
+    res.end();
   };
   req.on("aborted", close);
   req.on("close", close);

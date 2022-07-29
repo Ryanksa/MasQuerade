@@ -62,13 +62,13 @@ function get(req: NextApiRequest, res: NextApiResponse) {
   res.setHeader("X-Accel-Buffering", "no");
 
   const callback = (room: ChatRoom) => {
-    res.write(`data: ${JSON.stringify(room)}`);
-    res.end("\n\n");
+    res.write(`data: ${JSON.stringify(room)}\n\n`);
   };
   addListener(userId, callback);
 
   const close = () => {
     removeListener(userId, callback);
+    res.end();
   };
   req.on("aborted", close);
   req.on("close", close);

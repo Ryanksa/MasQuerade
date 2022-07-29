@@ -6,7 +6,7 @@ import { getNumberOfLines } from "../utils/general";
 
 const CHARS_PER_LINE = 30;
 const BASE_HEIGHT = 50;
-const LINE_HEIGHT = 25;
+const LINE_HEIGHT = 27;
 
 type Props = {
   message: ChatMessageType;
@@ -51,10 +51,10 @@ function ChatMessage(props: Props) {
           `}
         >
           <FaUser
-            className={`absolute left-[7px] bottom-[13px] w-[48px] h-[48px] text-neutral-800 ${styles.messagerIcon}`}
+            className={`absolute left-[7px] bottom-[13px] w-[48px] h-[48px] text-neutral-700 ${styles.messagerIcon}`}
           />
           <FaUser
-            className={`absolute left-[9px] bottom-[12px] w-[48px] h-[48px] text-neutral-700 ${styles.messagerIcon}`}
+            className={`absolute left-[9px] bottom-[12px] w-[48px] h-[48px] text-neutral-800 ${styles.messagerIcon}`}
           />
           <div
             className={`
@@ -102,7 +102,7 @@ function ChatMessage(props: Props) {
             ${
               received
                 ? "w-[270px] left-[60px] top-[15px]"
-                : "w-[280px] right-[45px] top-[20px]"
+                : "w-[280px] right-[54px] top-[18px]"
             }
           `}
           style={{ height: BASE_HEIGHT + height - 40 }}
