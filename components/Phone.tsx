@@ -16,7 +16,7 @@ function Phone(props: Props) {
     >
       <div
         className={`
-          w-full h-full overflow-x-hidden overflow-y-scroll flex flex-col-reverse
+          w-full h-full overflow-x-hidden overflow-y-scroll 
           border-0 sm:border-[5px] sm:border-neutral-900
           ${styles.screen}
         `}

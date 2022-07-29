@@ -67,41 +67,41 @@ function ChatMessage(props: Props) {
           </div>
         </div>
       )}
-
       <div
-        className={`
-          relative w-full group ${enterAnimation ? styles.enter : ""} 
-          ${received ? "origin-[-30px_40px]" : "origin-[100%_30px]"}
+        className={`relative w-full h-full group 
+          ${enterAnimation ? styles.enter : ""}
+          ${
+            received ? "left-[-25px] origin-[-30px_40px]" : "origin-[100%_30px]"
+          }
         `}
       >
         <div
           className={`
-            absolute top-[10px] py-[1px] px-[8px] bg-neutral-50 
+            absolute top-[20px] py-[1px] px-[8px] bg-neutral-50 
             text-neutral-800 font-black rounded-t-[3px] transition-all
             ${
               received
-                ? "left-[30px] rotate-[-1deg] group-hover:top-[-18px] group-active:top-[-18px]"
+                ? "left-[60px] rotate-[-1deg] group-hover:top-[-18px] group-active:top-[-18px]"
                 : "right-[35px] rotate-[-2deg] group-hover:top-[-18px] group-active:top-[-18px]"
             }
           `}
         >
           {postedDate}&nbsp;&nbsp;&nbsp;{postedTime}
         </div>
-
         <svg
           width="350"
           height={BASE_HEIGHT + height}
-          className={`absolute ${received ? "left-[-30px]" : "right-0"}`}
+          className={`absolute ${received ? "left-0" : "right-0"}`}
         >
           <polygon className="fill-gray-50" points={outerPolygon} />
           <polygon className="fill-neutral-800" points={innerPolygon} />
         </svg>
         <div
           className={`
-            absolute top-[15px] text-white text-[20px] overflow-scroll scrollbar-hidden
+            absolute text-white text-[20px] overflow-scroll scrollbar-hidden
             ${
               received
-                ? "w-[270px] left-[30px]"
+                ? "w-[270px] left-[60px] top-[15px]"
                 : "w-[280px] right-[45px] top-[20px]"
             }
           `}

@@ -205,6 +205,34 @@ function deleteHandler(
     });
 }
 
+function postHandler(req: NextApiRequest, res: NextApiResponse<ResponseData>) {
+  const { id } = req.query;
+  if (typeof id !== "string" || id === "") {
+    res.status(400).json({
+      message: "id is required",
+    });
+    return;
+  }
+  const userId: string = req.cookies.id ?? "";
+
+  return prisma.roomIncludes
+    .updateMany({
+      data: { lastActive: new Date() },
+      where: { roomId: id, userId: userId },
+    })
+    .then(() => {
+      res.status(200).json({
+        message: `Updated last active date in room ${id}`,
+      });
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).json({
+        message: "Something went wrong on the server",
+      });
+    });
+}
+
 export default function handler(
   req: NextApiRequest,
   res: NextApiResponse<ResponseData>
@@ -225,6 +253,9 @@ export default function handler(
       break;
     case "DELETE":
       deleteHandler(req, res);
+      break;
+    case "POST":
+      postHandler(req, res);
       break;
     default:
       res.status(404).end();

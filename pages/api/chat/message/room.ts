@@ -58,11 +58,6 @@ function get(req: NextApiRequest, res: NextApiResponse<ResponseData>) {
     .then((chatMessages) => {
       if (!chatMessages) return;
 
-      prisma.roomIncludes.updateMany({
-        data: { lastActive: new Date() },
-        where: { roomId: roomId, userId: userId },
-      });
-
       res.status(200).json({
         message: `Chat messages in chat room ${roomId}`,
         data: chatMessages.map((msg) => ({
