@@ -126,7 +126,7 @@ function Chat(props: Props) {
             const isLast = idx === messages.length - 1;
             return (
               <div
-                key={idx}
+                key={msg.id}
                 className="mt-8"
                 ref={isFirst ? newestRef : isLast ? oldestRef : null}
               >
