@@ -1,9 +1,0 @@
-.unauth-view-content {
-  padding-top: 200px;
-}
-
-@media screen and (max-width: 800px) {
-  .unauth-view-content {
-    padding-top: 300px;
-  }
-}

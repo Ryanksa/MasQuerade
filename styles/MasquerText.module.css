@@ -1,0 +1,87 @@
+.container {
+  --dark: #000000;
+  --light: #ffffff;
+  font-family: "Fira Sans", sans-serif;
+  position: relative;
+}
+
+span.back {
+  color: var(--dark);
+  -webkit-text-stroke-color: var(--dark);
+}
+
+span.back.flip {
+  color: var(--light);
+  -webkit-text-stroke-color: var(--light);
+}
+
+span.fore {
+  color: var(--light);
+  -webkit-text-stroke: 1px var(--dark);
+}
+
+span.fore.flip {
+  color: var(--dark);
+  -webkit-text-stroke: 1px var(--light);
+}
+
+.variation0 {
+  transform: translateY(-2px);
+}
+
+.variation1 {
+  transform: rotateZ(-13deg) translateY(-3px);
+}
+
+.variation2 {
+  transform: rotateZ(7deg) translateY(2px);
+}
+
+.variation3 {
+  transform: rotateZ(-5deg) translateY(-1px);
+}
+
+.variation4 {
+  transform: rotateZ(11deg);
+}
+
+.variation5 {
+  transform: scale(0.95, 0.95) translateY(3px);
+}
+
+.variation6 {
+  transform: rotateZ(13deg) scale(1.05, 0.95);
+}
+
+.variation7 {
+  transform: rotateZ(7deg) scale(1.05, 1);
+}
+
+.variation8 {
+  transform: rotateZ(-5deg) scale(1.05, 1.05) translateY(2px);
+}
+
+.variation9 {
+  transform: rotateY(40deg) scale(1.05, 0.95) translateY(-1px);
+}
+
+/* hover invert effect */
+.container.hoverinvert:hover span.back {
+  color: var(--light);
+  -webkit-text-stroke: 15px var(--light);
+}
+
+.container.hoverinvert:hover span.back.flip {
+  color: var(--dark);
+  -webkit-text-stroke: 15px var(--dark);
+}
+
+.container.hoverinvert:hover span.fore {
+  color: var(--dark);
+  -webkit-text-stroke: 1.5px var(--light);
+}
+
+.container.hoverinvert:hover span.fore.flip {
+  color: var(--light);
+  -webkit-text-stroke: 1.5px var(--dark);
+}

@@ -1,0 +1,116 @@
+.container {
+  --tr-sidebar: 75ms;
+  --tr-option: 100ms;
+  --tr-stagger: 50ms;
+  transition: bottom var(--tr-sidebar) cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.option.home {
+  transform: rotateY(35deg);
+}
+
+.option.chats {
+  transform: rotateY(35deg);
+}
+
+.option.profile {
+  transform: rotateY(25deg);
+}
+
+.option.logout {
+  transform: rotateY(35deg);
+}
+
+.container:hover,
+.container:active,
+.container:focus-visible {
+  bottom: 3rem;
+}
+
+.container:hover .optionsContainer,
+.container:active .optionsContainer,
+.container:focus-visible .optionsContainer {
+  animation: overflow-visible calc(var(--tr-sidebar) + var(--tr-stagger)) linear 0ms forwards;
+}
+
+.container:hover .option.home,
+.container:active .option.home,
+.container:focus-visible .option.home {
+  animation: option-home var(--tr-option) linear var(--tr-sidebar) forwards;
+}
+
+.container:hover .option.chats,
+.container:active .option.chats,
+.container:focus-visible .option.chats {
+  animation: option-chats var(--tr-option) linear calc(var(--tr-sidebar) + var(--tr-stagger)) forwards;
+}
+
+.container:hover .option.profile,
+.container:active .option.profile,
+.container:focus-visible .option.profile {
+  animation: option-profile var(--tr-option) linear calc(var(--tr-sidebar) + var(--tr-stagger)) forwards;
+}
+
+.container:hover .option.logout,
+.container:active .option.logout,
+.container:focus-visible .option.logout {
+  animation: option-logout var(--tr-option) linear var(--tr-sidebar) forwards;
+}
+
+@keyframes overflow-visible {
+  100% {
+    overflow: visible;
+  }
+}
+
+@keyframes option-home {
+  99% {
+    left: -4rem;
+    top: -2rem;
+    transform: scaleX(0.25);
+  }
+  100% {
+    left: -6rem;
+    top: -2rem;
+    transform: scaleX(1);
+  }
+}
+
+@keyframes option-chats {
+  99% {
+    right: -6rem;
+    top: -3rem;
+    transform: scaleX(0.5);
+  }
+  100% {
+    right: -8rem;
+    top: -3rem;
+    transform: scaleX(1);
+  }
+}
+
+@keyframes option-profile {
+  99% {
+    left: -3rem;
+    top: 6rem;
+    transform: scaleX(0.25);
+  }
+  100% {
+    left: -5rem;
+    top: 6rem;
+    transform: scaleX(1);
+  }
+}
+
+@keyframes option-logout {
+  99% {
+    right: -6rem;
+    top: 4rem;
+    transform: scaleX(0.5);
+  }
+  100% {
+    right: -8rem;
+    top: 4rem;
+    transform: scaleX(1);
+  }
+}

@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "RoomIncludes" ADD COLUMN     "lastActive" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP;
