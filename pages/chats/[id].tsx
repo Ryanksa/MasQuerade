@@ -6,7 +6,11 @@ import MasquerText from "../../components/MasquerText";
 import ChatMessage from "../../components/ChatMessage";
 import Phone from "../../components/Phone";
 import prisma from "../../utils/prisma";
-import { ChatMessage as ChatMessageType } from "../../models/chat";
+import {
+  ChatMessage as ChatMessageType,
+  ChatRoom as ChatRoomType,
+} from "../../models/chat";
+import { User as UserType } from "../../models/user";
 import {
   getChatMessages,
   sendChatMessage,
@@ -14,11 +18,19 @@ import {
   unsubscribeNewChatMessages,
   updateLastActive,
 } from "../../services/chat";
+import { RiGroupFill } from "react-icons/ri";
+import { MdAddModerator, MdRemoveModerator } from "react-icons/md";
+import { BsFillTrashFill } from "react-icons/bs";
+import { IoMdAddCircle } from "react-icons/io";
 
 const PAGE_SIZE = 10;
 
 type Props = {
-  data: ChatMessageType[];
+  data: {
+    messages: ChatMessageType[];
+    room: ChatRoomType;
+    members: UserType[];
+  };
   username: string;
 };
 
@@ -26,9 +38,10 @@ function Chat(props: Props) {
   const router = useRouter();
   const roomId = String(router.query.id);
   const { data, username } = props;
-  const [messages, setMessages] = useState<ChatMessageType[]>(data);
+  const [messages, setMessages] = useState<ChatMessageType[]>(data.messages);
   const [message, setMessage] = useState("");
   const [page, setPage] = useState(0);
+  const [inSettings, setInSettings] = useState(false);
   const oldestRef = useRef<HTMLDivElement>(null);
   const newestRef = useRef<HTMLDivElement>(null);
 
@@ -97,8 +110,17 @@ function Chat(props: Props) {
   return (
     <div className="sm:p-8">
       <Phone>
-        <div className="w-full h-full overflow-hidden flex flex-col overflow-anchor-none">
-          <div className="w-full h-[calc(100%-66px)] pb-8 flex flex-col-reverse overflow-scroll scrollbar-hidden">
+        <div className="relative w-full h-full overflow-hidden flex flex-col overflow-anchor-none">
+          <div className="w-full h-[32px] bg-neutral-800 bg-opacity-25 flex px-4 py-[4px] truncate">
+            <div
+              className="cursor-pointer text-neutral-900 text-[18px] flex gap-2"
+              onClick={() => setInSettings(true)}
+            >
+              <RiGroupFill size={24} />
+              {data.room.room}
+            </div>
+          </div>
+          <div className="w-full h-[calc(100%-66px-32px)] pb-8 flex flex-col-reverse overflow-scroll scrollbar-hidden">
             {messages.map((msg, idx) => {
               const isFirst = idx === 0;
               const isLast = idx === messages.length - 1;
@@ -117,7 +139,7 @@ function Chat(props: Props) {
               );
             })}
           </div>
-          <div className="w-full flex items-center p-[8px] overflow-visible">
+          <div className="w-full flex items-center p-[8px]">
             <input
               type="text"
               className="w-10/12 text-[24px] p-[4px] border-[3px] border-neutral-900 rounded-[5px]"
@@ -129,7 +151,7 @@ function Chat(props: Props) {
               }}
             />
             <div
-              className="cursor-pointer absolute right-0"
+              className="cursor-pointer absolute right-2"
               onClick={handleSend}
             >
               <MasquerText
@@ -143,6 +165,73 @@ function Chat(props: Props) {
               />
             </div>
           </div>
+          {inSettings && (
+            <div className="absolute aspect-square rounded-br-full shadow-lg bg-red-500 animate-expand">
+              <div className="w-1/2 h-1/2 p-6 text-white overflow-scroll scrollbar-hidden">
+                <div
+                  className="cursor-pointer mb-8"
+                  onClick={() => setInSettings(false)}
+                >
+                  <MasquerText
+                    text="<Back"
+                    flipIndices={[]}
+                    leftFontSize={27}
+                    fontStepSize={3}
+                    transform=""
+                    transformOrigin=""
+                    hoverInvert={true}
+                  />
+                </div>
+                <div className="mb-2">
+                  <MasquerText
+                    text="RooM"
+                    flipIndices={[]}
+                    leftFontSize={54}
+                    fontStepSize={4}
+                    transform="rotate(-12deg)"
+                    transformOrigin="left"
+                    hoverInvert={false}
+                  />
+                  <div className="relative left-1/4 -top-8 w-3/4 text-4xl">
+                    {data.room.room}
+                  </div>
+                </div>
+                <div className="flex flex-col gap-4">
+                  <div className="mb-4 ml-auto w-max">
+                    <MasquerText
+                      text="MemberS"
+                      flipIndices={[2]}
+                      leftFontSize={46}
+                      fontStepSize={2}
+                      transform="rotate(12deg)"
+                      transformOrigin="left"
+                      hoverInvert={false}
+                    />
+                  </div>
+                  {data.members.map((user) => (
+                    <div
+                      key={user.username}
+                      className="flex justify-between items-center"
+                    >
+                      <div>
+                        <div className="text-2xl">{user.name}</div>
+                        <div className="text-gray-100">{user.username}</div>
+                      </div>
+                      <div className="flex gap-2">
+                        <MdAddModerator size={20} className="cursor-pointer" />
+                        <BsFillTrashFill size={20} className="cursor-pointer" />
+                      </div>
+                    </div>
+                  ))}
+                  <IoMdAddCircle
+                    size={48}
+                    className="m-auto cursor-pointer text-neutral-900 hover:text-neutral-50"
+                  />
+                </div>
+                <div></div>
+              </div>
+            </div>
+          )}
         </div>
       </Phone>
     </div>
@@ -161,12 +250,28 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       const roomId = String(context.params?.id);
       const userId = context.req.cookies.id ?? "";
       const username = context.req.cookies.username ?? "";
+      const defaultRoom: ChatRoomType = {
+        id: "",
+        room: "",
+        lastActive: "",
+        seenLatest: false,
+      };
 
-      const includes = await prisma.roomIncludes.findFirst({
-        where: { roomId: roomId, userId: userId },
+      const includes = await prisma.roomIncludes.findMany({
+        where: { roomId: roomId },
+        select: { userId: true, user: true },
       });
-      if (!includes) {
-        return { props: { data: [], username: username } };
+      if (includes.filter((i) => i.userId === userId).length === 0) {
+        return {
+          props: {
+            data: {
+              messages: [],
+              room: defaultRoom,
+              members: [],
+            },
+            username: username,
+          },
+        };
       }
 
       const chatMessages = await prisma.chatMessage.findMany({
@@ -183,17 +288,37 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         take: PAGE_SIZE,
       });
 
+      const chatRoom = await prisma.chatRoom.findUnique({
+        where: { id: roomId },
+      });
+      const room = chatRoom
+        ? ({
+            id: chatRoom.id,
+            room: chatRoom.name,
+            lastActive: chatRoom.lastActive.toISOString(),
+            seenLatest: true,
+          } as ChatRoomType)
+        : defaultRoom;
+
       return {
         props: {
-          data: chatMessages.map((msg) => ({
-            id: msg.id,
-            username: msg.user.username,
-            name: msg.user.name,
-            roomId: msg.room.id,
-            room: msg.room.name,
-            content: msg.content,
-            postedOn: msg.postedOn.toISOString(),
-          })),
+          data: {
+            messages: chatMessages.map((msg) => ({
+              id: msg.id,
+              username: msg.user.username,
+              name: msg.user.name,
+              roomId: msg.room.id,
+              room: msg.room.name,
+              content: msg.content,
+              postedOn: msg.postedOn.toISOString(),
+            })),
+            room: room,
+            members: includes.map((i) => ({
+              username: i.user.username,
+              name: i.user.name,
+              socialStats: i.user.socialStats,
+            })),
+          },
           username: username,
         },
       };

@@ -54,7 +54,7 @@ function MasquerText(props: Props) {
       flip: !!flipIndicesMap[i],
       fontSize: leftFontSize + i * fontStepSize,
     }));
-  }, []);
+  }, [text, flipIndices, leftFontSize, fontStepSize]);
 
   return (
     <div
