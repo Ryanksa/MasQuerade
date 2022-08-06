@@ -1,18 +1,22 @@
-import { Listener } from "../models/listener";
+import { Listener, Event, Callback } from "../models/listener";
 import { ChatMessage } from "../models/chat";
 
-type MessageCallback = (msg: ChatMessage) => void;
+const listeners: Listener<ChatMessage> = {};
 
-const listeners: Listener<MessageCallback[]> = {};
-
-export const addListener = (userId: string, callback: MessageCallback) => {
+export const addListener = (
+  userId: string,
+  callback: Callback<ChatMessage>
+) => {
   if (!listeners[userId]) {
     listeners[userId] = [];
   }
   listeners[userId].push(callback);
 };
 
-export const removeListener = (userId: string, callback: MessageCallback) => {
+export const removeListener = (
+  userId: string,
+  callback: Callback<ChatMessage>
+) => {
   if (!listeners[userId]) {
     return;
   }
@@ -20,11 +24,11 @@ export const removeListener = (userId: string, callback: MessageCallback) => {
   listeners[userId] = filtered;
 };
 
-export const notifyListeners = (userId: string, msg: ChatMessage) => {
+export const notifyListeners = (userId: string, event: Event<ChatMessage>) => {
   if (!listeners[userId]) {
     return;
   }
   listeners[userId].forEach((callback) => {
-    callback(msg);
+    callback(event);
   });
 };

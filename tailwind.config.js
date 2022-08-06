@@ -21,9 +21,20 @@ module.exports = {
             transform: "rotate(5deg) skew(-2deg, -4deg)",
           },
         },
+        expand: {
+          "0%": {
+            width: 0,
+            height: 0,
+          },
+          "100%": {
+            width: "200%",
+            height: "200%",
+          },
+        },
       },
       animation: {
         wiggle: "wiggle 250ms",
+        expand: "expand 300ms linear forwards",
       },
     },
   },

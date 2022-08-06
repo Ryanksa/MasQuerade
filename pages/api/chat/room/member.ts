@@ -1,7 +1,13 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../../../utils/prisma";
 import { isAuthenticated } from "../../../../utils/auth";
-import { notifyListeners } from "../../../../listeners/room";
+import {
+  addListener,
+  removeListener,
+  notifyListeners,
+} from "../../../../listeners/member";
+import { Member } from "../../../../models/user";
+import { Callback, Operation } from "../../../../models/listener";
 import { ResponseData } from "../../../../models/response";
 
 function postHandler(req: NextApiRequest, res: NextApiResponse<ResponseData>) {
@@ -45,41 +51,41 @@ function postHandler(req: NextApiRequest, res: NextApiResponse<ResponseData>) {
       }
 
       return prisma.roomIncludes
-        .findFirst({
-          where: { roomId: roomId, userId: user.id },
+        .findMany({
+          where: { roomId: roomId },
         })
-        .then((include) => {
-          if (include) {
+        .then((includes) => {
+          if (includes.find((i) => i.userId === user.id)) {
             res.status(400).send({
               message: `User ${username} is already in chat room ${roomId}`,
             });
             return;
           }
 
-          return prisma.roomIncludes.create({
-            data: {
-              roomId: roomId,
-              userId: user.id,
-              moderator: moderator,
-            },
-          });
+          return prisma.roomIncludes
+            .create({
+              data: {
+                roomId: roomId,
+                userId: user.id,
+                moderator: moderator,
+              },
+            })
+            .then(() => {
+              return includes.forEach((i) => {
+                notifyListeners(i.userId, {
+                  data: {
+                    username: user.username,
+                    name: user.name,
+                    socialStats: user.socialStats,
+                    moderator: moderator,
+                  },
+                  operation: Operation.Add,
+                });
+              });
+            });
         });
     })
     .then(() => {
-      prisma.chatRoom
-        .findUnique({
-          where: { id: roomId },
-        })
-        .then((room) => {
-          if (room) {
-            notifyListeners(reqUserId, {
-              id: room.id,
-              room: room.name,
-              lastActive: room.lastActive.toISOString(),
-            });
-          }
-        });
-
       res.status(200).send({
         message: `Added user ${username} to chat room ${roomId}`,
       });
@@ -96,14 +102,14 @@ function deleteHandler(
   req: NextApiRequest,
   res: NextApiResponse<ResponseData>
 ) {
-  if (!req.body.roomId || !req.body.username) {
+  if (!req.query.roomId || !req.query.username) {
     res.status(400).send({
       message: "roomId and username are required",
     });
     return;
   }
-  const roomId: string = req.body.roomId;
-  const username: string = req.body.username;
+  const roomId: string = String(req.query.roomId);
+  const username: string = String(req.query.username);
   const reqUserId: string = req.cookies.id ?? "";
 
   return prisma.roomIncludes
@@ -111,11 +117,10 @@ function deleteHandler(
       where: {
         roomId: roomId,
         userId: reqUserId,
-        moderator: true,
       },
     })
     .then((include) => {
-      if (!include) {
+      if (!include || (!include.moderator && include.userId !== reqUserId)) {
         res.status(403).send({
           message: "Must be a moderator of the chat room to delete users",
         });
@@ -135,23 +140,39 @@ function deleteHandler(
       }
 
       return prisma.roomIncludes
-        .findFirst({
-          where: { roomId: roomId, userId: user.id },
+        .findMany({
+          where: { roomId: roomId },
         })
-        .then((include) => {
-          if (!include) {
+        .then((includes) => {
+          if (!includes.find((i) => i.userId === user.id)) {
             res.status(400).send({
               message: `User ${username} is not in chat room ${roomId}`,
             });
             return;
           }
 
-          return prisma.roomIncludes.deleteMany({
-            where: {
-              roomId: roomId,
-              userId: user.id,
-            },
-          });
+          return prisma.roomIncludes
+            .deleteMany({
+              where: {
+                roomId: roomId,
+                userId: user.id,
+              },
+            })
+            .then(() => {
+              return includes.forEach((i) => {
+                if (i.userId !== user.id) {
+                  notifyListeners(i.userId, {
+                    data: {
+                      username: user.username,
+                      name: user.name,
+                      socialStats: user.socialStats,
+                      moderator: false,
+                    },
+                    operation: Operation.Delete,
+                  });
+                }
+              });
+            });
         });
     })
     .then(() => {
@@ -165,6 +186,26 @@ function deleteHandler(
         message: "Something went wrong on the server",
       });
     });
+}
+
+function getHandler(req: NextApiRequest, res: NextApiResponse) {
+  const userId: string = req.cookies.id ?? "";
+
+  res.setHeader("Content-Type", "text/event-stream;charset=utf-8");
+  res.setHeader("Cache-Control", "no-cache, no-transform");
+  res.setHeader("X-Accel-Buffering", "no");
+
+  const callback: Callback<Member> = (event) => {
+    res.write(`data: ${JSON.stringify(event)}\n\n`);
+  };
+  addListener(userId, callback);
+
+  const close = () => {
+    removeListener(userId, callback);
+    res.end();
+  };
+  req.on("aborted", close);
+  req.on("close", close);
 }
 
 export default function handler(
@@ -182,6 +223,9 @@ export default function handler(
       break;
     case "DELETE":
       deleteHandler(req, res);
+      break;
+    case "GET":
+      getHandler(req, res);
       break;
     default:
       res.status(404).end();

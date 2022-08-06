@@ -14,6 +14,7 @@ import {
   unsubscribeNewChatRooms,
 } from "../../services/chat";
 import { useRouter } from "next/router";
+import { Operation } from "../../models/listener";
 
 type Props = {
   data: ChatRoom[];
@@ -32,9 +33,14 @@ function Chats(props: Props) {
   const router = useRouter();
 
   useEffect(() => {
-    subscribeNewChatRooms((room) => {
-      if (page === 0) {
-        setChatRooms((prevRooms) => [room, ...prevRooms.slice(0, 9)]);
+    subscribeNewChatRooms((event) => {
+      switch (event.operation) {
+        case Operation.Add:
+          if (page === 0)
+            setChatRooms((prevRooms) => [event.data, ...prevRooms.slice(0, 9)]);
+          break;
+        default:
+          break;
       }
     });
     return () => {
