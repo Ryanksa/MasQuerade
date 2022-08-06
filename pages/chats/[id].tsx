@@ -10,18 +10,24 @@ import {
   ChatMessage as ChatMessageType,
   ChatRoom as ChatRoomType,
 } from "../../models/chat";
-import { User as UserType } from "../../models/user";
+import { Member as MemberType } from "../../models/user";
+import { Event, Operation } from "../../models/listener";
 import {
   getChatMessages,
   sendChatMessage,
   subscribeNewChatMessages,
   unsubscribeNewChatMessages,
   updateLastActive,
+  addRoomMember,
+  deleteRoomMember,
+  subscribeNewRoomMember,
+  unsubscribeNewRoomMember,
 } from "../../services/chat";
-import { RiGroupFill } from "react-icons/ri";
-import { MdAddModerator, MdRemoveModerator } from "react-icons/md";
-import { BsFillTrashFill } from "react-icons/bs";
+import { MdAddModerator, MdCancel, MdShield } from "react-icons/md";
+import { BsFillPeopleFill, BsFillPersonPlusFill } from "react-icons/bs";
 import { IoMdAddCircle } from "react-icons/io";
+import { GoSignOut } from "react-icons/go";
+import { FaUserAlt } from "react-icons/fa";
 
 const PAGE_SIZE = 10;
 
@@ -29,7 +35,7 @@ type Props = {
   data: {
     messages: ChatMessageType[];
     room: ChatRoomType;
-    members: UserType[];
+    members: MemberType[];
   };
   username: string;
 };
@@ -38,18 +44,51 @@ function Chat(props: Props) {
   const router = useRouter();
   const roomId = String(router.query.id);
   const { data, username } = props;
+
   const [messages, setMessages] = useState<ChatMessageType[]>(data.messages);
   const [message, setMessage] = useState("");
   const [page, setPage] = useState(0);
+
   const [inSettings, setInSettings] = useState(false);
+  const [members, setMembers] = useState<MemberType[]>(data.members);
+  const [isAddingMember, setIsAddingMember] = useState(false);
+  const [memberUsername, setMemberUsername] = useState("");
+
   const oldestRef = useRef<HTMLDivElement>(null);
   const newestRef = useRef<HTMLDivElement>(null);
+  const membership = props.data.members.find(
+    (m) => m.username === props.username
+  );
 
   useEffect(() => {
-    subscribeNewChatMessages((chatMessage) => {
-      setMessages((prevMsgs) => [chatMessage, ...prevMsgs]);
+    subscribeNewChatMessages((event: Event<ChatMessageType>) => {
+      switch (event.operation) {
+        case Operation.Add:
+          setMessages((prevMsgs) => [event.data, ...prevMsgs]);
+          break;
+        default:
+          break;
+      }
     });
     return () => unsubscribeNewChatMessages();
+  }, []);
+
+  useEffect(() => {
+    subscribeNewRoomMember((event) => {
+      switch (event.operation) {
+        case Operation.Add:
+          setMembers((prevMembers) => [...prevMembers, event.data]);
+          break;
+        case Operation.Delete:
+          setMembers((prevMembers) =>
+            prevMembers.filter((m) => m.username !== event.data.username)
+          );
+          break;
+        default:
+          break;
+      }
+    });
+    return () => unsubscribeNewRoomMember();
   }, []);
 
   useEffect(() => {
@@ -107,16 +146,31 @@ function Chat(props: Props) {
     });
   };
 
+  const handleAddMember = (username: string, moderator: boolean) => {
+    addRoomMember(roomId, username, moderator).finally(() => {
+      setIsAddingMember(false);
+      setMemberUsername("");
+    });
+  };
+
+  const handleDeleteMember = (username: string) => {
+    deleteRoomMember(roomId, username).finally(() => {
+      if (username === props.username) {
+        router.push("/chats");
+      }
+    });
+  };
+
   return (
     <div className="sm:p-8">
       <Phone>
         <div className="relative w-full h-full overflow-hidden flex flex-col overflow-anchor-none">
-          <div className="w-full h-[32px] bg-neutral-800 bg-opacity-25 flex px-4 py-[4px] truncate">
+          <div className="w-full h-[32px] bg-red-600 bg-opacity-50 border-neutral-900 flex px-4 py-[4px] truncate">
             <div
               className="cursor-pointer text-neutral-900 text-[18px] flex gap-2"
               onClick={() => setInSettings(true)}
             >
-              <RiGroupFill size={24} />
+              <BsFillPeopleFill size={24} />
               {data.room.room}
             </div>
           </div>
@@ -165,6 +219,7 @@ function Chat(props: Props) {
               />
             </div>
           </div>
+
           {inSettings && (
             <div className="absolute aspect-square rounded-br-full shadow-lg bg-red-500 animate-expand">
               <div className="w-1/2 h-1/2 p-6 text-white overflow-scroll scrollbar-hidden">
@@ -208,25 +263,72 @@ function Chat(props: Props) {
                       hoverInvert={false}
                     />
                   </div>
-                  {data.members.map((user) => (
+                  {members.map((user) => (
                     <div
                       key={user.username}
                       className="flex justify-between items-center"
                     >
                       <div>
-                        <div className="text-2xl">{user.name}</div>
-                        <div className="text-gray-100">{user.username}</div>
+                        <div className="text-2xl text-neutral-50 flex items-center gap-2">
+                          {user.moderator && <MdShield />}
+                          {user.name}
+                        </div>
+                        <div className="text-neutral-200">{user.username}</div>
                       </div>
-                      <div className="flex gap-2">
-                        <MdAddModerator size={20} className="cursor-pointer" />
-                        <BsFillTrashFill size={20} className="cursor-pointer" />
-                      </div>
+                      {(membership?.moderator ||
+                        user.username === props.username) && (
+                        <div className="flex gap-2">
+                          <GoSignOut
+                            size={24}
+                            className="cursor-pointer text-neutral-900 hover:text-neutral-50"
+                            onClick={() => handleDeleteMember(user.username)}
+                          />
+                        </div>
+                      )}
                     </div>
                   ))}
-                  <IoMdAddCircle
-                    size={48}
-                    className="m-auto cursor-pointer text-neutral-900 hover:text-neutral-50"
-                  />
+                  {membership?.moderator && (
+                    <>
+                      {isAddingMember ? (
+                        <div className="flex items-center justify-between gap-2">
+                          <input
+                            type="text"
+                            placeholder="username"
+                            className="text-lg w-3/4 px-2 py-1 rounded-sm text-neutral-900"
+                            value={memberUsername}
+                            onChange={(e) => setMemberUsername(e.target.value)}
+                          />
+                          <div className="flex items-center gap-2">
+                            <MdAddModerator
+                              size={24}
+                              className="cursor-pointer text-neutral-900 hover:text-neutral-50"
+                              onClick={() =>
+                                handleAddMember(memberUsername, true)
+                              }
+                            />
+                            <BsFillPersonPlusFill
+                              size={24}
+                              className="cursor-pointer text-neutral-900 hover:text-neutral-50"
+                              onClick={() =>
+                                handleAddMember(memberUsername, false)
+                              }
+                            />
+                            <MdCancel
+                              size={24}
+                              className="cursor-pointer text-neutral-900 hover:text-neutral-50"
+                              onClick={() => setIsAddingMember(false)}
+                            />
+                          </div>
+                        </div>
+                      ) : (
+                        <IoMdAddCircle
+                          size={48}
+                          className="m-auto cursor-pointer text-neutral-900 hover:text-neutral-50"
+                          onClick={() => setIsAddingMember(true)}
+                        />
+                      )}
+                    </>
+                  )}
                 </div>
                 <div></div>
               </div>
@@ -259,9 +361,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
       const includes = await prisma.roomIncludes.findMany({
         where: { roomId: roomId },
-        select: { userId: true, user: true },
+        select: { userId: true, user: true, moderator: true },
       });
-      if (includes.filter((i) => i.userId === userId).length === 0) {
+      if (!includes.find((i) => i.userId === userId)) {
         return {
           props: {
             data: {
@@ -313,11 +415,14 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
               postedOn: msg.postedOn.toISOString(),
             })),
             room: room,
-            members: includes.map((i) => ({
-              username: i.user.username,
-              name: i.user.name,
-              socialStats: i.user.socialStats,
-            })),
+            members: includes
+              .map((i) => ({
+                username: i.user.username,
+                name: i.user.name,
+                socialStats: i.user.socialStats,
+                moderator: i.moderator,
+              }))
+              .reverse(),
           },
           username: username,
         },

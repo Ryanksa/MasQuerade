@@ -7,6 +7,7 @@ import {
   notifyListeners,
 } from "../../../../listeners/room";
 import { ChatRoom } from "../../../../models/chat";
+import { Callback, Operation } from "../../../../models/listener";
 import { ResponseData } from "../../../../models/response";
 
 function post(req: NextApiRequest, res: NextApiResponse<ResponseData>) {
@@ -34,9 +35,12 @@ function post(req: NextApiRequest, res: NextApiResponse<ResponseData>) {
         })
         .then((include) => {
           notifyListeners(include.userId, {
-            id: chatRoom.id,
-            room: chatRoom.name,
-            lastActive: chatRoom.lastActive.toISOString(),
+            data: {
+              id: chatRoom.id,
+              room: chatRoom.name,
+              lastActive: chatRoom.lastActive.toISOString(),
+            },
+            operation: Operation.Add,
           });
           res.status(200).send({
             message: `Created chat room ${roomName}`,
@@ -58,8 +62,8 @@ function get(req: NextApiRequest, res: NextApiResponse) {
   res.setHeader("Cache-Control", "no-cache, no-transform");
   res.setHeader("X-Accel-Buffering", "no");
 
-  const callback = (room: ChatRoom) => {
-    res.write(`data: ${JSON.stringify(room)}\n\n`);
+  const callback: Callback<ChatRoom> = (event) => {
+    res.write(`data: ${JSON.stringify(event)}\n\n`);
   };
   addListener(userId, callback);
 

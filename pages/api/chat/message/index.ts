@@ -8,6 +8,7 @@ import {
 } from "../../../../listeners/message";
 import { ChatMessage } from "../../../../models/chat";
 import { ResponseData } from "../../../../models/response";
+import { Callback, Operation } from "../../../../models/listener";
 import { incrementSocialStats } from "../../../../utils/general";
 
 function post(req: NextApiRequest, res: NextApiResponse<ResponseData>) {
@@ -67,7 +68,10 @@ function post(req: NextApiRequest, res: NextApiResponse<ResponseData>) {
         })
         .then((includes) => {
           includes.forEach((include) => {
-            notifyListeners(include.userId, msg);
+            notifyListeners(include.userId, {
+              data: msg,
+              operation: Operation.Add,
+            });
           });
         });
     })
@@ -110,8 +114,8 @@ function get(req: NextApiRequest, res: NextApiResponse) {
   res.setHeader("Cache-Control", "no-cache, no-transform");
   res.setHeader("X-Accel-Buffering", "no");
 
-  const callback = (msg: ChatMessage) => {
-    res.write(`data: ${JSON.stringify(msg)}\n\n`);
+  const callback: Callback<ChatMessage> = (event) => {
+    res.write(`data: ${JSON.stringify(event)}\n\n`);
   };
   addListener(userId, callback);
 
