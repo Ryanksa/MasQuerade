@@ -1,15 +1,14 @@
 import axios from "axios";
-import { ChatRoom, ChatMessage } from "../models/chat";
+import { ChatRoom } from "../models/chat";
 import { Member } from "../models/user";
 import {
   ResponseData,
   ChatRoomsResponseData,
-  ChatMessagesResponseData,
+  ChatRoomResponseData,
 } from "../models/response";
-import { Callback, Event, Operation } from "../models/listener";
+import { Event } from "../models/listener";
 
 let chatRoomSubEvent: EventSource | null;
-let chatMessageSubEvent: EventSource | null;
 let roomMemberSubEvent: EventSource | null;
 
 export const getChatRooms = (
@@ -43,6 +42,34 @@ export const createChatRoom = (roomName: string): Promise<ResponseData> => {
     });
 };
 
+export const updateChatRoom = (roomId: string, newRoomName: string) => {
+  return axios
+    .put(`/api/chat/room/${roomId}`, { roomName: newRoomName })
+    .then((res) => {
+      if (res.status !== 200) {
+        throw new Error(`${res.status}: ${res.data.message}`);
+      }
+      return res.data as ChatRoomResponseData;
+    })
+    .catch((err) => {
+      return err;
+    });
+};
+
+export const deleteChatRoom = (roomId: string) => {
+  return axios
+    .delete(`/api/chat/room/${roomId}`)
+    .then((res) => {
+      if (res.status !== 200) {
+        throw new Error(`${res.status}: ${res.data.message}`);
+      }
+      return res.data as ChatRoomResponseData;
+    })
+    .catch((err) => {
+      return err;
+    });
+};
+
 export const subscribeNewChatRooms = (
   callback: (event: Event<ChatRoom>) => void
 ) => {
@@ -56,57 +83,6 @@ export const subscribeNewChatRooms = (
 export const unsubscribeNewChatRooms = () => {
   if (chatRoomSubEvent) {
     chatRoomSubEvent.close();
-  }
-};
-
-export const getChatMessages = (
-  roomId: string,
-  page: number,
-  size: number
-): Promise<ChatMessagesResponseData> => {
-  return axios
-    .get(`/api/chat/message/room?id=${roomId}&page=${page}&size=${size}`)
-    .then((res) => {
-      if (res.status !== 200) {
-        throw new Error(`${res.status}: ${res.data.message}`);
-      }
-      return res.data as ChatMessagesResponseData;
-    })
-    .catch((err) => {
-      return err;
-    });
-};
-
-export const sendChatMessage = (
-  roomId: string,
-  content: string
-): Promise<ResponseData> => {
-  return axios
-    .post("/api/chat/message/", { roomId, content })
-    .then((res) => {
-      if (res.status !== 200) {
-        throw new Error(`${res.status}: ${res.data.message}`);
-      }
-      return res.data as ResponseData;
-    })
-    .catch((err) => {
-      return err;
-    });
-};
-
-export const subscribeNewChatMessages = (
-  callback: (event: Event<ChatMessage>) => void
-) => {
-  chatMessageSubEvent = new EventSource("/api/chat/message/");
-  chatMessageSubEvent.onmessage = (event) => {
-    const eventData: Event<ChatMessage> = JSON.parse(event.data);
-    callback(eventData);
-  };
-};
-
-export const unsubscribeNewChatMessages = () => {
-  if (chatMessageSubEvent) {
-    chatMessageSubEvent.close();
   }
 };
 

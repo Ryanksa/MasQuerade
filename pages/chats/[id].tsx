@@ -17,17 +17,30 @@ import {
   sendChatMessage,
   subscribeNewChatMessages,
   unsubscribeNewChatMessages,
+} from "../../services/chatmessage";
+import {
   updateLastActive,
   addRoomMember,
   deleteRoomMember,
   subscribeNewRoomMember,
   unsubscribeNewRoomMember,
-} from "../../services/chat";
-import { MdAddModerator, MdCancel, MdShield } from "react-icons/md";
-import { BsFillPeopleFill, BsFillPersonPlusFill } from "react-icons/bs";
+  updateChatRoom,
+  deleteChatRoom,
+} from "../../services/chatroom";
+import {
+  MdAddModerator,
+  MdCancel,
+  MdShield,
+  MdCheckCircle,
+} from "react-icons/md";
+import {
+  BsFillPeopleFill,
+  BsFillPersonPlusFill,
+  BsFillTrashFill,
+} from "react-icons/bs";
 import { IoMdAddCircle } from "react-icons/io";
 import { GoSignOut } from "react-icons/go";
-import { FaUserAlt } from "react-icons/fa";
+import { FiEdit2 } from "react-icons/fi";
 
 const PAGE_SIZE = 10;
 
@@ -50,6 +63,9 @@ function Chat(props: Props) {
   const [page, setPage] = useState(0);
 
   const [inSettings, setInSettings] = useState(false);
+  const [roomName, setRoomName] = useState(data.room.room);
+  const [isEditingRoom, setIsEditingRoom] = useState(false);
+  const [editingRoomName, setEditingRoomName] = useState(data.room.room);
   const [members, setMembers] = useState<MemberType[]>(data.members);
   const [isAddingMember, setIsAddingMember] = useState(false);
   const [memberUsername, setMemberUsername] = useState("");
@@ -62,12 +78,8 @@ function Chat(props: Props) {
 
   useEffect(() => {
     subscribeNewChatMessages((event: Event<ChatMessageType>) => {
-      switch (event.operation) {
-        case Operation.Add:
-          setMessages((prevMsgs) => [event.data, ...prevMsgs]);
-          break;
-        default:
-          break;
+      if (event.operation === Operation.Add) {
+        setMessages((prevMsgs) => [event.data, ...prevMsgs]);
       }
     });
     return () => unsubscribeNewChatMessages();
@@ -75,17 +87,12 @@ function Chat(props: Props) {
 
   useEffect(() => {
     subscribeNewRoomMember((event) => {
-      switch (event.operation) {
-        case Operation.Add:
-          setMembers((prevMembers) => [...prevMembers, event.data]);
-          break;
-        case Operation.Delete:
-          setMembers((prevMembers) =>
-            prevMembers.filter((m) => m.username !== event.data.username)
-          );
-          break;
-        default:
-          break;
+      if (event.operation === Operation.Add) {
+        setMembers((prevMembers) => [...prevMembers, event.data]);
+      } else if (event.operation === Operation.Delete) {
+        setMembers((prevMembers) =>
+          prevMembers.filter((m) => m.username !== event.data.username)
+        );
       }
     });
     return () => unsubscribeNewRoomMember();
@@ -147,17 +154,30 @@ function Chat(props: Props) {
   };
 
   const handleAddMember = (username: string, moderator: boolean) => {
-    addRoomMember(roomId, username, moderator).finally(() => {
+    addRoomMember(roomId, username, moderator).then(() => {
       setIsAddingMember(false);
       setMemberUsername("");
     });
   };
 
   const handleDeleteMember = (username: string) => {
-    deleteRoomMember(roomId, username).finally(() => {
+    deleteRoomMember(roomId, username).then(() => {
       if (username === props.username) {
         router.push("/chats");
       }
+    });
+  };
+
+  const handleUpdateRoom = () => {
+    updateChatRoom(roomId, editingRoomName).then(() => {
+      setRoomName(editingRoomName);
+      setIsEditingRoom(false);
+    });
+  };
+
+  const handleDeleteRoom = () => {
+    deleteChatRoom(roomId).then(() => {
+      router.push("/chats");
     });
   };
 
@@ -171,7 +191,7 @@ function Chat(props: Props) {
               onClick={() => setInSettings(true)}
             >
               <BsFillPeopleFill size={24} />
-              {data.room.room}
+              {roomName}
             </div>
           </div>
           <div className="w-full h-[calc(100%-66px-32px)] pb-8 flex flex-col-reverse overflow-scroll scrollbar-hidden">
@@ -247,8 +267,46 @@ function Chat(props: Props) {
                     transformOrigin="left"
                     hoverInvert={false}
                   />
-                  <div className="relative left-1/4 -top-8 w-3/4 text-4xl">
-                    {data.room.room}
+                  <div className="relative left-12 -top-6 w-[calc(100%-3rem)] text-4xl flex justify-between items-center">
+                    {!isEditingRoom ? (
+                      <>
+                        {roomName}
+                        <div className="flex gap-2">
+                          <FiEdit2
+                            size={24}
+                            className="cursor-pointer text-neutral-900 hover:text-neutral-50"
+                            onClick={() => setIsEditingRoom(true)}
+                          />
+                          <BsFillTrashFill
+                            size={24}
+                            className="cursor-pointer text-neutral-900 hover:text-neutral-50"
+                            onClick={handleDeleteRoom}
+                          />
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <input
+                          type="text"
+                          placeholder="Room Name"
+                          className="w-4/5 text-lg px-2 py-1 rounded-sm text-neutral-900"
+                          value={editingRoomName}
+                          onChange={(e) => setEditingRoomName(e.target.value)}
+                        />
+                        <div className="flex gap-2">
+                          <MdCheckCircle
+                            size={24}
+                            className="cursor-pointer text-neutral-900 hover:text-neutral-50"
+                            onClick={handleUpdateRoom}
+                          />
+                          <MdCancel
+                            size={24}
+                            className="cursor-pointer text-neutral-900 hover:text-neutral-50"
+                            onClick={() => setIsEditingRoom(false)}
+                          />
+                        </div>
+                      </>
+                    )}
                   </div>
                 </div>
                 <div className="flex flex-col gap-4">

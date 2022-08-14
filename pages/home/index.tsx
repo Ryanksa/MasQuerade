@@ -9,6 +9,7 @@ import MasquerText from "../../components/MasquerText";
 import { BiMessageDetail } from "react-icons/bi";
 import { FaUserAlt } from "react-icons/fa";
 import { useRouter } from "next/router";
+import { directMessageUser } from "../../services/user";
 
 type Props = {
   data: {
@@ -20,6 +21,13 @@ type Props = {
 function Home(props: Props) {
   const { data } = props;
   const router = useRouter();
+
+  const handleDirectMessageUser = (username: string) => {
+    directMessageUser(username).then((res) => {
+      router.push(`/chats/${res.data?.id}`);
+    });
+  };
+
   return (
     <AuthenticatedLayout>
       <div className="flex flex-col-reverse sm:flex-row px-8 py-4 relative">
@@ -40,7 +48,7 @@ function Home(props: Props) {
             <MasquerText
               text="RecEnt"
               flipIndices={[0, 3]}
-              leftFontSize={48}
+              leftFontSize={38}
               fontStepSize={0}
               transform="rotate(8deg)"
               transformOrigin="left"
@@ -49,7 +57,7 @@ function Home(props: Props) {
             <MasquerText
               text="ChaTs"
               flipIndices={[0]}
-              leftFontSize={54}
+              leftFontSize={44}
               fontStepSize={-2}
               transform="rotate(2deg)"
               transformOrigin="left"
@@ -60,7 +68,7 @@ function Home(props: Props) {
             {data.rooms.map((room) => (
               <div
                 key={room.id}
-                className="text-neutral-50 text-center font-semibold text-2xl cursor-pointer relative before:absolute before:top-[15%] before:left-[10%] before:w-4/5 before:h-full before:bg-neutral-800 before:transition-all before:scale-0 before:-z-10 hover:before:scale-100 hover:before:rotate-6 hover:before:-skew-x-2 hover:before:-skew-y-3 hover:before:animate-wiggle"
+                className="text-neutral-50 text-center font-semibold text-2xl cursor-pointer relative before:absolute before:top-[15%] before:left-[10%] before:w-4/5 before:h-full before:bg-neutral-700 before:transition-all before:scale-0 before:-z-10 hover:before:scale-100 hover:before:rotate-6 hover:before:-skew-x-2 hover:before:-skew-y-3 hover:before:animate-wiggle"
                 onClick={() => router.push(`/chats/${room.id}`)}
               >
                 {room.room}
@@ -74,7 +82,7 @@ function Home(props: Props) {
             <MasquerText
               text="DisCOver"
               flipIndices={[4, 5]}
-              leftFontSize={48}
+              leftFontSize={38}
               fontStepSize={0}
               transform="rotate(-2deg)"
               transformOrigin="left"
@@ -83,8 +91,8 @@ function Home(props: Props) {
             <MasquerText
               text="UserS"
               flipIndices={[0]}
-              leftFontSize={54}
-              fontStepSize={-4}
+              leftFontSize={44}
+              fontStepSize={-2}
               transform="rotate(2deg)"
               transformOrigin="left"
               hoverInvert={false}
@@ -102,7 +110,10 @@ function Home(props: Props) {
                   </h2>
                   <h4 className="text-sm">{user.username}</h4>
                 </div>
-                <BiMessageDetail className="cursor-pointer text-4xl hover:animate-wiggle hover:text-red-400" />
+                <BiMessageDetail
+                  className="cursor-pointer text-4xl transition-all hover:text-neutral-200 hover:-translate-y-1"
+                  onClick={() => handleDirectMessageUser(user.username)}
+                />
               </div>
             ))}
           </div>
