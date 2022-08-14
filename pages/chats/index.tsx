@@ -12,7 +12,7 @@ import {
   createChatRoom,
   subscribeNewChatRooms,
   unsubscribeNewChatRooms,
-} from "../../services/chat";
+} from "../../services/chatroom";
 import { useRouter } from "next/router";
 import { Operation } from "../../models/listener";
 
@@ -98,14 +98,14 @@ function Chats(props: Props) {
             <IoAddCircle
               onClick={() => setNewRoomInput(true)}
               size="4rem"
-              className="absolute -top-2 -left-16 cursor-pointer fill-stone-700 hover:fill-stone-600"
+              className="absolute -top-2 -left-16 cursor-pointer fill-neutral-800 hover:fill-neutral-700"
             />
           )}
           {newRoomInput && (
             <div
               className={`
                 absolute -bottom-52 right-0 sm:-bottom-4 sm:-right-12 w-96 h-48 flex flex-col justify-center py-2 px-14 skew-y-3 skew-x-6 bg-gray-50
-                before:absolute before:left-8 before:top-6 before:-z-10 before:w-80 before:h-36 before:bg-neutral-700 before:-skew-x-6 before:-skew-y-3
+                before:absolute before:left-8 before:top-6 before:-z-10 before:w-80 before:h-36 before:bg-neutral-900 before:-skew-x-6 before:-skew-y-3
               `}
             >
               <input
@@ -181,11 +181,11 @@ function Chats(props: Props) {
           </div>
         )}
 
-        <div className="text-3xl w-full min-h-[8rem] text-gray-50 bg-neutral-700 overflow-hidden skew-x-1 skew-y-2">
+        <div className="text-3xl w-full min-h-[8rem] text-gray-50 bg-neutral-900 overflow-hidden skew-x-1 skew-y-2">
           {chatRooms.map((room, idx) => (
             <div
               key={idx}
-              className="w-full cursor-pointer relative before:absolute before:top-[15%] before:left-[10%] before:w-4/5 before:h-3/4 before:bg-neutral-800 before:transition-all before:scale-0 before:-z-10 hover:before:scale-100 hover:before:rotate-6 hover:before:-skew-x-2 hover:before:-skew-y-3 hover:before:animate-wiggle"
+              className="w-full cursor-pointer relative before:absolute before:top-[15%] before:left-1/2 hover:before:left-[10%] before:w-0 hover:before:w-4/5 before:h-3/4 before:bg-neutral-700 before:transition-all before:-z-10 before:scale-0 hover:before:scale-100 hover:before:rotate-6 hover:before:-skew-x-2 hover:before:-skew-y-3 hover:before:animate-wiggle"
               onClick={() => router.push(`/chats/${room.id}`)}
             >
               <div className="relative w-fit font-semibold m-auto p-2">
