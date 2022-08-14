@@ -9,7 +9,7 @@ function Document() {
           rel="stylesheet"
         />
       </Head>
-      <body>
+      <body className="custom-scrollbar">
         <Main />
         <NextScript />
       </body>

@@ -64,11 +64,11 @@ function Home(props: Props) {
               hoverInvert={false}
             />
           </div>
-          <div className="bg-neutral-900 p-4 -skew-x-2 flex flex-col gap-2">
+          <div className="bg-neutral-900 p-4 -skew-x-2 flex flex-col gap-2 overflow-hidden">
             {data.rooms.map((room) => (
               <div
                 key={room.id}
-                className="text-neutral-50 text-center font-semibold text-2xl cursor-pointer relative before:absolute before:top-[15%] before:left-[10%] before:w-4/5 before:h-full before:bg-neutral-700 before:transition-all before:scale-0 before:-z-10 hover:before:scale-100 hover:before:rotate-6 hover:before:-skew-x-2 hover:before:-skew-y-3 hover:before:animate-wiggle"
+                className="text-neutral-50 text-center font-semibold text-2xl cursor-pointer relative before:absolute before:top-[15%] before:left-1/2 hover:before:left-[10%] before:w-0 hover:before:w-4/5 before:h-full before:bg-neutral-700 before:-z-10 before:transition-all before:scale-0 hover:before:scale-100 hover:before:rotate-6 hover:before:-skew-x-2 hover:before:-skew-y-3 hover:before:animate-wiggle"
                 onClick={() => router.push(`/chats/${room.id}`)}
               >
                 {room.room}
@@ -98,11 +98,11 @@ function Home(props: Props) {
               hoverInvert={false}
             />
           </div>
-          <div className="bg-neutral-900 p-4 -skew-x-2 flex flex-col gap-6">
+          <div className="bg-neutral-900 p-4 -skew-x-2 flex flex-col gap-6 overflow-hidden">
             {data.users.map((user) => (
               <div
                 key={user.username}
-                className="text-neutral-50 font-semibold text-2xl flex items-center justify-between px-16"
+                className="text-neutral-50 font-semibold text-2xl flex items-center justify-between px-4 sm:px-16"
               >
                 <div className="flex flex-col gap-1">
                   <h2 className="text-2xl flex items-center gap-3">

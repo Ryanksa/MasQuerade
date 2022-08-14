@@ -185,7 +185,7 @@ function Chats(props: Props) {
           {chatRooms.map((room, idx) => (
             <div
               key={idx}
-              className="w-full cursor-pointer relative before:absolute before:top-[15%] before:left-[10%] before:w-4/5 before:h-3/4 before:bg-neutral-700 before:transition-all before:scale-0 before:-z-10 hover:before:scale-100 hover:before:rotate-6 hover:before:-skew-x-2 hover:before:-skew-y-3 hover:before:animate-wiggle"
+              className="w-full cursor-pointer relative before:absolute before:top-[15%] before:left-1/2 hover:before:left-[10%] before:w-0 hover:before:w-4/5 before:h-3/4 before:bg-neutral-700 before:transition-all before:-z-10 before:scale-0 hover:before:scale-100 hover:before:rotate-6 hover:before:-skew-x-2 hover:before:-skew-y-3 hover:before:animate-wiggle"
               onClick={() => router.push(`/chats/${room.id}`)}
             >
               <div className="relative w-fit font-semibold m-auto p-2">

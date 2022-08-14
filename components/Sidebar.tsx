@@ -19,7 +19,7 @@ function Sidebar() {
       <div
         className={`
           absolute -bottom-40 -left-28 bg-red-500 w-56 h-56
-          rounded-full flex justify-center items-center
+          rounded-full flex justify-center items-center shadow-2xl
           ${styles.container}
         `}
       >
