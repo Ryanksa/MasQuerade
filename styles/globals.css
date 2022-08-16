@@ -15,15 +15,12 @@
     scrollbar-width: thin;
     scrollbar-color: black white;
   }
-
   .custom-scrollbar::-webkit-scrollbar {
     width: 12px;
   }
-
   .custom-scrollbar::-webkit-scrollbar-track {
     background: white;
   }
-
   .custom-scrollbar::-webkit-scrollbar-thumb {
     background-color: black;
     border-radius: 6px;

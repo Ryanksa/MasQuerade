@@ -5,6 +5,12 @@ function BaseLayout() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
+    canvasDraw();
+    window.addEventListener("resize", canvasDraw);
+    () => window.removeEventListener("resize", canvasDraw);
+  }, []);
+
+  const canvasDraw = () => {
     if (!canvasRef.current) return;
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
@@ -22,17 +28,12 @@ function BaseLayout() {
     ctx.lineTo(getRandomArbitrary((7 * width) / 10, (8 * width) / 10), height);
     ctx.lineTo(width, height);
     ctx.lineTo(width, getRandomArbitrary(height / 3, (2 * height) / 5));
-    ctx.lineTo(getRandomArbitrary((2 * width) / 10, (3 * width) / 10), 0);
+    ctx.lineTo(getRandomArbitrary(width / 10, width / 5), 0);
     ctx.fill();
     ctx.restore();
-  }, []);
+  };
 
-  return (
-    <canvas
-      ref={canvasRef}
-      className="fixed top-0 left-0 -z-50 w-full h-full"
-    ></canvas>
-  );
+  return <canvas ref={canvasRef} className="fixed top-0 left-0 -z-50"></canvas>;
 }
 
 export default BaseLayout;
