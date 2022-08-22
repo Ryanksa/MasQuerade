@@ -1,5 +1,3 @@
-# Project: Masquerade
+# Masquerade
 
-## Description and Preview
-
-A messaging app themed after the game Persona 5
+A messaging app themed after the UI in the game Persona 5.
