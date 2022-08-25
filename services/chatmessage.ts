@@ -17,9 +17,6 @@ export const getChatMessages = (
         throw new Error(`${res.status}: ${res.data.message}`);
       }
       return res.data as ChatMessagesResponseData;
-    })
-    .catch((err) => {
-      return err;
     });
 };
 
@@ -27,17 +24,12 @@ export const sendChatMessage = (
   roomId: string,
   content: string
 ): Promise<ResponseData> => {
-  return axios
-    .post("/api/chat/message/", { roomId, content })
-    .then((res) => {
-      if (res.status !== 200) {
-        throw new Error(`${res.status}: ${res.data.message}`);
-      }
-      return res.data as ResponseData;
-    })
-    .catch((err) => {
-      return err;
-    });
+  return axios.post("/api/chat/message/", { roomId, content }).then((res) => {
+    if (res.status !== 200) {
+      throw new Error(`${res.status}: ${res.data.message}`);
+    }
+    return res.data as ResponseData;
+  });
 };
 
 export const subscribeNewChatMessages = (

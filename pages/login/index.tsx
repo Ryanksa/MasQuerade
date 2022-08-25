@@ -10,6 +10,7 @@ import { AiOutlineLoading } from "react-icons/ai";
 function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
@@ -18,6 +19,9 @@ function Login() {
     return signIn(username, password)
       .then(() => {
         router.push("/home");
+      })
+      .catch(() => {
+        setError("Login failed. Incorrect username or password");
       })
       .finally(() => {
         setIsLoading(false);
@@ -56,6 +60,9 @@ function Login() {
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
+        {error !== "" && (
+          <div className="w-fit mx-auto mb-4 text-red-700 text-sm">{error}</div>
+        )}
         <button
           className="flex justify-center items-center gap-2 w-24 h-11 m-auto bg-rose-600 rounded p-2 text-gray-100 enabled:hover:bg-rose-500 enabled:active:bg-rose-700 disabled:opacity-50"
           onClick={handleSignIn}

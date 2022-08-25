@@ -25,6 +25,16 @@ const Home: NextPage = () => {
         name: "Rewn",
         roomId: DEMO_ROOM_ID,
         room: "Demo",
+        content:
+          "Welcome to Masquerade, a chat app themed after the game Persona 5.",
+        postedOn: new Date().toISOString(),
+      },
+      {
+        id: generateRandomString(32),
+        username: DEMO_USERNAME,
+        name: "Rewn",
+        roomId: DEMO_ROOM_ID,
+        room: "Demo",
         content: "Hi there!",
         postedOn: new Date().toISOString(),
       },

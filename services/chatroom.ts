@@ -22,24 +22,16 @@ export const getChatRooms = (
         throw new Error(`${res.status}: ${res.data.message}`);
       }
       return res.data as ChatRoomsResponseData;
-    })
-    .catch((err) => {
-      return err;
     });
 };
 
 export const createChatRoom = (roomName: string): Promise<ResponseData> => {
-  return axios
-    .post("/api/chat/room/", { roomName })
-    .then((res) => {
-      if (res.status !== 200) {
-        throw new Error(`${res.status}: ${res.data.message}`);
-      }
-      return res.data as ResponseData;
-    })
-    .catch((err) => {
-      return err;
-    });
+  return axios.post("/api/chat/room/", { roomName }).then((res) => {
+    if (res.status !== 200) {
+      throw new Error(`${res.status}: ${res.data.message}`);
+    }
+    return res.data as ResponseData;
+  });
 };
 
 export const updateChatRoom = (roomId: string, newRoomName: string) => {
@@ -50,24 +42,16 @@ export const updateChatRoom = (roomId: string, newRoomName: string) => {
         throw new Error(`${res.status}: ${res.data.message}`);
       }
       return res.data as ChatRoomResponseData;
-    })
-    .catch((err) => {
-      return err;
     });
 };
 
 export const deleteChatRoom = (roomId: string) => {
-  return axios
-    .delete(`/api/chat/room/${roomId}`)
-    .then((res) => {
-      if (res.status !== 200) {
-        throw new Error(`${res.status}: ${res.data.message}`);
-      }
-      return res.data as ChatRoomResponseData;
-    })
-    .catch((err) => {
-      return err;
-    });
+  return axios.delete(`/api/chat/room/${roomId}`).then((res) => {
+    if (res.status !== 200) {
+      throw new Error(`${res.status}: ${res.data.message}`);
+    }
+    return res.data as ChatRoomResponseData;
+  });
 };
 
 export const subscribeNewChatRooms = (
@@ -87,17 +71,12 @@ export const unsubscribeNewChatRooms = () => {
 };
 
 export const updateLastActive = (roomId: string): Promise<ResponseData> => {
-  return axios
-    .post(`/api/chat/room/${roomId}`)
-    .then((res) => {
-      if (res.status !== 200) {
-        throw new Error(`${res.status}: ${res.data.message}`);
-      }
-      return res.data as ResponseData;
-    })
-    .catch((err) => {
-      return err;
-    });
+  return axios.post(`/api/chat/room/${roomId}`).then((res) => {
+    if (res.status !== 200) {
+      throw new Error(`${res.status}: ${res.data.message}`);
+    }
+    return res.data as ResponseData;
+  });
 };
 
 export const addRoomMember = (
@@ -112,9 +91,6 @@ export const addRoomMember = (
         throw new Error(`${res.status}: ${res.data.message}`);
       }
       return res.data as ResponseData;
-    })
-    .catch((err) => {
-      return err;
     });
 };
 
@@ -129,9 +105,6 @@ export const deleteRoomMember = (
         throw new Error(`${res.status}: ${res.data.message}`);
       }
       return res.data as ResponseData;
-    })
-    .catch((err) => {
-      return err;
     });
 };
 

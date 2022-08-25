@@ -13,9 +13,6 @@ export const signUp = (
         throw new Error(`${res.status}: ${res.data.message}`);
       }
       return res.data as ResponseData;
-    })
-    .catch((err) => {
-      return err;
     });
 };
 
@@ -23,29 +20,19 @@ export const signIn = (
   username: string,
   password: string
 ): Promise<ResponseData> => {
-  return axios
-    .post("/api/user/signin", { username, password })
-    .then((res) => {
-      if (res.status !== 200) {
-        throw new Error(`${res.status}: ${res.data.message}`);
-      }
-      return res.data as ResponseData;
-    })
-    .catch((err) => {
-      return err;
-    });
+  return axios.post("/api/user/signin", { username, password }).then((res) => {
+    if (res.status !== 200) {
+      throw new Error(`${res.status}: ${res.data.message}`);
+    }
+    return res.data as ResponseData;
+  });
 };
 
 export const signOut = (): Promise<ResponseData> => {
-  return axios
-    .get("/api/user/signout")
-    .then((res) => {
-      if (res.status !== 200) {
-        throw new Error(`${res.status}: ${res.data.message}`);
-      }
-      return res.data as ResponseData;
-    })
-    .catch((err) => {
-      return err;
-    });
+  return axios.get("/api/user/signout").then((res) => {
+    if (res.status !== 200) {
+      throw new Error(`${res.status}: ${res.data.message}`);
+    }
+    return res.data as ResponseData;
+  });
 };
