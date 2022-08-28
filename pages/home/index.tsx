@@ -68,7 +68,7 @@ function Home(props: Props) {
             {data.rooms.map((room) => (
               <div
                 key={room.id}
-                className="text-neutral-50 text-center font-semibold text-2xl cursor-pointer relative before:absolute before:top-[15%] before:left-1/2 hover:before:left-[10%] before:w-0 hover:before:w-4/5 before:h-full before:bg-neutral-700 before:-z-10 before:transition-all before:scale-0 hover:before:scale-100 hover:before:rotate-6 hover:before:-skew-x-2 hover:before:-skew-y-3 hover:before:animate-wiggle"
+                className="text-neutral-50 w-fit mx-auto text-center font-semibold text-2xl cursor-pointer relative before:absolute before:top-[15%] before:left-1/2 hover:before:-left-[45px] before:w-0 hover:before:w-[calc(100%+90px)] before:h-full before:bg-neutral-700 before:-z-10 before:transition-all before:scale-0 hover:before:scale-100 hover:before:rotate-6 hover:before:-skew-x-6 hover:before:-skew-y-3 hover:before:animate-wiggle"
                 onClick={() => router.push(`/chats/${room.id}`)}
               >
                 {room.room}
