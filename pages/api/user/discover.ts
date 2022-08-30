@@ -31,6 +31,9 @@ function get(req: NextApiRequest, res: NextApiResponse<UsersResponseData>) {
         where: {
           id: { in: usersInSameRoom },
         },
+        orderBy: { socialStats: "desc" },
+        skip: 0,
+        take: 5,
       });
     })
     .then((users) => {

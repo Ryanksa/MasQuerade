@@ -81,8 +81,8 @@ function ChatMessage(props: Props) {
             text-neutral-800 font-black rounded-t-[3px] transition-all
             ${
               received
-                ? "left-[60px] rotate-[-1deg] group-hover:top-[-18px] group-active:top-[-18px]"
-                : "right-[35px] rotate-[-2deg] group-hover:top-[-18px] group-active:top-[-18px]"
+                ? "left-[60px] rotate-[-1deg] group-hover:top-[-21px] group-active:top-[-21px]"
+                : "right-[35px] rotate-[-2deg] group-hover:top-[-21px] group-active:top-[-21px]"
             }
           `}
         >
