@@ -27,9 +27,9 @@ model ChatRoom {
 
 model RoomIncludes {
   id         String   @id @default(cuid())
-  room       ChatRoom @relation(fields: [roomId], references: [id])
+  room       ChatRoom @relation(fields: [roomId], references: [id], onDelete: Cascade)
   roomId     String
-  user       User     @relation(fields: [userId], references: [id])
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId     String
   moderator  Boolean
   lastActive DateTime @default(now())
@@ -37,9 +37,9 @@ model RoomIncludes {
 
 model ChatMessage {
   id       String   @id @default(cuid())
-  user     User     @relation(fields: [userId], references: [id])
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId   String
-  room     ChatRoom @relation(fields: [roomId], references: [id])
+  room     ChatRoom @relation(fields: [roomId], references: [id], onDelete: Cascade)
   roomId   String
   content  String
   postedOn DateTime
