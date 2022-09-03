@@ -49,6 +49,9 @@ function Login() {
             id="signup-username"
             className="block w-full text-l font-normal rounded border-2 border-gray-300"
             onChange={(e) => setUsername(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") handleSignIn();
+            }}
           />
         </div>
         <div className="mb-4 mx-auto w-11/12">
@@ -58,6 +61,9 @@ function Login() {
             id="signup-password"
             className="block w-full text-l font-normal rounded border-2 border-gray-300"
             onChange={(e) => setPassword(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") handleSignIn();
+            }}
           />
         </div>
         {error !== "" && (
