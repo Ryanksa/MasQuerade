@@ -77,7 +77,7 @@ function ChatMessage(props: Props) {
       >
         <div
           className={`
-            absolute top-[20px] py-[1px] px-[8px] bg-neutral-50 
+            absolute top-[20px] py-[1px] px-[8px] w-max bg-neutral-50 
             text-neutral-800 font-black rounded-t-[3px] transition-all
             ${
               received

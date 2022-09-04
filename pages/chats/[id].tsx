@@ -216,7 +216,7 @@ function Chat(props: Props) {
           <div className="w-full flex items-center p-[8px]">
             <input
               type="text"
-              className="w-10/12 text-[24px] p-[4px] border-[3px] border-neutral-900 rounded-[5px]"
+              className="w-[calc(100%-90px)] text-[24px] p-[4px] border-[3px] border-neutral-900 rounded-[5px]"
               placeholder="Send a message"
               value={message}
               onChange={(e) => setMessage(e.target.value)}
