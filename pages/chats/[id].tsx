@@ -182,8 +182,8 @@ function Chat(props: Props) {
   };
 
   return (
-    <div className="sm:p-8">
-      <Phone>
+    <div className="sm:p-8 sm:min-h-screen sm:grid sm:items-center">
+      <Phone enterAnimation={true}>
         <div className="relative w-full h-full overflow-hidden flex flex-col overflow-anchor-none">
           <div className="w-full h-[32px] bg-red-600 bg-opacity-50 border-neutral-900 flex px-4 py-[4px] truncate">
             <div

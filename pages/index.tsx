@@ -71,7 +71,7 @@ const Home: NextPage = () => {
             hoverInvert={false}
           />
         </div>
-        <Phone>
+        <Phone enterAnimation={false}>
           <div className="relative w-full h-full overflow-hidden flex flex-col overflow-anchor-none">
             <div className="w-full h-full pb-8 flex flex-col-reverse overflow-scroll scrollbar-hidden">
               {messages.map((msg) => (
