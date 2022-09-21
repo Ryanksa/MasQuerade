@@ -26,7 +26,7 @@ export const getChatRooms = (
 };
 
 export const createChatRoom = (roomName: string): Promise<ResponseData> => {
-  return axios.post("/api/chat/room/", { roomName }).then((res) => {
+  return axios.post("/api/chat/room", { roomName }).then((res) => {
     if (res.status !== 200) {
       throw new Error(`${res.status}: ${res.data.message}`);
     }
@@ -57,7 +57,7 @@ export const deleteChatRoom = (roomId: string) => {
 export const subscribeNewChatRooms = (
   callback: (event: Event<ChatRoom>) => void
 ) => {
-  chatRoomSubEvent = new EventSource("/api/chat/room/");
+  chatRoomSubEvent = new EventSource("/api/chat/room");
   chatRoomSubEvent.onmessage = (event) => {
     const eventData: Event<ChatRoom> = JSON.parse(event.data);
     callback(eventData);
@@ -85,7 +85,7 @@ export const addRoomMember = (
   moderator: boolean
 ): Promise<ResponseData> => {
   return axios
-    .post("/api/chat/room/member/", { roomId, username, moderator })
+    .post("/api/chat/room/member", { roomId, username, moderator })
     .then((res) => {
       if (res.status !== 200) {
         throw new Error(`${res.status}: ${res.data.message}`);
@@ -111,7 +111,7 @@ export const deleteRoomMember = (
 export const subscribeNewRoomMember = (
   callback: (event: Event<Member>) => void
 ) => {
-  roomMemberSubEvent = new EventSource("/api/chat/room/member/");
+  roomMemberSubEvent = new EventSource("/api/chat/room/member");
   roomMemberSubEvent.onmessage = (event) => {
     const eventData: Event<Member> = JSON.parse(event.data);
     callback(eventData);

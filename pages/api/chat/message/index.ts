@@ -23,65 +23,61 @@ function post(req: NextApiRequest, res: NextApiResponse<ResponseData>) {
   const userId: string = req.cookies.id ?? "";
 
   return prisma.roomIncludes
-    .findFirst({
-      where: { roomId: roomId, userId: userId },
+    .findMany({
+      where: { roomId: roomId },
     })
     .then((includes) => {
-      if (!includes) {
+      if (!includes.find((i) => i.userId === userId)) {
         res.status(403).send({
           message: "Must be in the chat room to post a message there",
         });
+        return false;
       }
 
-      return prisma.chatMessage.create({
-        data: {
-          userId: userId,
-          roomId: roomId,
-          content: content,
-          postedOn: new Date(),
-        },
-        select: {
-          id: true,
-          user: true,
-          room: true,
-          content: true,
-          postedOn: true,
-        },
-      });
-    })
-    .then((chatMessage) => {
-      const msg = {
-        id: chatMessage.id,
-        username: chatMessage.user.username,
-        name: chatMessage.user.name,
-        roomId: chatMessage.room.id,
-        room: chatMessage.room.name,
-        content: chatMessage.content,
-        postedOn: chatMessage.postedOn.toISOString(),
-      };
-
-      return prisma.roomIncludes
-        .findMany({
-          where: {
-            roomId: msg.roomId,
+      return prisma.chatMessage
+        .create({
+          data: {
+            userId: userId,
+            roomId: roomId,
+            content: content,
+            postedOn: new Date(),
+          },
+          select: {
+            id: true,
+            user: true,
+            room: true,
+            content: true,
+            postedOn: true,
           },
         })
-        .then((includes) => {
+        .then((chatMessage) => {
+          const msg = {
+            id: chatMessage.id,
+            username: chatMessage.user.username,
+            name: chatMessage.user.name,
+            roomId: chatMessage.room.id,
+            room: chatMessage.room.name,
+            content: chatMessage.content,
+            postedOn: chatMessage.postedOn.toISOString(),
+          };
           includes.forEach((include) => {
             notifyListeners(include.userId, {
               data: msg,
               operation: Operation.Add,
             });
           });
+          return true;
         });
     })
-    .then(() => {
+    .then((sent) => {
+      if (!sent) return;
       return prisma.chatRoom.update({
         data: { lastActive: new Date() },
         where: { id: roomId },
       });
     })
-    .then(() => {
+    .then((chatRoom) => {
+      if (!chatRoom) return;
       return prisma.user
         .findUnique({
           where: { id: userId },
@@ -94,7 +90,8 @@ function post(req: NextApiRequest, res: NextApiResponse<ResponseData>) {
           });
         });
     })
-    .then(() => {
+    .then((user) => {
+      if (!user) return;
       res.status(200).send({
         message: `Posted message in chat room ${roomId}`,
       });

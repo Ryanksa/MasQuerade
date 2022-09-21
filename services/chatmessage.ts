@@ -24,7 +24,7 @@ export const sendChatMessage = (
   roomId: string,
   content: string
 ): Promise<ResponseData> => {
-  return axios.post("/api/chat/message/", { roomId, content }).then((res) => {
+  return axios.post("/api/chat/message", { roomId, content }).then((res) => {
     if (res.status !== 200) {
       throw new Error(`${res.status}: ${res.data.message}`);
     }
@@ -35,7 +35,7 @@ export const sendChatMessage = (
 export const subscribeNewChatMessages = (
   callback: (event: Event<ChatMessage>) => void
 ) => {
-  chatMessageSubEvent = new EventSource("/api/chat/message/");
+  chatMessageSubEvent = new EventSource("/api/chat/message");
   chatMessageSubEvent.onmessage = (event) => {
     const eventData: Event<ChatMessage> = JSON.parse(event.data);
     callback(eventData);
