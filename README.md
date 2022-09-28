@@ -1,3 +1,3 @@
 # Masquerade
 
-A messaging app themed after the UI in the game Persona 5.
+Real-time chat app with design inspired by the game Persona 5.
