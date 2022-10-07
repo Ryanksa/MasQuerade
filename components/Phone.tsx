@@ -10,7 +10,7 @@ function Phone(props: Props) {
   return (
     <div
       className={`
-        w-full sm:w-[480px] h-screen sm:h-[810px] bg-red-500 m-auto rounded-md 
+        w-full sm:w-[480px] h-screen sm:h-[810px] bg-red-500 m-auto sm:rounded-md 
         border-y-0 border-x-0 sm:border-y-[30px] sm:border-x-[11px] sm:border-gray-100 
         ${styles.shell} ${props.enterAnimation ? styles.enterAnimation : ""}
       `}
