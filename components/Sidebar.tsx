@@ -1,4 +1,3 @@
-import React from "react";
 import styles from "../styles/Sidebar.module.css";
 import MasquerText from "./MasquerText";
 import { FaTheaterMasks } from "react-icons/fa";
@@ -18,13 +17,16 @@ function Sidebar() {
     <div className="fixed -bottom-12 left-1/2 z-50">
       <div
         className={`
-          absolute -bottom-40 -left-28 bg-red-500 w-56 h-56
-          rounded-full flex justify-center items-center shadow-2xl
+          absolute -bottom-40 -left-28 w-56 h-56 rounded-full 
+          flex justify-center items-center group
           ${styles.container}
         `}
       >
-        <FaTheaterMasks size="10rem" color="#ffffff" />
-
+        <FaTheaterMasks
+          size="10rem"
+          color="#ffffff"
+          className="transition-all group-hover:-rotate-[354deg]"
+        />
         <div
           className={`
             absolute left-0 top-0 w-full h-full rounded-full overflow-hidden 

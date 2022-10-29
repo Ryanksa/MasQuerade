@@ -1,8 +1,8 @@
-import React from "react";
+import { ReactNode } from "react";
 import styles from "../styles/Phone.module.css";
 
 type Props = {
-  children: React.ReactNode;
+  children: ReactNode;
   enterAnimation?: boolean;
 };
 

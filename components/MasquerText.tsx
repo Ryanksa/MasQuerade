@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import { useMemo } from "react";
 import styles from "../styles/MasquerText.module.css";
 import { getRandomInt } from "../utils/general";
 

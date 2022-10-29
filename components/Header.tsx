@@ -1,7 +1,7 @@
-import React from "react";
 import MasquerText from "./MasquerText";
 import { useRouter } from "next/router";
 import { FaTheaterMasks } from "react-icons/fa";
+import { getToday } from "../utils/general";
 
 type Props = {
   signedIn: boolean;
@@ -9,6 +9,7 @@ type Props = {
 
 function Header(props: Props) {
   const router = useRouter();
+  const today = getToday();
 
   const goToHome = () => {
     if (props.signedIn) {
@@ -47,7 +48,30 @@ function Header(props: Props) {
           hoverInvert={false}
         />
       </div>
-      {!props.signedIn && (
+      {props.signedIn ? (
+        <div className="hidden md:flex flex-col mr-8 items-end">
+          <MasquerText
+            text={`${today.month}/${today.day}`}
+            flipIndices={[2]}
+            leftFontSize={45}
+            fontStepSize={0}
+            transform=""
+            transformOrigin=""
+            hoverInvert={false}
+          />
+          <div className="relative -top-6">
+            <MasquerText
+              text={today.day_of_week}
+              flipIndices={[0, 1, 2]}
+              leftFontSize={36}
+              fontStepSize={-3}
+              transform="rotate(-24deg)"
+              transformOrigin=""
+              hoverInvert={false}
+            />
+          </div>
+        </div>
+      ) : (
         <div className="w-12 h-24 rounded-tl-full rounded-bl-full bg-red-500 relative">
           <div
             className="absolute -top-6 right-4 cursor-pointer w-max"

@@ -1,8 +1,16 @@
 .container {
   --tr-sidebar: 75ms;
-  --tr-option: 100ms;
-  --tr-stagger: 50ms;
+  --tr-option: 120ms;
+  --tr-stagger: 60ms;
   transition: bottom var(--tr-sidebar) cubic-bezier(0.4, 0, 0.2, 1);
+  /* red-500, red-900 */
+  background: radial-gradient(rgb(239 68 68) 60%, rgb(127 29 29));
+}
+
+.container:hover,
+.container:active,
+.container:focus-visible {
+  box-shadow: 0 0 6em 6em rgba(0, 0, 0, 0.3);
 }
 
 .option.home {
@@ -30,7 +38,8 @@
 .container:hover .optionsContainer,
 .container:active .optionsContainer,
 .container:focus-visible .optionsContainer {
-  animation: overflow-visible calc(var(--tr-sidebar) + var(--tr-stagger)) linear 0ms forwards;
+  animation: overflow-visible calc(var(--tr-sidebar) + var(--tr-stagger)) linear
+    0ms forwards;
 }
 
 .container:hover .option.home,
@@ -42,13 +51,15 @@
 .container:hover .option.chats,
 .container:active .option.chats,
 .container:focus-visible .option.chats {
-  animation: option-chats var(--tr-option) linear calc(var(--tr-sidebar) + var(--tr-stagger)) forwards;
+  animation: option-chats var(--tr-option) linear
+    calc(var(--tr-sidebar) + var(--tr-stagger)) forwards;
 }
 
 .container:hover .option.profile,
 .container:active .option.profile,
 .container:focus-visible .option.profile {
-  animation: option-profile var(--tr-option) linear calc(var(--tr-sidebar) + var(--tr-stagger)) forwards;
+  animation: option-profile var(--tr-option) linear
+    calc(var(--tr-sidebar) + var(--tr-stagger)) forwards;
 }
 
 .container:hover .option.logout,
@@ -64,10 +75,10 @@
 }
 
 @keyframes option-home {
-  99% {
-    left: -4rem;
+  90% {
+    left: -5rem;
     top: -2rem;
-    transform: scaleX(0.25);
+    transform: scaleX(0.6);
   }
   100% {
     left: -6rem;
@@ -77,10 +88,10 @@
 }
 
 @keyframes option-chats {
-  99% {
-    right: -6rem;
+  90% {
+    right: -7rem;
     top: -3rem;
-    transform: scaleX(0.5);
+    transform: scaleX(0.45);
   }
   100% {
     right: -8rem;
@@ -90,10 +101,10 @@
 }
 
 @keyframes option-profile {
-  99% {
-    left: -3rem;
+  90% {
+    left: -4rem;
     top: 6rem;
-    transform: scaleX(0.25);
+    transform: scaleX(0.6);
   }
   100% {
     left: -5rem;
@@ -103,10 +114,10 @@
 }
 
 @keyframes option-logout {
-  99% {
-    right: -6rem;
+  90% {
+    right: -7rem;
     top: 4rem;
-    transform: scaleX(0.5);
+    transform: scaleX(0.45);
   }
   100% {
     right: -8rem;

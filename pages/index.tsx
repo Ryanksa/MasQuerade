@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { GetServerSideProps } from "next";
 import { getServerSidePropsAuth } from "../utils/auth";
 import { generateRandomString } from "../utils/general";

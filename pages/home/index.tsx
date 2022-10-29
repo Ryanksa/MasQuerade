@@ -1,4 +1,3 @@
-import React from "react";
 import { GetServerSideProps } from "next";
 import { getServerSidePropsAuth } from "../../utils/auth";
 import prisma from "../../utils/prisma";

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { GetServerSideProps } from "next";
 import { getServerSidePropsAuth } from "../../utils/auth";
 import { useRouter } from "next/router";

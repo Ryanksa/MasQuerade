@@ -1,4 +1,3 @@
-import React from "react";
 import styles from "../styles/ChatMessage.module.css";
 import { ChatMessage as ChatMessageType } from "../models/chat";
 import { FaUser } from "react-icons/fa";

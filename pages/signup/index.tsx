@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { GetServerSideProps } from "next";
 import { getServerSidePropsAuth } from "../../utils/auth";
 import UnauthenticatedLayout from "../../layouts/UnauthenticatedLayout";

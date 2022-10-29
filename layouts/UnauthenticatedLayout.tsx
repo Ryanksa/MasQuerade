@@ -1,9 +1,9 @@
-import React from "react";
+import { ReactNode } from "react";
 import Header from "../components/Header";
 import BaseLayout from "./BaseLayout";
 
 type Props = {
-  children: React.ReactNode;
+  children: ReactNode;
 };
 
 function UnauthenticatedLayout(props: Props) {
