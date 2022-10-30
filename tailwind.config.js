@@ -31,16 +31,6 @@ module.exports = {
             height: "200%",
           },
         },
-        slideOffUser: {
-          "0%": {
-            top: "2.5%",
-            rotate: "-3deg",
-          },
-          "100%": {
-            top: "10%",
-            rotate: "-6deg",
-          },
-        },
         slideOffCard: {
           "0%": {
             left: 0,
@@ -57,7 +47,6 @@ module.exports = {
       animation: {
         wiggle: "wiggle 250ms",
         expand: "expand 300ms linear forwards",
-        slideOffUser: "slideOffUser 300ms cubic-bezier(.6,1.5,.6,1.5)",
         slideOffCard: "slideOffCard 300ms cubic-bezier(.6,1.5,.6,1.5)",
       },
     },

@@ -18,7 +18,7 @@ function Profile(props: Props) {
     <AuthenticatedLayout>
       <div className="relative w-full h-[27rem]">
         <FaUser className="absolute left-[5%] top-[2.5%] w-[90%] h-[90%] text-neutral-50 -rotate-3" />
-        <FaUser className="absolute left-[5%] top-[10%] w-[85%] h-[85%] text-neutral-900 -rotate-6 animate-slideOffUser" />
+        <FaUser className="absolute left-[5%] top-[10%] w-[85%] h-[85%] text-neutral-900 -rotate-6" />
         <div className="absolute left-1/2 top-0">
           <div className="absolute left-0 top-0 w-48 z-10">
             <MasquerText

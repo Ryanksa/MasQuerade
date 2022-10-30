@@ -1,7 +1,8 @@
 import { ReactNode } from "react";
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
-import BaseLayout from "./BaseLayout";
+import Background from "../components/Background";
+import Transition from "../components/Transition";
 
 type Props = {
   children: ReactNode;
@@ -10,10 +11,11 @@ type Props = {
 function AuthenticatedLayout(props: Props) {
   return (
     <>
-      <BaseLayout />
+      <Background />
       <Header signedIn={true} />
       <Sidebar />
       {props.children}
+      <Transition />
     </>
   );
 }

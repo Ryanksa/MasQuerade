@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { GetServerSideProps } from "next";
 import { getServerSidePropsAuth } from "../../utils/auth";
-import { useRouter } from "next/router";
+import { useRouterWithTransition } from "../../hooks/router";
 import MasquerText from "../../components/MasquerText";
 import ChatMessage from "../../components/ChatMessage";
 import Phone from "../../components/Phone";
@@ -54,7 +54,7 @@ type Props = {
 };
 
 function Chat(props: Props) {
-  const router = useRouter();
+  const router = useRouterWithTransition();
   const roomId = String(router.query.id);
   const { data, username } = props;
 

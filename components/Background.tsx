@@ -5,12 +5,14 @@ function BaseLayout() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
-    canvasDraw();
-    window.addEventListener("resize", canvasDraw);
-    () => window.removeEventListener("resize", canvasDraw);
+    drawBackground();
+    window.addEventListener("resize", drawBackground);
+    return () => {
+      window.removeEventListener("resize", drawBackground);
+    };
   }, []);
 
-  const canvasDraw = () => {
+  const drawBackground = () => {
     if (!canvasRef.current) return;
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");

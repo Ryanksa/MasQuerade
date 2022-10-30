@@ -1,6 +1,7 @@
 import { ReactNode } from "react";
 import Header from "../components/Header";
-import BaseLayout from "./BaseLayout";
+import Background from "../components/Background";
+import Transition from "../components/Transition";
 
 type Props = {
   children: ReactNode;
@@ -9,9 +10,10 @@ type Props = {
 function UnauthenticatedLayout(props: Props) {
   return (
     <>
-      <BaseLayout />
+      <Background />
       <Header signedIn={false} />
       {props.children}
+      <Transition />
     </>
   );
 }

@@ -7,7 +7,7 @@ import { User } from "../../models/user";
 import MasquerText from "../../components/MasquerText";
 import { BiMessageDetail } from "react-icons/bi";
 import { FaUserAlt } from "react-icons/fa";
-import { useRouter } from "next/router";
+import { useRouterWithTransition } from "../../hooks/router";
 import { directMessageUser } from "../../services/user";
 
 type Props = {
@@ -19,7 +19,7 @@ type Props = {
 
 function Home(props: Props) {
   const { data } = props;
-  const router = useRouter();
+  const router = useRouterWithTransition();
 
   const handleDirectMessageUser = (username: string) => {
     directMessageUser(username).then((res) => {

@@ -1,5 +1,5 @@
 import MasquerText from "./MasquerText";
-import { useRouter } from "next/router";
+import { useRouterWithTransition } from "../hooks/router";
 import { FaTheaterMasks } from "react-icons/fa";
 import { getToday } from "../utils/general";
 
@@ -8,7 +8,7 @@ type Props = {
 };
 
 function Header(props: Props) {
-  const router = useRouter();
+  const router = useRouterWithTransition();
   const today = getToday();
 
   const goToHome = () => {
@@ -28,7 +28,7 @@ function Header(props: Props) {
   };
 
   return (
-    <div className="w-full flex justify-between flex-row-reverse sm:flex-row py-12 pl-8 relative">
+    <div className="w-full flex justify-between flex-row-reverse sm:flex-row py-12 pl-8 relative z-50">
       <div
         className="relative cursor-pointer hidden sm:block"
         onClick={goToHome}

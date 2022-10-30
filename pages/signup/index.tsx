@@ -4,7 +4,7 @@ import { getServerSidePropsAuth } from "../../utils/auth";
 import UnauthenticatedLayout from "../../layouts/UnauthenticatedLayout";
 import MasquerText from "../../components/MasquerText";
 import { signUp } from "../../services/auth";
-import { useRouter } from "next/router";
+import { useRouterWithTransition } from "../../hooks/router";
 import { AiOutlineLoading } from "react-icons/ai";
 
 function Signup() {
@@ -12,7 +12,7 @@ function Signup() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const router = useRouter();
+  const router = useRouterWithTransition();
 
   const handleSignUp = () => {
     setIsLoading(true);

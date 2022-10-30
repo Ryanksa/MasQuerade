@@ -1,0 +1,34 @@
+.bar {
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    black 10%,
+    black 90%,
+    transparent
+  );
+  filter: url("#bar-texture");
+  animation: draw 150ms forwards;
+}
+
+.bar1 {
+  scale: -1;
+  animation-delay: 0ms;
+}
+
+.bar2 {
+  animation-delay: 150ms;
+}
+
+.bar3 {
+  scale: -1;
+  animation-delay: 300ms;
+}
+
+@keyframes draw {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 120%;
+  }
+}

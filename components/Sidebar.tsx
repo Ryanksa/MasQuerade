@@ -1,11 +1,11 @@
 import styles from "../styles/Sidebar.module.css";
 import MasquerText from "./MasquerText";
 import { FaTheaterMasks } from "react-icons/fa";
-import { useRouter } from "next/router";
+import { useRouterWithTransition } from "../hooks/router";
 import { signOut } from "../services/auth";
 
 function Sidebar() {
-  const router = useRouter();
+  const router = useRouterWithTransition();
 
   const handleLogout = () => {
     return signOut().then(() => {

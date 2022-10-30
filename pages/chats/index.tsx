@@ -13,7 +13,7 @@ import {
   subscribeNewChatRooms,
   unsubscribeNewChatRooms,
 } from "../../services/chatroom";
-import { useRouter } from "next/router";
+import { useRouterWithTransition } from "../../hooks/router";
 import { Operation } from "../../models/listener";
 
 type Props = {
@@ -30,7 +30,7 @@ function Chats(props: Props) {
   const [isLastPage, setIsLastPage] = useState(!hasMore);
   const [newRoomInput, setNewRoomInput] = useState(false);
   const [newRoomName, setNewRoomName] = useState("");
-  const router = useRouter();
+  const router = useRouterWithTransition();
 
   useEffect(() => {
     subscribeNewChatRooms((event) => {
@@ -104,7 +104,7 @@ function Chats(props: Props) {
           {newRoomInput && (
             <div
               className={`
-                absolute -bottom-52 right-0 sm:-bottom-4 sm:-right-12 w-96 h-48 flex flex-col justify-center py-2 px-14 skew-y-3 skew-x-6 bg-gray-50
+                absolute -bottom-52 right-0 w-96 h-48 flex flex-col justify-center py-2 px-14 skew-y-3 skew-x-6 bg-gray-50
                 before:absolute before:left-8 before:top-6 before:-z-10 before:w-80 before:h-36 before:bg-neutral-900 before:-skew-x-6 before:-skew-y-3
               `}
             >
