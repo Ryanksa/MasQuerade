@@ -11,17 +11,19 @@
 }
 
 .bar1 {
-  scale: -1;
   animation-delay: 0ms;
+  --width: 60%;
 }
 
 .bar2 {
+  scale: -1;
   animation-delay: 150ms;
+  --width: 120%;
 }
 
 .bar3 {
-  scale: -1;
   animation-delay: 300ms;
+  --width: 75%;
 }
 
 @keyframes draw {
@@ -29,6 +31,6 @@
     width: 0;
   }
   100% {
-    width: 120%;
+    width: var(--width);
   }
 }
