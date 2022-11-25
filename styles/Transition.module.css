@@ -1,13 +1,7 @@
 .bar {
-  background: linear-gradient(
-    to bottom,
-    transparent,
-    black 10%,
-    black 90%,
-    transparent
-  );
+  background: black;
   filter: url("#bar-texture");
-  animation: draw 150ms forwards;
+  animation: draw 75ms forwards;
 }
 
 .bar1 {
@@ -17,12 +11,12 @@
 
 .bar2 {
   scale: -1;
-  animation-delay: 150ms;
+  animation-delay: 75ms;
   --width: 120%;
 }
 
 .bar3 {
-  animation-delay: 300ms;
+  animation-delay: 150ms;
   --width: 75%;
 }
 
