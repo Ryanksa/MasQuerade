@@ -1,23 +1,14 @@
-.bar {
-  background: black;
-  filter: url("#bar-texture");
-  animation: draw 75ms forwards;
-}
-
 .bar1 {
-  animation-delay: 0ms;
-  --width: 60%;
+  filter: url("#bar-texture");
+  --width: 120%;
+  animation: draw 60ms linear 0ms forwards;
+  scale: -1;
 }
 
 .bar2 {
-  scale: -1;
-  animation-delay: 75ms;
-  --width: 120%;
-}
-
-.bar3 {
-  animation-delay: 150ms;
-  --width: 75%;
+  filter: url("#bar-texture");
+  --width: 90%;
+  animation: draw 30ms linear 60ms forwards;
 }
 
 @keyframes draw {

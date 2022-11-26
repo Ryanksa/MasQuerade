@@ -22,20 +22,14 @@ function Transition() {
         <div className="fixed left-0 top-0 w-screen h-screen overflow-hidden z-40">
           <div
             className={`
-              absolute right-[45%] -top-[42%] w-0 h-[45%] -skew-y-[15deg]
-              ${styles.bar} ${styles.bar1}
+              absolute -left-[15%] -top-[15%] w-0 h-[120%] -skew-y-12 bg-black
+              ${styles.bar1}
             `}
           />
           <div
             className={`
-              absolute left-0 bottom-0 w-0 h-[120%] -skew-y-[12deg]
-              ${styles.bar} ${styles.bar2}
-            `}
-          />
-          <div
-            className={`
-              absolute right-0 -bottom-[39%] w-0 h-[45%] -skew-y-[18deg]   
-              ${styles.bar} ${styles.bar3}
+              absolute right-0 top-[90%] w-0 h-[60%] -skew-y-[24deg] bg-black
+              ${styles.bar2}
             `}
           />
         </div>
@@ -45,9 +39,10 @@ function Transition() {
           <feTurbulence
             id="bar-filter"
             numOctaves="1"
-            baseFrequency="0 0.012"
+            baseFrequency="0.0009 0.015"
+            stitchTiles="stitch"
           ></feTurbulence>
-          <feDisplacementMap scale="45" in="SourceGraphic"></feDisplacementMap>
+          <feDisplacementMap scale="120" in="SourceGraphic"></feDisplacementMap>
         </filter>
       </svg>
     </>
