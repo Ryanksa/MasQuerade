@@ -43,11 +43,26 @@ module.exports = {
             rotate: "6deg",
           },
         },
+        loadingSpin: {
+          "0%": {
+            rotate: "y 0deg",
+          },
+          "80%": {
+            rotate: "y 750deg",
+          },
+          "90%": {
+            rotate: "y 720deg",
+          },
+          "100%": {
+            rotate: "y 720deg",
+          },
+        },
       },
       animation: {
         wiggle: "wiggle 250ms",
         expand: "expand 300ms linear forwards",
         slideOffCard: "slideOffCard 300ms cubic-bezier(.6,1.5,.6,1.5)",
+        loadingSpin: "loadingSpin 3s ease-in-out infinite",
       },
     },
   },
