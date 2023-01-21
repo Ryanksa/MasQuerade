@@ -29,6 +29,7 @@ function Profile(props: Props) {
               transform=""
               transformOrigin=""
               hoverInvert={false}
+              transitionIn={true}
             />
           </div>
           <h2 className="absolute left-24 top-14 text-2xl w-max bg-neutral-200 p-4 rotate-6 before:absolute before:left-2 before:top-2 before:w-full before:h-full before:bg-neutral-50 before:rotate-6 before:-z-10 before:animate-slideOffCard">
@@ -45,6 +46,7 @@ function Profile(props: Props) {
               transform=""
               transformOrigin=""
               hoverInvert={false}
+              transitionIn={true}
             />
           </div>
           <h2 className="absolute left-24 top-14 text-2xl w-max bg-neutral-200 p-4 rotate-6 before:absolute before:left-2 before:top-2 before:w-full before:h-full before:bg-neutral-50 before:rotate-6 before:-z-10 before:animate-slideOffCard">
@@ -61,6 +63,7 @@ function Profile(props: Props) {
               transform=""
               transformOrigin=""
               hoverInvert={false}
+              transitionIn={true}
             />
             <MasquerText
               text="StatS"
@@ -70,6 +73,7 @@ function Profile(props: Props) {
               transform=""
               transformOrigin=""
               hoverInvert={false}
+              transitionIn={true}
             />
           </div>
           <div className="absolute left-24 top-14 w-max p-2 rotate-6 ">
@@ -81,6 +85,7 @@ function Profile(props: Props) {
               transform=""
               transformOrigin=""
               hoverInvert={false}
+              transitionIn={false}
             />
           </div>
         </div>

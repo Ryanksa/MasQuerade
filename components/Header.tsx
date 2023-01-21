@@ -46,6 +46,7 @@ function Header(props: Props) {
           transform="rotate(-10deg)"
           transformOrigin=""
           hoverInvert={false}
+          transitionIn={false}
         />
       </div>
       {props.signedIn ? (
@@ -58,6 +59,7 @@ function Header(props: Props) {
             transform=""
             transformOrigin=""
             hoverInvert={false}
+            transitionIn={false}
           />
           <div className="relative -top-6">
             <MasquerText
@@ -68,6 +70,7 @@ function Header(props: Props) {
               transform="rotate(-24deg)"
               transformOrigin=""
               hoverInvert={false}
+              transitionIn={false}
             />
           </div>
         </div>
@@ -85,6 +88,7 @@ function Header(props: Props) {
               transform="rotate(8deg)"
               transformOrigin="right 50%"
               hoverInvert={true}
+              transitionIn={false}
             />
           </div>
           <div
@@ -99,6 +103,7 @@ function Header(props: Props) {
               transform="rotate(-15deg)"
               transformOrigin="right 50%"
               hoverInvert={true}
+              transitionIn={false}
             />
           </div>
         </div>

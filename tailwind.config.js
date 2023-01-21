@@ -7,7 +7,7 @@ module.exports = {
   theme: {
     extend: {
       keyframes: {
-        wiggle: {
+        wiggleOption: {
           "25%": {
             transform: "rotate(-3deg)",
           },
@@ -21,7 +21,15 @@ module.exports = {
             transform: "rotate(5deg) skew(-2deg, -4deg)",
           },
         },
-        expand: {
+        expandMenu: {
+          "0%": {
+            maxHeight: "0px",
+          },
+          "100%": {
+            maxHeight: "999px",
+          },
+        },
+        expandSettings: {
           "0%": {
             width: 0,
             height: 0,
@@ -38,8 +46,8 @@ module.exports = {
             rotate: 0,
           },
           "100%": {
-            left: "0.5rem",
-            top: "0.5rem",
+            left: "8px",
+            top: "8px",
             rotate: "6deg",
           },
         },
@@ -57,12 +65,41 @@ module.exports = {
             rotate: "y 720deg",
           },
         },
+        slideDown: {
+          "0%": {
+            translate: "0 -150px",
+            opacity: 0,
+          },
+          "50%": {
+            opacity: 1,
+          },
+          "100%": {
+            translate: "0 0",
+            opacity: 1,
+          },
+        },
+        slideUp: {
+          "0%": {
+            translate: "0 150px",
+            opacity: 0,
+          },
+          "50%": {
+            opacity: 1,
+          },
+          "100%": {
+            translate: "0 0",
+            opacity: 1,
+          },
+        },
       },
       animation: {
-        wiggle: "wiggle 250ms",
-        expand: "expand 300ms linear forwards",
+        wiggleOption: "wiggleOption 240ms",
+        expandMenu: "expandMenu 180ms cubic-bezier(.57,.02,.57,.02) forwards",
+        expandSettings: "expandSettings 300ms linear forwards",
         slideOffCard: "slideOffCard 300ms cubic-bezier(.6,1.5,.6,1.5)",
         loadingSpin: "loadingSpin 3s ease-in-out infinite",
+        slideDown: "slideDown 150ms ease-out",
+        slideUp: "slideUp 150ms ease-out",
       },
     },
   },

@@ -69,6 +69,7 @@ const Home: NextPage = () => {
             transform="rotate(12deg)"
             transformOrigin=""
             hoverInvert={false}
+            transitionIn={true}
           />
         </div>
         <Phone enterAnimation={false}>
@@ -107,6 +108,7 @@ const Home: NextPage = () => {
                   transform="rotate(-8deg)"
                   transformOrigin=""
                   hoverInvert={true}
+                  transitionIn={false}
                 />
               </div>
             </div>

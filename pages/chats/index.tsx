@@ -91,6 +91,7 @@ function Chats(props: Props) {
             transform="rotate(10deg)"
             transformOrigin=""
             hoverInvert={false}
+            transitionIn={true}
           />
         </div>
         <div className="absolute top-0 right-0 z-10 flex flex-col">
@@ -125,6 +126,7 @@ function Chats(props: Props) {
                     transform=""
                     transformOrigin=""
                     hoverInvert={true}
+                    transitionIn={false}
                   />
                 </div>
                 <div
@@ -142,6 +144,7 @@ function Chats(props: Props) {
                     transform=""
                     transformOrigin=""
                     hoverInvert={true}
+                    transitionIn={false}
                   />
                 </div>
               </div>
@@ -161,6 +164,7 @@ function Chats(props: Props) {
               transform=""
               transformOrigin=""
               hoverInvert={true}
+              transitionIn={false}
             />
           </div>
         )}
@@ -177,15 +181,16 @@ function Chats(props: Props) {
               transform=""
               transformOrigin=""
               hoverInvert={true}
+              transitionIn={false}
             />
           </div>
         )}
 
-        <div className="text-3xl w-full min-h-[8rem] text-gray-50 bg-neutral-900 overflow-hidden skew-x-1 skew-y-2">
+        <div className="text-3xl w-full text-gray-50 bg-neutral-900 overflow-hidden skew-x-1 skew-y-2 animate-expandMenu">
           {chatRooms.map((room, idx) => (
             <div
               key={idx}
-              className="w-fit mx-auto cursor-pointer relative before:absolute before:top-[15%] before:left-1/2 hover:before:-left-[45px] before:w-0 hover:before:w-[calc(100%+90px)] before:h-3/4 before:bg-neutral-700 before:transition-all before:-z-10 before:scale-0 hover:before:scale-100 hover:before:rotate-6 hover:before:-skew-x-2 hover:before:-skew-y-3 hover:before:animate-wiggle"
+              className="w-fit mx-auto cursor-pointer relative before:absolute before:top-[15%] before:left-1/2 hover:before:-left-[45px] before:w-0 hover:before:w-[calc(100%+90px)] before:h-3/4 before:bg-neutral-700 before:transition-all before:-z-10 before:scale-0 hover:before:scale-100 hover:before:rotate-6 hover:before:-skew-x-2 hover:before:-skew-y-3 hover:before:animate-wiggleOption"
               onClick={() => router.push(`/chats/${room.id}`)}
             >
               <div className="relative w-fit font-semibold m-auto p-2">

@@ -236,12 +236,13 @@ function Chat(props: Props) {
                 transform="rotate(-8deg)"
                 transformOrigin=""
                 hoverInvert={true}
+                transitionIn={false}
               />
             </div>
           </div>
 
           {inSettings && (
-            <div className="absolute aspect-square rounded-br-full shadow-lg bg-red-500 animate-expand">
+            <div className="absolute aspect-square rounded-br-full shadow-lg bg-red-500 animate-expandSettings">
               <div className="w-1/2 h-1/2 p-6 text-white overflow-scroll scrollbar-hidden">
                 <div
                   className="cursor-pointer mb-8"
@@ -255,6 +256,7 @@ function Chat(props: Props) {
                     transform=""
                     transformOrigin=""
                     hoverInvert={true}
+                    transitionIn={false}
                   />
                 </div>
                 <div className="mb-2">
@@ -266,6 +268,7 @@ function Chat(props: Props) {
                     transform="rotate(-12deg)"
                     transformOrigin="left"
                     hoverInvert={false}
+                    transitionIn={false}
                   />
                   <div className="relative left-12 -top-6 w-[calc(100%-3rem)] text-4xl flex justify-between items-center">
                     {!isEditingRoom ? (
@@ -319,6 +322,7 @@ function Chat(props: Props) {
                       transform="rotate(12deg)"
                       transformOrigin="left"
                       hoverInvert={false}
+                      transitionIn={false}
                     />
                   </div>
                   {members.map((user) => (

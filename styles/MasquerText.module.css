@@ -5,83 +5,172 @@
   position: relative;
 }
 
-span.back {
+.back {
   color: var(--dark);
   -webkit-text-stroke-color: var(--dark);
+  rotate: var(--rotate);
+  translate: var(--translate);
+  scale: var(--scale);
 }
 
-span.back.flip {
+.fore {
+  color: var(--light);
+  -webkit-text-stroke: 1px var(--dark);
+  rotate: var(--rotate);
+  translate: var(--translate);
+  scale: var(--scale);
+}
+
+.variation0 {
+  --translate: 0 -2px;
+}
+
+.variation1 {
+  --rotate: 0 0 1 -13deg;
+  --translate: 0 -3px;
+}
+
+.variation2 {
+  --rotate: 0 0 1 7deg;
+  --translate: 0 2px;
+}
+
+.variation3 {
+  --rotate: 0 0 1 -5deg;
+  --translate: 0 -1px;
+}
+
+.variation4 {
+  --rotate: 0 0 1 11deg;
+}
+
+.variation5 {
+  --translate: 0 3px;
+  --scale: 0.95 0.95;
+}
+
+.variation6 {
+  --rotate: 0 0 1 13deg;
+  --scale: 1.05 0.95;
+}
+
+.variation7 {
+  --rotate: 0 0 1 7deg;
+  --scale: 1.05 1;
+}
+
+.variation8 {
+  --rotate: 0 0 1 -5deg;
+  --translate: 0 2px;
+  --scale: 1.05 1.05;
+}
+
+.variation9 {
+  --rotate: 0 1 0 40deg;
+  --translate: 0 -1px;
+  --scale: 1.05 0.95;
+}
+
+/* transition in effect */
+.transitionin .back,
+.transitionin .fore {
+  animation: transition-in 300ms cubic-bezier(0.51, 1.2, 0.51, 1.18) forwards;
+}
+
+.transitionin .variation0 {
+  --rotate-ini: 0 0 1 -6deg;
+  --translate-ini: -9px 12px;
+}
+
+.transitionin .variation1 {
+  --rotate-ini: 0 0 1 24deg;
+  --translate-ini: 6px -9px;
+}
+
+.transitionin .variation2 {
+  --rotate-ini: 0 0 1 12deg;
+}
+
+.transitionin .variation3 {
+  --rotate-ini: 0 0 1 12deg;
+  --translate-ini: 9px 15px;
+}
+
+.transitionin .variation4 {
+  --rotate-ini: 0 0 1 -12deg;
+  --translate-ini: 12px -12px;
+}
+
+.transitionin .variation5 {
+  --rotate-ini: 0 0 1 -18deg;
+  --translate-ini: -9px 12px;
+  --scale-ini: 0.95 0.95;
+}
+
+.transitionin .variation6 {
+  --rotate-ini: 0 0 1 -18deg;
+  --translate-ini: -9px 12px;
+  --scale-ini: 1.05 0.95;
+}
+
+.transitionin .variation7 {
+  --rotate-ini: 0 0 1 -16deg;
+  --translate-ini: -12px -15px;
+  --scale-ini: 1.05 1;
+}
+
+.transitionin .variation8 {
+  --rotate-ini: 0 0 1 -30deg;
+  --translate-ini: 9px -6px;
+  --scale-ini: 1.05 1.05;
+}
+
+.transitionin .variation9 {
+  --rotate-ini: 0 0 1 -12deg;
+  --translate-ini: 15px -15px;
+  --scale-ini: 1.05 0.95;
+}
+
+@keyframes transition-in {
+  0% {
+    rotate: var(--rotate-ini);
+    translate: var(--translate-ini);
+    scale: var(--scale-ini);
+  }
+  100% {
+    rotate: var(--rotate);
+    translate: var(--translate);
+    scale: var(--scale);
+  }
+}
+
+/* hover invert effect */
+.back.flip {
   color: var(--light);
   -webkit-text-stroke-color: var(--light);
 }
 
-span.fore {
-  color: var(--light);
-  -webkit-text-stroke: 1px var(--dark);
-}
-
-span.fore.flip {
+.fore.flip {
   color: var(--dark);
   -webkit-text-stroke: 1px var(--light);
 }
 
-.variation0 {
-  transform: translateY(-2px);
-}
-
-.variation1 {
-  transform: rotateZ(-13deg) translateY(-3px);
-}
-
-.variation2 {
-  transform: rotateZ(7deg) translateY(2px);
-}
-
-.variation3 {
-  transform: rotateZ(-5deg) translateY(-1px);
-}
-
-.variation4 {
-  transform: rotateZ(11deg);
-}
-
-.variation5 {
-  transform: scale(0.95, 0.95) translateY(3px);
-}
-
-.variation6 {
-  transform: rotateZ(13deg) scale(1.05, 0.95);
-}
-
-.variation7 {
-  transform: rotateZ(7deg) scale(1.05, 1);
-}
-
-.variation8 {
-  transform: rotateZ(-5deg) scale(1.05, 1.05) translateY(2px);
-}
-
-.variation9 {
-  transform: rotateY(40deg) scale(1.05, 0.95) translateY(-1px);
-}
-
-/* hover invert effect */
-.container.hoverinvert:hover span.back {
+.container.hoverinvert:hover .back {
   color: var(--light);
   -webkit-text-stroke: 15px var(--light);
 }
 
-.container.hoverinvert:hover span.back.flip {
+.container.hoverinvert:hover .back.flip {
   color: var(--dark);
   -webkit-text-stroke: 15px var(--dark);
 }
 
-.container.hoverinvert:hover span.fore {
+.container.hoverinvert:hover .fore {
   color: var(--dark);
   -webkit-text-stroke: 1.5px var(--light);
 }
 
-.container.hoverinvert:hover span.fore.flip {
+.container.hoverinvert:hover .fore.flip {
   color: var(--light);
   -webkit-text-stroke: 1.5px var(--dark);
 }

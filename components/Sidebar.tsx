@@ -48,6 +48,7 @@ function Sidebar() {
               transform="rotate(2deg)"
               transformOrigin="right 100%"
               hoverInvert={true}
+              transitionIn={false}
             />
           </div>
           <div
@@ -65,6 +66,7 @@ function Sidebar() {
               transform="rotate(-10deg)"
               transformOrigin="left 100%"
               hoverInvert={true}
+              transitionIn={false}
             />
           </div>
           <div
@@ -82,6 +84,7 @@ function Sidebar() {
               transform="rotate(-20deg)"
               transformOrigin="right 100%"
               hoverInvert={true}
+              transitionIn={false}
             />
           </div>
           <div
@@ -99,6 +102,7 @@ function Sidebar() {
               transform="rotate(15deg)"
               transformOrigin="left 100%"
               hoverInvert={true}
+              transitionIn={false}
             />
           </div>
         </div>

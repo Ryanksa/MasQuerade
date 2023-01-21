@@ -30,6 +30,7 @@ type Props = {
   transform: string;
   transformOrigin: string;
   hoverInvert: boolean;
+  transitionIn: boolean;
 };
 
 function MasquerText(props: Props) {
@@ -41,6 +42,7 @@ function MasquerText(props: Props) {
     transform,
     transformOrigin,
     hoverInvert,
+    transitionIn,
   } = props;
 
   const chars: MasquerChar[] = useMemo(() => {
@@ -61,6 +63,7 @@ function MasquerText(props: Props) {
       className={`
         ${styles.container}
         ${hoverInvert ? styles.hoverinvert : ""}
+        ${transitionIn ? styles.transitionin : ""}
       `}
       style={{
         transform: transform,
