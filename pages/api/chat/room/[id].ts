@@ -180,14 +180,15 @@ function deleteHandler(
         return;
       }
 
-      return prisma.roomIncludes.deleteMany({
-        where: { roomId: id },
-      });
-    })
-    .then(() => {
-      return prisma.chatRoom.delete({
-        where: { id: id },
-      });
+      return prisma.roomIncludes
+        .deleteMany({
+          where: { roomId: id },
+        })
+        .then(() => {
+          return prisma.chatRoom.delete({
+            where: { id: id },
+          });
+        });
     })
     .then((chatRoom) => {
       if (!chatRoom) return;

@@ -274,18 +274,20 @@ function Chat(props: Props) {
                     {!isEditingRoom ? (
                       <>
                         {roomName}
-                        <div className="flex gap-2">
-                          <FiEdit2
-                            size={24}
-                            className="cursor-pointer text-neutral-900 hover:text-neutral-50"
-                            onClick={() => setIsEditingRoom(true)}
-                          />
-                          <BsFillTrashFill
-                            size={24}
-                            className="cursor-pointer text-neutral-900 hover:text-neutral-50"
-                            onClick={handleDeleteRoom}
-                          />
-                        </div>
+                        {membership?.moderator && (
+                          <div className="flex gap-2">
+                            <FiEdit2
+                              size={24}
+                              className="cursor-pointer text-neutral-900 hover:text-neutral-50"
+                              onClick={() => setIsEditingRoom(true)}
+                            />
+                            <BsFillTrashFill
+                              size={24}
+                              className="cursor-pointer text-neutral-900 hover:text-neutral-50"
+                              onClick={handleDeleteRoom}
+                            />
+                          </div>
+                        )}
                       </>
                     ) : (
                       <>
