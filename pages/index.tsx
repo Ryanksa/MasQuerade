@@ -59,8 +59,8 @@ const Home: NextPage = () => {
 
   return (
     <UnauthenticatedLayout>
-      <div className="hidden relative sm:block">
-        <div className="absolute left-1/2 -top-6 z-10">
+      <div className="absolute top-0 left-0 w-full sm:relative">
+        <div className="hidden sm:block absolute left-1/2 -top-6 z-10">
           <MasquerText
             text="PreVieW"
             flipIndices={[1, 3]}
