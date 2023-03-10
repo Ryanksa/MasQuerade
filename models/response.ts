@@ -1,31 +1,37 @@
 import { ChatRoom, ChatMessage } from "./chat";
 import { User } from "./user";
 
-export interface ResponseData {
+export type ResponseData = {
   message: string;
-}
+};
 
-export interface UserResponseData extends ResponseData {
+export type UserResponseData = {
+  message: string;
   data?: User;
-}
+};
 
-export interface UsersResponseData extends ResponseData {
+export type UsersResponseData = {
+  message: string;
   data?: User[];
-}
+};
 
-export interface ChatRoomResponseData extends ResponseData {
+export type ChatRoomResponseData = {
+  message: string;
   data?: ChatRoom;
-}
+};
 
-export interface ChatRoomsResponseData extends ResponseData {
+export type ChatRoomsResponseData = {
+  message: string;
   data?: ChatRoom[];
   hasMore?: boolean;
-}
+};
 
-export interface ChatMessageResponseData extends ResponseData {
+export type ChatMessageResponseData = {
+  message: string;
   data?: ChatMessage;
-}
+};
 
-export interface ChatMessagesResponseData extends ResponseData {
+export type ChatMessagesResponseData = {
+  message: string;
   data?: ChatMessage[];
-}
+};

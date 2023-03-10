@@ -1,11 +1,11 @@
-export interface ChatRoom {
+export type ChatRoom = {
   id: string;
   room: string;
   lastActive: string;
   seenLatest?: boolean;
-}
+};
 
-export interface ChatMessage {
+export type ChatMessage = {
   id: string;
   username: string;
   name: string;
@@ -13,4 +13,4 @@ export interface ChatMessage {
   room: string;
   content: string;
   postedOn: string;
-}
+};

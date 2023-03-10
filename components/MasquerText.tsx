@@ -15,12 +15,12 @@ const VARIATIONS = [
   styles.variation9,
 ];
 
-interface MasquerChar {
+type MasquerChar = {
   char: string;
   class: string;
   flip: boolean;
   fontSize: number;
-}
+};
 
 type Props = {
   text: string;

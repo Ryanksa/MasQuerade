@@ -1,17 +1,17 @@
-export interface User {
+export type User = {
   username: string;
   name: string;
   socialStats: number;
-}
+};
 
-export interface Member {
+export type Member = {
   username: string;
   name: string;
   socialStats: number;
   moderator: boolean;
-}
+};
 
-export interface JWTData {
+export type JWTData = {
   id: string;
   username: string;
-}
+};
