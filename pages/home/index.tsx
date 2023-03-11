@@ -1,14 +1,14 @@
 import { GetServerSideProps } from "next";
-import { getServerSidePropsAuth } from "../../utils/auth";
-import prisma from "../../utils/prisma";
-import AuthenticatedLayout from "../../layouts/AuthenticatedLayout";
-import { ChatRoom } from "../../models/chat";
-import { User } from "../../models/user";
+import { getServerSidePropsAuth } from "../../lib/utils/auth";
+import prisma from "../../lib/utils/prisma";
+import AuthenticatedLayout from "../../components/AuthenticatedLayout";
+import { ChatRoom } from "../../lib/models/chat";
+import { User } from "../../lib/models/user";
 import MasquerText from "../../components/MasquerText";
 import { BiMessageDetail } from "react-icons/bi";
 import { FaUserAlt } from "react-icons/fa";
-import { useRouterWithTransition } from "../../hooks/router";
-import { directMessageUser } from "../../services/user";
+import { useRouterWithTransition } from "../../lib/hooks/router";
+import { directMessageUser } from "../../lib/services/user";
 
 type Props = {
   data: {

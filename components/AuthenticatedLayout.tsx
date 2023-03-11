@@ -1,8 +1,8 @@
 import { ReactNode } from "react";
-import Header from "../components/Header";
-import Sidebar from "../components/Sidebar";
-import Background from "../components/Background";
-import Transition from "../components/Transition";
+import Header from "./Header";
+import Sidebar from "./Sidebar";
+import Background from "./Background";
+import Transition from "./Transition";
 
 type Props = {
   children: ReactNode;

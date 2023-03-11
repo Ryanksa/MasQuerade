@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { GetServerSideProps } from "next";
-import { getServerSidePropsAuth } from "../../utils/auth";
-import UnauthenticatedLayout from "../../layouts/UnauthenticatedLayout";
+import { getServerSidePropsAuth } from "../../lib/utils/auth";
+import UnauthenticatedLayout from "../../components/UnauthenticatedLayout";
 import MasquerText from "../../components/MasquerText";
-import { signUp } from "../../services/auth";
-import { useRouterWithTransition } from "../../hooks/router";
+import { signUp } from "../../lib/services/auth";
+import { useRouterWithTransition } from "../../lib/hooks/router";
 import { AiOutlineLoading } from "react-icons/ai";
 
 function Signup() {

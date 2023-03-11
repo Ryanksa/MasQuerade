@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { transitionCallbacks } from "../hooks/router";
+import { transitionCallbacks } from "../lib/hooks/router";
 import { FaTheaterMasks } from "react-icons/fa";
 
 function Transition() {

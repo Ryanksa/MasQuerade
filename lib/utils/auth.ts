@@ -24,6 +24,7 @@ export function isAuthenticated(req: NextApiRequest): boolean {
   req.cookies = {
     id: decoded.id,
     username: decoded.username,
+    name: decoded.name,
   };
   return true;
 }
@@ -41,6 +42,7 @@ export function getServerSidePropsAuth<T>(
       isAuthenticated = true;
       context.req.cookies["id"] = decoded.id;
       context.req.cookies["username"] = decoded.username;
+      context.req.cookies["name"] = decoded.name;
     }
   }
 

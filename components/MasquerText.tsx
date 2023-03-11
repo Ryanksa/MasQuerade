@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import styles from "../styles/MasquerText.module.css";
-import { getRandomInt } from "../utils/general";
+import { getRandomInt } from "../lib/utils/general";
 
 const VARIATIONS = [
   styles.variation0,

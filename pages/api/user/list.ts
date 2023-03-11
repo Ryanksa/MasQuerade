@@ -1,24 +1,27 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import prisma from "../../../utils/prisma";
-import { isAuthenticated } from "../../../utils/auth";
-import { UsersResponseData } from "../../../models/response";
+import prisma from "../../../lib/utils/prisma";
+import { isAuthenticated } from "../../../lib/utils/auth";
+import { UsersResponseData } from "../../../lib/models/response";
 
-function get(req: NextApiRequest, res: NextApiResponse<UsersResponseData>) {
-  let search: string = "";
-  if (req.query.search) {
-    search = String(req.query.search);
-  }
-  let page: number = 0;
-  if (req.query.page) {
-    page = +req.query.page;
-  }
-  let size: number = 10;
-  if (req.query.size) {
-    size = +req.query.size;
-  }
+async function get(
+  req: NextApiRequest,
+  res: NextApiResponse<UsersResponseData>
+) {
+  try {
+    let search: string = "";
+    if (req.query.search) {
+      search = String(req.query.search);
+    }
+    let page: number = 0;
+    if (req.query.page) {
+      page = +req.query.page;
+    }
+    let size: number = 10;
+    if (req.query.size) {
+      size = +req.query.size;
+    }
 
-  return prisma.user
-    .findMany({
+    const users = await prisma.user.findMany({
       where: {
         OR: [
           {
@@ -31,23 +34,22 @@ function get(req: NextApiRequest, res: NextApiResponse<UsersResponseData>) {
       },
       skip: page * size,
       take: size,
-    })
-    .then((users) => {
-      res.status(200).json({
-        message: `Users retrieved`,
-        data: users.map((user) => ({
-          username: user.username,
-          name: user.name,
-          socialStats: user.socialStats,
-        })),
-      });
-    })
-    .catch((err) => {
-      console.error(err);
-      res.status(500).json({
-        message: "Something went wrong on the server",
-      });
     });
+
+    res.status(200).json({
+      message: `Users retrieved`,
+      data: users.map((user) => ({
+        username: user.username,
+        name: user.name,
+        socialStats: user.socialStats,
+      })),
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      message: "Something went wrong on the server",
+    });
+  }
 }
 
 export default function handler(

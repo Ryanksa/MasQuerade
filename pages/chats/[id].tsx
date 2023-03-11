@@ -1,23 +1,23 @@
 import { useState, useEffect, useRef } from "react";
 import { GetServerSideProps } from "next";
-import { getServerSidePropsAuth } from "../../utils/auth";
-import { useRouterWithTransition } from "../../hooks/router";
+import { getServerSidePropsAuth } from "../../lib/utils/auth";
+import { useRouterWithTransition } from "../../lib/hooks/router";
 import MasquerText from "../../components/MasquerText";
 import ChatMessage from "../../components/ChatMessage";
 import Phone from "../../components/Phone";
-import prisma from "../../utils/prisma";
+import prisma from "../../lib/utils/prisma";
 import {
   ChatMessage as ChatMessageType,
   ChatRoom as ChatRoomType,
-} from "../../models/chat";
-import { Member as MemberType } from "../../models/user";
-import { Event, Operation } from "../../models/listener";
+} from "../../lib/models/chat";
+import { Member as MemberType } from "../../lib/models/user";
+import { Event, Operation } from "../../lib/models/listener";
 import {
   getChatMessages,
   sendChatMessage,
   subscribeNewChatMessages,
   unsubscribeNewChatMessages,
-} from "../../services/chatmessage";
+} from "../../lib/services/chatmessage";
 import {
   updateLastActive,
   addRoomMember,
@@ -26,7 +26,7 @@ import {
   unsubscribeNewRoomMember,
   updateChatRoom,
   deleteChatRoom,
-} from "../../services/chatroom";
+} from "../../lib/services/chatroom";
 import {
   MdAddModerator,
   MdCancel,
@@ -41,6 +41,7 @@ import {
 import { IoMdAddCircle } from "react-icons/io";
 import { GoSignOut } from "react-icons/go";
 import { FiEdit2 } from "react-icons/fi";
+import { updateRoomIncludes } from "../../lib/caches/roomIncludes";
 
 const PAGE_SIZE = 10;
 
@@ -423,11 +424,18 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         seenLatest: false,
       };
 
-      const includes = await prisma.roomIncludes.findMany({
+      const roomIncludes = await prisma.roomIncludes.findMany({
         where: { roomId: roomId },
-        select: { userId: true, user: true, moderator: true },
+        select: {
+          id: true,
+          roomId: true,
+          userId: true,
+          moderator: true,
+          lastActive: true,
+          user: true,
+        },
       });
-      if (!includes.find((i) => i.userId === userId)) {
+      if (!roomIncludes.find((include) => include.userId === userId)) {
         return {
           props: {
             data: {
@@ -439,6 +447,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
           },
         };
       }
+
+      updateRoomIncludes(roomId, roomIncludes);
 
       const chatMessages = await prisma.chatMessage.findMany({
         select: {
@@ -479,12 +489,12 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
               postedOn: msg.postedOn.toISOString(),
             })),
             room: room,
-            members: includes
-              .map((i) => ({
-                username: i.user.username,
-                name: i.user.name,
-                socialStats: i.user.socialStats,
-                moderator: i.moderator,
+            members: roomIncludes
+              .map((include) => ({
+                username: include.user.username,
+                name: include.user.name,
+                socialStats: include.user.socialStats,
+                moderator: include.moderator,
               }))
               .reverse(),
           },

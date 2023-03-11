@@ -1,8 +1,8 @@
 import styles from "../styles/Sidebar.module.css";
 import MasquerText from "./MasquerText";
 import { FaTheaterMasks } from "react-icons/fa";
-import { useRouterWithTransition } from "../hooks/router";
-import { signOut } from "../services/auth";
+import { useRouterWithTransition } from "../lib/hooks/router";
+import { signOut } from "../lib/services/auth";
 
 function Sidebar() {
   const router = useRouterWithTransition();

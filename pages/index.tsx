@@ -1,13 +1,13 @@
 import type { NextPage } from "next";
 import { useEffect, useState } from "react";
 import { GetServerSideProps } from "next";
-import { getServerSidePropsAuth } from "../utils/auth";
-import { generateRandomString } from "../utils/general";
-import UnauthenticatedLayout from "../layouts/UnauthenticatedLayout";
+import { getServerSidePropsAuth } from "../lib/utils/auth";
+import { generateRandomString } from "../lib/utils/general";
+import UnauthenticatedLayout from "../components/UnauthenticatedLayout";
 import MasquerText from "../components/MasquerText";
 import Phone from "../components/Phone";
 import ChatMessage from "../components/ChatMessage";
-import { ChatMessage as ChatMessageType } from "../models/chat";
+import { ChatMessage as ChatMessageType } from "../lib/models/chat";
 
 const DEMO_ROOM_ID = generateRandomString(32);
 const DEMO_USERNAME = generateRandomString(32);
@@ -24,7 +24,6 @@ const Home: NextPage = () => {
         username: DEMO_USERNAME,
         name: "Rewn",
         roomId: DEMO_ROOM_ID,
-        room: "Demo",
         content:
           "Welcome to Masquerade, a chat app themed after the game Persona 5.",
         postedOn: new Date().toISOString(),
@@ -34,7 +33,6 @@ const Home: NextPage = () => {
         username: DEMO_USERNAME,
         name: "Rewn",
         roomId: DEMO_ROOM_ID,
-        room: "Demo",
         content: "Hi there!",
         postedOn: new Date().toISOString(),
       },

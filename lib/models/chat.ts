@@ -10,7 +10,6 @@ export type ChatMessage = {
   username: string;
   name: string;
   roomId: string;
-  room: string;
   content: string;
   postedOn: string;
 };

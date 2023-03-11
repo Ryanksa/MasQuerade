@@ -1,5 +1,5 @@
 import { useRef, useEffect } from "react";
-import { getRandomArbitrary } from "../utils/general";
+import { getRandomArbitrary } from "../lib/utils/general";
 
 function BaseLayout() {
   const canvasRef = useRef<HTMLCanvasElement>(null);

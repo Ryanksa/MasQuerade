@@ -14,4 +14,5 @@ export type Member = {
 export type JWTData = {
   id: string;
   username: string;
+  name: string;
 };

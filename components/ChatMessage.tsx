@@ -1,7 +1,7 @@
 import styles from "../styles/ChatMessage.module.css";
-import { ChatMessage as ChatMessageType } from "../models/chat";
+import { ChatMessage as ChatMessageType } from "../lib/models/chat";
 import { FaUser } from "react-icons/fa";
-import { getNumberOfLines } from "../utils/general";
+import { getNumberOfLines } from "../lib/utils/general";
 
 const CHARS_PER_LINE = 30;
 const BASE_HEIGHT = 50;

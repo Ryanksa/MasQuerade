@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import cookie from "cookie";
-import { ResponseData } from "../../../models/response";
+import { ResponseData } from "../../../lib/models/response";
 
 function get(req: NextApiRequest, res: NextApiResponse<ResponseData>) {
   res.setHeader(

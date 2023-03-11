@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { GetServerSideProps } from "next";
-import { getServerSidePropsAuth } from "../../utils/auth";
-import AuthenticatedLayout from "../../layouts/AuthenticatedLayout";
-import { ChatRoom } from "../../models/chat";
-import prisma from "../../utils/prisma";
+import { getServerSidePropsAuth } from "../../lib/utils/auth";
+import AuthenticatedLayout from "../../components/AuthenticatedLayout";
+import { ChatRoom } from "../../lib/models/chat";
+import prisma from "../../lib/utils/prisma";
 import MasquerText from "../../components/MasquerText";
 import { IoAddCircle } from "react-icons/io5";
 import { BsExclamationLg } from "react-icons/bs";
@@ -12,9 +12,9 @@ import {
   createChatRoom,
   subscribeNewChatRooms,
   unsubscribeNewChatRooms,
-} from "../../services/chatroom";
-import { useRouterWithTransition } from "../../hooks/router";
-import { Operation } from "../../models/listener";
+} from "../../lib/services/chatroom";
+import { useRouterWithTransition } from "../../lib/hooks/router";
+import { Operation } from "../../lib/models/listener";
 
 type Props = {
   data: ChatRoom[];

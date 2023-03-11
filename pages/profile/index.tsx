@@ -1,8 +1,8 @@
 import { GetServerSideProps } from "next";
-import { getServerSidePropsAuth } from "../../utils/auth";
-import AuthenticatedLayout from "../../layouts/AuthenticatedLayout";
-import prisma from "../../utils/prisma";
-import { User } from "../../models/user";
+import { getServerSidePropsAuth } from "../../lib/utils/auth";
+import AuthenticatedLayout from "../../components/AuthenticatedLayout";
+import prisma from "../../lib/utils/prisma";
+import { User } from "../../lib/models/user";
 import MasquerText from "../../components/MasquerText";
 import { FaUser } from "react-icons/fa";
 
