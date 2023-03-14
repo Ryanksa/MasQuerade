@@ -128,6 +128,7 @@ async function deleteHandler(
     );
 
     if (
+      reqUserId !== user.id &&
       !roomIncludes.find(
         (include) => include.userId === reqUserId && include.moderator
       )
@@ -138,7 +139,7 @@ async function deleteHandler(
       return;
     }
 
-    if (!roomIncludes.find((i) => i.userId === user.id)) {
+    if (!roomIncludes.find((include) => include.userId === user.id)) {
       res.status(400).send({
         message: `User ${username} is not in chat room ${roomId}`,
       });
