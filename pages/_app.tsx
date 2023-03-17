@@ -3,14 +3,7 @@ import type { AppProps } from "next/app";
 import Head from "next/head";
 
 function MyApp({ Component, pageProps }: AppProps) {
-  return (
-    <>
-      <Head>
-        <title>MasQuerade</title>
-      </Head>
-      <Component {...pageProps} />
-    </>
-  );
+  return <Component {...pageProps} />;
 }
 
 export default MyApp;

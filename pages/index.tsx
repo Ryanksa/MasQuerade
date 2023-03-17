@@ -56,7 +56,7 @@ const Home: NextPage = () => {
   };
 
   return (
-    <UnauthenticatedLayout>
+    <UnauthenticatedLayout title="MasQuerade">
       <div className="absolute top-0 left-0 w-full sm:relative">
         <div className="hidden sm:block absolute left-1/2 -top-6 z-10">
           <MasquerText

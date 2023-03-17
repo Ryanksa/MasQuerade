@@ -80,7 +80,7 @@ function Chats(props: Props) {
   };
 
   return (
-    <AuthenticatedLayout>
+    <AuthenticatedLayout title="Chats">
       <div className="relative w-full md:w-1/2 mx-auto mt-4 pt-8 pr-6 pb-10 pl-10 bg-gray-50 -skew-x-3 -skew-y-6">
         <div className="absolute -bottom-8 -left-20 z-10">
           <MasquerText

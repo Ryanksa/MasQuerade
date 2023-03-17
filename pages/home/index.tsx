@@ -28,7 +28,7 @@ function Home(props: Props) {
   };
 
   return (
-    <AuthenticatedLayout>
+    <AuthenticatedLayout title="Home">
       <div className="flex flex-col-reverse sm:flex-row px-8 py-4 relative">
         <div className="absolute right-1/2 -top-8 z-10">
           <MasquerText

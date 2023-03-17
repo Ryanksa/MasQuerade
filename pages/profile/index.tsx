@@ -15,7 +15,7 @@ type Props = {
 function Profile(props: Props) {
   const { user } = props.data;
   return (
-    <AuthenticatedLayout>
+    <AuthenticatedLayout title="Profile">
       <div className="relative w-full h-[27rem]">
         <FaUser className="absolute left-[5%] top-[2.5%] w-[90%] h-[90%] text-neutral-50 -rotate-3" />
         <FaUser className="absolute left-[5%] top-[10%] w-[85%] h-[85%] text-neutral-900 -rotate-6" />

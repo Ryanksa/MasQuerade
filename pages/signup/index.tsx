@@ -26,7 +26,7 @@ function Signup() {
   };
 
   return (
-    <UnauthenticatedLayout>
+    <UnauthenticatedLayout title="Sign Up">
       <div className="relative max-w-md text-xl font-extrabold mx-auto mt-12 p-4 rounded border-t-8 border-r-8 border-b-2 border-l-2 border-red-100 bg-red-400 skew-x-1 skew-y-3 animate-slideDown">
         <div className="absolute -top-8 right-1/2 sm:-right-16">
           <MasquerText
