@@ -157,11 +157,11 @@ function Chats(props: Props) {
             onClick={handleNextPage}
           >
             <MasquerText
-              text=">"
+              text="v"
               flipIndices={[]}
               leftFontSize={108}
               fontStepSize={0}
-              transform=""
+              transform="rotate(-90deg)"
               transformOrigin=""
               hoverInvert={true}
               transitionIn={false}
@@ -174,11 +174,11 @@ function Chats(props: Props) {
             onClick={handlePrevPage}
           >
             <MasquerText
-              text="<"
+              text="v"
               flipIndices={[]}
               leftFontSize={108}
               fontStepSize={0}
-              transform=""
+              transform="rotate(90deg)"
               transformOrigin=""
               hoverInvert={true}
               transitionIn={false}

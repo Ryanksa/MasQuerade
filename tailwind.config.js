@@ -24,6 +24,7 @@ module.exports = {
         expandMenu: {
           "0%": {
             maxHeight: "0px",
+            padding: 0,
           },
           "100%": {
             maxHeight: "999px",
