@@ -5,6 +5,7 @@ import { useRouterWithTransition } from "../../lib/hooks/router";
 import MasquerText from "../../components/MasquerText";
 import ChatMessage from "../../components/ChatMessage";
 import Phone from "../../components/Phone";
+import RoomSettings from "../../components/RoomSettings";
 import prisma from "../../lib/utils/prisma";
 import {
   ChatMessage as ChatMessageType,
@@ -27,20 +28,7 @@ import {
   updateChatRoom,
   deleteChatRoom,
 } from "../../lib/services/chatroom";
-import {
-  MdAddModerator,
-  MdCancel,
-  MdShield,
-  MdCheckCircle,
-} from "react-icons/md";
-import {
-  BsFillPeopleFill,
-  BsFillPersonPlusFill,
-  BsFillTrashFill,
-} from "react-icons/bs";
-import { IoMdAddCircle } from "react-icons/io";
-import { GoSignOut } from "react-icons/go";
-import { FiEdit2 } from "react-icons/fi";
+import { BsFillPeopleFill } from "react-icons/bs";
 import { updateRoomIncludes } from "../../lib/caches/roomIncludes";
 import AuthenticatedLayout from "../../components/AuthenticatedLayout";
 
@@ -56,21 +44,17 @@ type Props = {
 };
 
 function Chat(props: Props) {
-  const router = useRouterWithTransition();
-  const roomId = String(router.query.id);
   const { data, username } = props;
 
+  const router = useRouterWithTransition();
+  const roomId = String(router.query.id);
+
+  const [roomName, setRoomName] = useState(data.room.room);
+  const [members, setMembers] = useState<MemberType[]>(data.members);
   const [messages, setMessages] = useState<ChatMessageType[]>(data.messages);
   const [message, setMessage] = useState("");
   const [page, setPage] = useState(0);
-
   const [inSettings, setInSettings] = useState(false);
-  const [roomName, setRoomName] = useState(data.room.room);
-  const [isEditingRoom, setIsEditingRoom] = useState(false);
-  const [editingRoomName, setEditingRoomName] = useState(data.room.room);
-  const [members, setMembers] = useState<MemberType[]>(data.members);
-  const [isAddingMember, setIsAddingMember] = useState(false);
-  const [memberUsername, setMemberUsername] = useState("");
 
   const oldestRef = useRef<HTMLDivElement>(null);
   const newestRef = useRef<HTMLDivElement>(null);
@@ -84,7 +68,7 @@ function Chat(props: Props) {
         setMessages((prevMsgs) => [event.data, ...prevMsgs]);
       }
     });
-    return () => unsubscribeNewChatMessages();
+    return unsubscribeNewChatMessages;
   }, []);
 
   useEffect(() => {
@@ -97,7 +81,7 @@ function Chat(props: Props) {
         );
       }
     });
-    return () => unsubscribeNewRoomMember();
+    return unsubscribeNewRoomMember;
   }, []);
 
   useEffect(() => {
@@ -150,16 +134,12 @@ function Chat(props: Props) {
   };
 
   const handleSend = () => {
-    sendChatMessage(roomId, message).finally(() => {
-      setMessage("");
-    });
+    sendChatMessage(roomId, message);
+    setMessage("");
   };
 
   const handleAddMember = (username: string, moderator: boolean) => {
-    addRoomMember(roomId, username, moderator).then(() => {
-      setIsAddingMember(false);
-      setMemberUsername("");
-    });
+    addRoomMember(roomId, username, moderator);
   };
 
   const handleDeleteMember = (username: string) => {
@@ -170,11 +150,9 @@ function Chat(props: Props) {
     });
   };
 
-  const handleUpdateRoom = () => {
-    updateChatRoom(roomId, editingRoomName).then(() => {
-      setRoomName(editingRoomName);
-      setIsEditingRoom(false);
-    });
+  const handleUpdateRoom = (roomName: string) => {
+    updateChatRoom(roomId, roomName);
+    setRoomName(roomName);
   };
 
   const handleDeleteRoom = () => {
@@ -243,167 +221,17 @@ function Chat(props: Props) {
                 />
               </div>
             </div>
-
             {inSettings && (
-              <div className="absolute aspect-square rounded-br-full shadow-lg bg-red-500 animate-expandSettings">
-                <div className="w-1/2 h-1/2 p-6 text-white overflow-scroll scrollbar-hidden">
-                  <div
-                    className="cursor-pointer mb-8"
-                    onClick={() => setInSettings(false)}
-                  >
-                    <MasquerText
-                      text="<Back"
-                      flipIndices={[]}
-                      leftFontSize={27}
-                      fontStepSize={3}
-                      transform=""
-                      transformOrigin=""
-                      hoverInvert={true}
-                      transitionIn={false}
-                    />
-                  </div>
-                  <div className="mb-2">
-                    <MasquerText
-                      text="RooM"
-                      flipIndices={[]}
-                      leftFontSize={54}
-                      fontStepSize={4}
-                      transform="rotate(-12deg)"
-                      transformOrigin="left"
-                      hoverInvert={false}
-                      transitionIn={false}
-                    />
-                    <div className="relative left-12 -top-6 w-[calc(100%-3rem)] text-4xl flex justify-between items-center">
-                      {!isEditingRoom ? (
-                        <>
-                          {roomName}
-                          {membership?.moderator && (
-                            <div className="flex gap-2">
-                              <FiEdit2
-                                size={24}
-                                className="cursor-pointer text-neutral-900 hover:text-neutral-50"
-                                onClick={() => setIsEditingRoom(true)}
-                              />
-                              <BsFillTrashFill
-                                size={24}
-                                className="cursor-pointer text-neutral-900 hover:text-neutral-50"
-                                onClick={handleDeleteRoom}
-                              />
-                            </div>
-                          )}
-                        </>
-                      ) : (
-                        <>
-                          <input
-                            type="text"
-                            placeholder="Room Name"
-                            className="w-4/5 text-lg px-2 py-1 rounded-sm text-neutral-900"
-                            value={editingRoomName}
-                            onChange={(e) => setEditingRoomName(e.target.value)}
-                          />
-                          <div className="flex gap-2">
-                            <MdCheckCircle
-                              size={24}
-                              className="cursor-pointer text-neutral-900 hover:text-neutral-50"
-                              onClick={handleUpdateRoom}
-                            />
-                            <MdCancel
-                              size={24}
-                              className="cursor-pointer text-neutral-900 hover:text-neutral-50"
-                              onClick={() => setIsEditingRoom(false)}
-                            />
-                          </div>
-                        </>
-                      )}
-                    </div>
-                  </div>
-                  <div className="flex flex-col gap-4">
-                    <div className="mb-4 ml-auto w-max">
-                      <MasquerText
-                        text="MemberS"
-                        flipIndices={[2]}
-                        leftFontSize={46}
-                        fontStepSize={2}
-                        transform="rotate(12deg)"
-                        transformOrigin="left"
-                        hoverInvert={false}
-                        transitionIn={false}
-                      />
-                    </div>
-                    {members.map((user) => (
-                      <div
-                        key={user.username}
-                        className="flex justify-between items-center"
-                      >
-                        <div>
-                          <div className="text-2xl text-neutral-50 flex items-center gap-2">
-                            {user.moderator && <MdShield />}
-                            {user.name}
-                          </div>
-                          <div className="text-neutral-200">
-                            {user.username}
-                          </div>
-                        </div>
-                        {(membership?.moderator ||
-                          user.username === props.username) && (
-                          <div className="flex gap-2">
-                            <GoSignOut
-                              size={24}
-                              className="cursor-pointer text-neutral-900 hover:text-neutral-50"
-                              onClick={() => handleDeleteMember(user.username)}
-                            />
-                          </div>
-                        )}
-                      </div>
-                    ))}
-                    {membership?.moderator && (
-                      <>
-                        {isAddingMember ? (
-                          <div className="flex items-center justify-between gap-2">
-                            <input
-                              type="text"
-                              placeholder="username"
-                              className="text-lg w-3/4 px-2 py-1 rounded-sm text-neutral-900"
-                              value={memberUsername}
-                              onChange={(e) =>
-                                setMemberUsername(e.target.value)
-                              }
-                            />
-                            <div className="flex items-center gap-2">
-                              <MdAddModerator
-                                size={24}
-                                className="cursor-pointer text-neutral-900 hover:text-neutral-50"
-                                onClick={() =>
-                                  handleAddMember(memberUsername, true)
-                                }
-                              />
-                              <BsFillPersonPlusFill
-                                size={24}
-                                className="cursor-pointer text-neutral-900 hover:text-neutral-50"
-                                onClick={() =>
-                                  handleAddMember(memberUsername, false)
-                                }
-                              />
-                              <MdCancel
-                                size={24}
-                                className="cursor-pointer text-neutral-900 hover:text-neutral-50"
-                                onClick={() => setIsAddingMember(false)}
-                              />
-                            </div>
-                          </div>
-                        ) : (
-                          <IoMdAddCircle
-                            size={48}
-                            className="m-auto cursor-pointer text-neutral-900 hover:text-neutral-50"
-                            onClick={() => setIsAddingMember(true)}
-                          />
-                        )}
-                      </>
-                    )}
-                  </div>
-                  <div></div>
-                </div>
-              </div>
+              <RoomSettings
+                roomName={roomName}
+                members={members}
+                membership={membership}
+                onClose={() => setInSettings(false)}
+                onUpdateRoom={handleUpdateRoom}
+                onDeleteRoom={handleDeleteRoom}
+                onAddMember={handleAddMember}
+                onDeleteMember={handleDeleteMember}
+              />
             )}
           </div>
         </Phone>
