@@ -6,6 +6,7 @@ import MasquerText from "../../components/MasquerText";
 import ChatMessage from "../../components/ChatMessage";
 import Phone from "../../components/Phone";
 import RoomSettings from "../../components/RoomSettings";
+import AuthenticatedLayout from "../../components/AuthenticatedLayout";
 import prisma from "../../lib/utils/prisma";
 import {
   ChatMessage as ChatMessageType,
@@ -30,7 +31,7 @@ import {
 } from "../../lib/services/chatroom";
 import { BsFillPeopleFill } from "react-icons/bs";
 import { updateRoomIncludes } from "../../lib/caches/roomIncludes";
-import AuthenticatedLayout from "../../components/AuthenticatedLayout";
+import { generateRandomString } from "../../lib/utils/general";
 
 const PAGE_SIZE = 10;
 
@@ -52,6 +53,7 @@ function Chat(props: Props) {
   const [roomName, setRoomName] = useState(data.room.room);
   const [members, setMembers] = useState<MemberType[]>(data.members);
   const [messages, setMessages] = useState<ChatMessageType[]>(data.messages);
+  const [localMessages, setLocalMessages] = useState<ChatMessageType[]>([]);
   const [message, setMessage] = useState("");
   const [page, setPage] = useState(0);
   const [inSettings, setInSettings] = useState(false);
@@ -64,8 +66,23 @@ function Chat(props: Props) {
 
   useEffect(() => {
     subscribeNewChatMessages((event: Event<ChatMessageType>) => {
-      if (event.operation === Operation.Add) {
-        setMessages((prevMsgs) => [event.data, ...prevMsgs]);
+      switch (event.operation) {
+        case Operation.Add:
+          setLocalMessages((prev) => {
+            const lastMsg = prev.length > 0 ? prev[prev.length - 1] : null;
+            if (
+              lastMsg &&
+              lastMsg.content === event.data.content &&
+              lastMsg.username === event.data.username
+            ) {
+              return [...prev.slice(0, -1)];
+            }
+            return prev;
+          });
+          setMessages((prevMsgs) => [event.data, ...prevMsgs]);
+          break;
+        default:
+          break;
       }
     });
     return unsubscribeNewChatMessages;
@@ -73,12 +90,17 @@ function Chat(props: Props) {
 
   useEffect(() => {
     subscribeNewRoomMember((event) => {
-      if (event.operation === Operation.Add) {
-        setMembers((prevMembers) => [...prevMembers, event.data]);
-      } else if (event.operation === Operation.Delete) {
-        setMembers((prevMembers) =>
-          prevMembers.filter((m) => m.username !== event.data.username)
-        );
+      switch (event.operation) {
+        case Operation.Add:
+          setMembers((prevMembers) => [...prevMembers, event.data]);
+          break;
+        case Operation.Delete:
+          setMembers((prevMembers) =>
+            prevMembers.filter((m) => m.username !== event.data.username)
+          );
+          break;
+        default:
+          break;
       }
     });
     return unsubscribeNewRoomMember;
@@ -135,6 +157,17 @@ function Chat(props: Props) {
 
   const handleSend = () => {
     sendChatMessage(roomId, message);
+    setLocalMessages((prev) => [
+      {
+        id: generateRandomString(32),
+        username: username,
+        name: "",
+        roomId: roomId,
+        content: message,
+        postedOn: new Date().toISOString(),
+      },
+      ...prev,
+    ]);
     setMessage("");
   };
 
@@ -176,6 +209,15 @@ function Chat(props: Props) {
               </div>
             </div>
             <div className="w-full h-[calc(100%-66px-32px)] pb-8 flex flex-col-reverse overflow-scroll scrollbar-hidden">
+              {localMessages.map((msg) => (
+                <div key={msg.id} className="mt-8">
+                  <ChatMessage
+                    message={msg}
+                    received={false}
+                    enterAnimation={false}
+                  />
+                </div>
+              ))}
               {messages.map((msg, idx) => {
                 const isFirst = idx === 0;
                 const isLast = idx === messages.length - 1;
