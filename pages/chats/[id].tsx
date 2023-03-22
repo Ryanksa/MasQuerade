@@ -71,18 +71,18 @@ function Chat(props: Props) {
           // Replace local message after 300ms to ensure animation finishes
           setTimeout(() => {
             setLocalMessages((prev) => {
-              const lastMsg = prev.length > 0 ? prev[prev.length - 1] : null;
-              if (
-                lastMsg &&
-                lastMsg.content === event.data.content &&
-                lastMsg.username === event.data.username
-              ) {
-                return [...prev.slice(0, -1)];
+              for (let i = prev.length - 1; i >= 0; i--) {
+                if (
+                  prev[i].content === event.data.content &&
+                  prev[i].username === event.data.username
+                ) {
+                  return [...prev.slice(0, i)];
+                }
               }
               return prev;
             });
             setMessages((prevMsgs) => [event.data, ...prevMsgs]);
-          }, 300);
+          }, 90);
           break;
         default:
           break;

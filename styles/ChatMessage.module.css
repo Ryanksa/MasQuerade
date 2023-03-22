@@ -16,18 +16,12 @@
 }
 
 .enter {
-  animation: enter 300ms;
+  animation: enter 90ms cubic-bezier(0.3, 0.78, 0.6, 0.99);
 }
 
 @keyframes enter {
   0% {
-    transform: rotate(0deg);
-  }
-  45% {
-    transform: rotate(3deg);
-  }
-  90% {
-    transform: rotate(-1deg);
+    transform: rotate(-3deg);
   }
   100% {
     transform: rotate(0deg);
