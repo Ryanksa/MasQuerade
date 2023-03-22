@@ -16,7 +16,7 @@
 }
 
 .enter {
-  animation: enter 0.3s;
+  animation: enter 300ms;
 }
 
 @keyframes enter {

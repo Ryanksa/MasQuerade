@@ -68,18 +68,21 @@ function Chat(props: Props) {
     subscribeNewChatMessages((event: Event<ChatMessageType>) => {
       switch (event.operation) {
         case Operation.Add:
-          setLocalMessages((prev) => {
-            const lastMsg = prev.length > 0 ? prev[prev.length - 1] : null;
-            if (
-              lastMsg &&
-              lastMsg.content === event.data.content &&
-              lastMsg.username === event.data.username
-            ) {
-              return [...prev.slice(0, -1)];
-            }
-            return prev;
-          });
-          setMessages((prevMsgs) => [event.data, ...prevMsgs]);
+          // Replace local message after 300ms to ensure animation finishes
+          setTimeout(() => {
+            setLocalMessages((prev) => {
+              const lastMsg = prev.length > 0 ? prev[prev.length - 1] : null;
+              if (
+                lastMsg &&
+                lastMsg.content === event.data.content &&
+                lastMsg.username === event.data.username
+              ) {
+                return [...prev.slice(0, -1)];
+              }
+              return prev;
+            });
+            setMessages((prevMsgs) => [event.data, ...prevMsgs]);
+          }, 300);
           break;
         default:
           break;
@@ -214,11 +217,12 @@ function Chat(props: Props) {
                   <ChatMessage
                     message={msg}
                     received={false}
-                    enterAnimation={false}
+                    enterAnimation={true}
                   />
                 </div>
               ))}
               {messages.map((msg, idx) => {
+                const received = msg.username !== username;
                 const isFirst = idx === 0;
                 const isLast = idx === messages.length - 1;
                 return (
@@ -229,8 +233,8 @@ function Chat(props: Props) {
                   >
                     <ChatMessage
                       message={msg}
-                      received={msg.username !== username}
-                      enterAnimation={isFirst}
+                      received={received}
+                      enterAnimation={received}
                     />
                   </div>
                 );
