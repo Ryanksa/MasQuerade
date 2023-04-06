@@ -54,7 +54,7 @@ export const deleteChatRoom = (roomId: string) => {
   });
 };
 
-export const subscribeNewChatRooms = (
+export const subscribeChatRooms = (
   callback: (event: Event<ChatRoom>) => void
 ) => {
   chatRoomSubEvent = new EventSource("/api/chat/room");
@@ -64,7 +64,7 @@ export const subscribeNewChatRooms = (
   };
 };
 
-export const unsubscribeNewChatRooms = () => {
+export const unsubscribeChatRooms = () => {
   if (chatRoomSubEvent) {
     chatRoomSubEvent.close();
   }
@@ -108,7 +108,7 @@ export const deleteRoomMember = (
     });
 };
 
-export const subscribeNewRoomMember = (
+export const subscribeRoomMember = (
   callback: (event: Event<Member>) => void
 ) => {
   roomMemberSubEvent = new EventSource("/api/chat/room/member");
@@ -118,7 +118,7 @@ export const subscribeNewRoomMember = (
   };
 };
 
-export const unsubscribeNewRoomMember = () => {
+export const unsubscribeRoomMember = () => {
   if (roomMemberSubEvent) {
     roomMemberSubEvent.close();
   }

@@ -1,6 +1,7 @@
 import styles from "../styles/ChatMessage.module.css";
 import { ChatMessage as ChatMessageType } from "../lib/models/chat";
 import { FaUser } from "react-icons/fa";
+import { BsFillTrashFill } from "react-icons/bs";
 import { getNumberOfLines } from "../lib/utils/general";
 
 const CHARS_PER_LINE = 30;
@@ -11,10 +12,11 @@ type Props = {
   message: ChatMessageType;
   received: boolean;
   enterAnimation?: boolean;
+  onDelete?: (messageId: string) => void;
 };
 
 function ChatMessage(props: Props) {
-  const { message, received, enterAnimation } = props;
+  const { message, received, enterAnimation, onDelete } = props;
   const lines = getNumberOfLines(message.content, CHARS_PER_LINE);
   const height = lines * LINE_HEIGHT;
   const postedOnDate = new Date(message.postedOn);
@@ -76,8 +78,7 @@ function ChatMessage(props: Props) {
       >
         <div
           className={`
-            absolute top-[20px] py-[1px] px-[8px] w-max bg-neutral-50 
-            text-neutral-800 font-black rounded-t-[3px] transition-all
+            absolute top-[20px] transition-all flex items-center gap-1
             ${
               received
                 ? "left-[60px] rotate-[-1deg] group-hover:top-[-21px] group-active:top-[-21px]"
@@ -85,7 +86,15 @@ function ChatMessage(props: Props) {
             }
           `}
         >
-          {postedDate}&nbsp;&nbsp;&nbsp;{postedTime}
+          <div className="py-[1px] px-[8px] w-max bg-neutral-50 text-neutral-800 font-black rounded-t-[3px]">
+            {postedDate}&nbsp;&nbsp;&nbsp;{postedTime}
+          </div>
+          {onDelete && (
+            <BsFillTrashFill
+              className="text-neutral-800 hover:text-neutral-50 cursor-pointer"
+              onClick={() => onDelete(message.id)}
+            />
+          )}
         </div>
         <svg
           width="350"

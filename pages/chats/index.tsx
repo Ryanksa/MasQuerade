@@ -10,8 +10,10 @@ import { BsExclamationLg } from "react-icons/bs";
 import {
   getChatRooms,
   createChatRoom,
-  subscribeNewChatRooms,
-  unsubscribeNewChatRooms,
+  subscribeChatRooms,
+  unsubscribeChatRooms,
+  subscribeRoomMember,
+  unsubscribeRoomMember,
 } from "../../lib/services/chatroom";
 import { useRouterWithTransition } from "../../lib/hooks/router";
 import { Operation } from "../../lib/models/listener";
@@ -33,7 +35,7 @@ function Chats(props: Props) {
   const router = useRouterWithTransition();
 
   useEffect(() => {
-    subscribeNewChatRooms((event) => {
+    subscribeChatRooms((event) => {
       switch (event.operation) {
         case Operation.Add:
           if (page === 0)
@@ -43,9 +45,14 @@ function Chats(props: Props) {
           break;
       }
     });
-    return () => {
-      unsubscribeNewChatRooms();
-    };
+    return unsubscribeChatRooms;
+  }, [page]);
+
+  useEffect(() => {
+    subscribeRoomMember(() => {
+      handleGetRooms(page);
+    });
+    return unsubscribeRoomMember;
   }, [page]);
 
   const handleCreateChatRoom = () => {
@@ -56,7 +63,7 @@ function Chats(props: Props) {
     });
   };
 
-  const handlePageChange = (page: number) => {
+  const handleGetRooms = (page: number) => {
     return getChatRooms(page, PAGE_SIZE).then((res) => {
       const rooms = res.data ?? [];
       if (res.hasMore) {
@@ -71,12 +78,12 @@ function Chats(props: Props) {
 
   const handleNextPage = () => {
     if (isLastPage) return;
-    handlePageChange(page + 1);
+    handleGetRooms(page + 1);
   };
 
   const handlePrevPage = () => {
     if (page === 0) return;
-    handlePageChange(page - 1);
+    handleGetRooms(page - 1);
   };
 
   return (

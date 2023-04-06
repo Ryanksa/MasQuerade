@@ -71,6 +71,7 @@ async function postHandler(
         moderator: moderator,
       },
     });
+    cachedRoomIncludes.push(roomIncludes);
 
     for (const include of cachedRoomIncludes) {
       notifyListeners(include.userId, {
@@ -79,12 +80,12 @@ async function postHandler(
           name: user.name,
           socialStats: user.socialStats,
           moderator: moderator,
+          roomId: roomId,
         },
         operation: Operation.Add,
       });
     }
 
-    cachedRoomIncludes.push(roomIncludes);
     updateRoomIncludes(roomId, cachedRoomIncludes);
 
     res.status(200).send({
@@ -153,12 +154,6 @@ async function deleteHandler(
       },
     });
 
-    const deletedIndex = roomIncludes.findIndex(
-      (include) => include.userId === user.id
-    );
-    roomIncludes[deletedIndex] = roomIncludes[roomIncludes.length];
-    roomIncludes.pop();
-
     for (const include of roomIncludes) {
       notifyListeners(include.userId, {
         data: {
@@ -166,11 +161,17 @@ async function deleteHandler(
           name: user.name,
           socialStats: user.socialStats,
           moderator: false,
+          roomId: roomId,
         },
         operation: Operation.Delete,
       });
     }
 
+    const deletedIndex = roomIncludes.findIndex(
+      (include) => include.userId === user.id
+    );
+    roomIncludes[deletedIndex] = roomIncludes[roomIncludes.length - 1];
+    roomIncludes.pop();
     updateRoomIncludes(roomId, roomIncludes);
 
     res.status(200).send({

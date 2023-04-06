@@ -17,15 +17,16 @@ import { Event, Operation } from "../../lib/models/listener";
 import {
   getChatMessages,
   sendChatMessage,
-  subscribeNewChatMessages,
-  unsubscribeNewChatMessages,
+  deleteChatMessage,
+  subscribeChatMessages,
+  unsubscribeChatMessages,
 } from "../../lib/services/chatmessage";
 import {
   updateLastActive,
   addRoomMember,
   deleteRoomMember,
-  subscribeNewRoomMember,
-  unsubscribeNewRoomMember,
+  subscribeRoomMember,
+  unsubscribeRoomMember,
   updateChatRoom,
   deleteChatRoom,
 } from "../../lib/services/chatroom";
@@ -65,10 +66,12 @@ function Chat(props: Props) {
   );
 
   useEffect(() => {
-    subscribeNewChatMessages((event: Event<ChatMessageType>) => {
+    subscribeChatMessages((event: Event<ChatMessageType>) => {
+      if (event.data.roomId !== roomId) return;
+
       switch (event.operation) {
         case Operation.Add:
-          // Replace local message after 300ms to ensure animation finishes
+          // Replace local message after 90ms to ensure animation finishes
           setTimeout(() => {
             setLocalMessages((prev) => {
               for (let i = prev.length - 1; i >= 0; i--) {
@@ -84,15 +87,22 @@ function Chat(props: Props) {
             setMessages((prevMsgs) => [event.data, ...prevMsgs]);
           }, 90);
           break;
+        case Operation.Delete:
+          setMessages((prevMsgs) =>
+            prevMsgs.filter((msg) => msg.id !== event.data.id)
+          );
+          break;
         default:
           break;
       }
     });
-    return unsubscribeNewChatMessages;
+    return unsubscribeChatMessages;
   }, []);
 
   useEffect(() => {
-    subscribeNewRoomMember((event) => {
+    subscribeRoomMember((event) => {
+      if (event.data.roomId !== roomId) return;
+
       switch (event.operation) {
         case Operation.Add:
           setMembers((prevMembers) => [...prevMembers, event.data]);
@@ -106,7 +116,7 @@ function Chat(props: Props) {
           break;
       }
     });
-    return unsubscribeNewRoomMember;
+    return unsubscribeRoomMember;
   }, []);
 
   useEffect(() => {
@@ -158,7 +168,7 @@ function Chat(props: Props) {
     });
   };
 
-  const handleSend = () => {
+  const handleSendMessage = () => {
     sendChatMessage(roomId, message);
     setLocalMessages((prev) => [
       {
@@ -172,6 +182,10 @@ function Chat(props: Props) {
       ...prev,
     ]);
     setMessage("");
+  };
+
+  const handleDeleteMessage = (messageId: string) => {
+    deleteChatMessage(messageId);
   };
 
   const handleAddMember = (username: string, moderator: boolean) => {
@@ -235,6 +249,7 @@ function Chat(props: Props) {
                       message={msg}
                       received={received}
                       enterAnimation={received}
+                      onDelete={!received ? handleDeleteMessage : undefined}
                     />
                   </div>
                 );
@@ -248,12 +263,12 @@ function Chat(props: Props) {
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
                 onKeyDown={(e) => {
-                  if (e.key === "Enter") handleSend();
+                  if (e.key === "Enter") handleSendMessage();
                 }}
               />
               <div
                 className="cursor-pointer absolute right-2"
-                onClick={handleSend}
+                onClick={handleSendMessage}
               >
                 <MasquerText
                   text="Send"
@@ -376,6 +391,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
                 name: include.user.name,
                 socialStats: include.user.socialStats,
                 moderator: include.moderator,
+                roomId: roomId,
               }))
               .reverse(),
           },

@@ -2,6 +2,9 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { isAuthenticated } from "../../../../lib/utils/auth";
 import prisma from "../../../../lib/utils/prisma";
 import { ChatMessageResponseData } from "../../../../lib/models/response";
+import { notifyListeners } from "../../../../lib/listeners/message";
+import { retrieveRoomIncludes } from "../../../../lib/caches/roomIncludes";
+import { Operation } from "../../../../lib/models/listener";
 
 async function getHandler(
   req: NextApiRequest,
@@ -101,22 +104,36 @@ async function putHandler(
       select: {
         id: true,
         user: true,
-        room: true,
+        roomId: true,
         content: true,
         postedOn: true,
       },
     });
 
+    const data = {
+      id: updatedMessage.id,
+      username: updatedMessage.user.username,
+      name: updatedMessage.user.name,
+      roomId: updatedMessage.roomId,
+      content: updatedMessage.content,
+      postedOn: updatedMessage.postedOn.toISOString(),
+    };
+
+    const roomIncludes = await retrieveRoomIncludes(data.roomId, () =>
+      prisma.roomIncludes.findMany({
+        where: { roomId: data.roomId },
+      })
+    );
+    for (const include of roomIncludes) {
+      notifyListeners(include.userId, {
+        data: data,
+        operation: Operation.Update,
+      });
+    }
+
     res.status(200).json({
       message: `Updated chat message ${id}`,
-      data: {
-        id: updatedMessage.id,
-        username: updatedMessage.user.username,
-        name: updatedMessage.user.name,
-        roomId: updatedMessage.room.id,
-        content: updatedMessage.content,
-        postedOn: updatedMessage.postedOn.toISOString(),
-      },
+      data: data,
     });
   } catch (err) {
     console.error(err);
@@ -156,22 +173,36 @@ async function deleteHandler(
       select: {
         id: true,
         user: true,
-        room: true,
+        roomId: true,
         content: true,
         postedOn: true,
       },
     });
 
+    const data = {
+      id: deletedMessage.id,
+      username: deletedMessage.user.username,
+      name: deletedMessage.user.name,
+      roomId: deletedMessage.roomId,
+      content: deletedMessage.content,
+      postedOn: deletedMessage.postedOn.toISOString(),
+    };
+
+    const roomIncludes = await retrieveRoomIncludes(data.roomId, () =>
+      prisma.roomIncludes.findMany({
+        where: { roomId: data.roomId },
+      })
+    );
+    for (const include of roomIncludes) {
+      notifyListeners(include.userId, {
+        data: data,
+        operation: Operation.Delete,
+      });
+    }
+
     res.status(200).json({
       message: `Deleted chat message ${id}`,
-      data: {
-        id: deletedMessage.id,
-        username: deletedMessage.user.username,
-        name: deletedMessage.user.name,
-        roomId: deletedMessage.room.id,
-        content: deletedMessage.content,
-        postedOn: deletedMessage.postedOn.toISOString(),
-      },
+      data: data,
     });
   } catch (err) {
     console.error(err);

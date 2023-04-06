@@ -9,6 +9,7 @@ export type Member = {
   name: string;
   socialStats: number;
   moderator: boolean;
+  roomId: string;
 };
 
 export type JWTData = {
