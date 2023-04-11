@@ -1,3 +1,4 @@
+const CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 const MONTHS = [
   "01",
   "02",
@@ -24,10 +25,8 @@ export const getRandomArbitrary = (min: number, max: number) => {
 
 export const generateRandomString = (length: number) => {
   let result = "";
-  const chars =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
   for (let i = 0; i < length; i++) {
-    result += chars.charAt(Math.floor(Math.random() * chars.length));
+    result += CHARS.charAt(Math.floor(Math.random() * CHARS.length));
   }
   return result;
 };

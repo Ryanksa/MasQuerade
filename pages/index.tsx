@@ -55,6 +55,12 @@ const Home: NextPage = () => {
     setMessage("");
   };
 
+  const handleDelete = (messageId: string) => {
+    setMessages((prevMessages) =>
+      prevMessages.filter((msg) => msg.id !== messageId)
+    );
+  };
+
   return (
     <UnauthenticatedLayout title="MasQuerade">
       <div className="absolute top-0 left-0 w-full sm:relative">
@@ -79,6 +85,7 @@ const Home: NextPage = () => {
                     message={msg}
                     received={msg.username === DEMO_USERNAME}
                     enterAnimation={true}
+                    onDelete={handleDelete}
                   />
                 </div>
               ))}
