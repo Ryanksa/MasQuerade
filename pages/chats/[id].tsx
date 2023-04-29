@@ -50,7 +50,6 @@ function Chat(props: Props) {
 
   const router = useRouterWithTransition();
   const roomId = String(router.query.id);
-
   const [roomName, setRoomName] = useState(data.room.room);
   const [members, setMembers] = useState<MemberType[]>(data.members);
   const [messages, setMessages] = useState<ChatMessageType[]>(data.messages);
@@ -58,12 +57,9 @@ function Chat(props: Props) {
   const [message, setMessage] = useState("");
   const [page, setPage] = useState(0);
   const [inSettings, setInSettings] = useState(false);
-
+  const membership = data.members.find((m) => m.username === props.username);
   const oldestRef = useRef<HTMLDivElement>(null);
   const newestRef = useRef<HTMLDivElement>(null);
-  const membership = props.data.members.find(
-    (m) => m.username === props.username
-  );
 
   useEffect(() => {
     subscribeChatMessages((event: Event<ChatMessageType>) => {
@@ -97,7 +93,7 @@ function Chat(props: Props) {
       }
     });
     return unsubscribeChatMessages;
-  }, []);
+  }, [roomId]);
 
   useEffect(() => {
     subscribeRoomMember((event) => {
@@ -117,7 +113,7 @@ function Chat(props: Props) {
       }
     });
     return unsubscribeRoomMember;
-  }, []);
+  }, [roomId]);
 
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
@@ -126,6 +122,7 @@ function Chat(props: Props) {
           handleGetMoreMessages();
         }
         if (entry.target === newestRef.current && entry.isIntersecting) {
+          handleUnloadOldMessages();
           updateLastActive(roomId);
         }
       });
@@ -147,24 +144,34 @@ function Chat(props: Props) {
       if (oldestMessage) observer.unobserve(oldestMessage);
       if (newestMessage) observer.unobserve(newestMessage);
     };
-  }, [messages]);
+  }, [messages, roomId]);
 
   const handleGetMoreMessages = () => {
     getChatMessages(roomId, page + 1, PAGE_SIZE).then((res) => {
       const chatMessages = res.data ?? [];
       if (chatMessages.length > 0) {
         setMessages((prevMsgs) => {
-          const lut = prevMsgs.reduce<{ [id: string]: ChatMessageType }>(
-            (map, m) => {
-              map[m.id] = m;
-              return map;
-            },
-            {}
-          );
-          return [...prevMsgs, ...chatMessages.filter((m) => !lut[m.id])];
+          const messageIds = prevMsgs.reduce<Set<string>>((set, message) => {
+            set.add(message.id);
+            return set;
+          }, new Set());
+          return [
+            ...prevMsgs,
+            ...chatMessages.filter((m) => !messageIds.has(m.id)),
+          ];
         });
         setPage((prevPage) => prevPage + 1);
       }
+    });
+  };
+
+  const handleUnloadOldMessages = () => {
+    setMessages((prevMessages) => {
+      if (prevMessages.length <= PAGE_SIZE) {
+        return prevMessages;
+      }
+      setPage(0);
+      return prevMessages.slice(0, PAGE_SIZE);
     });
   };
 

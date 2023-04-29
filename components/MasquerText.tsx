@@ -47,9 +47,9 @@ function MasquerText(props: Props) {
 
   const chars: MasquerChar[] = useMemo(() => {
     const flipIndicesMap: { [index: number]: boolean } = {};
-    flipIndices.forEach((i) => {
+    for (const i of flipIndices) {
       flipIndicesMap[i] = true;
-    });
+    }
     return text.split("").map((c, i) => ({
       char: c,
       class: VARIATIONS[getRandomInt(0, 10)],
