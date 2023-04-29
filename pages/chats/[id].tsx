@@ -4,6 +4,7 @@ import { getServerSidePropsAuth } from "../../lib/utils/auth";
 import { useRouterWithTransition } from "../../lib/hooks/router";
 import MasquerText from "../../components/MasquerText";
 import ChatMessage from "../../components/ChatMessage";
+import ChatInput from "../../components/ChatInput";
 import Phone from "../../components/Phone";
 import RoomSettings from "../../components/RoomSettings";
 import AuthenticatedLayout from "../../components/AuthenticatedLayout";
@@ -54,7 +55,6 @@ function Chat(props: Props) {
   const [members, setMembers] = useState<MemberType[]>(data.members);
   const [messages, setMessages] = useState<ChatMessageType[]>(data.messages);
   const [localMessages, setLocalMessages] = useState<ChatMessageType[]>([]);
-  const [message, setMessage] = useState("");
   const [page, setPage] = useState(0);
   const [inSettings, setInSettings] = useState(false);
   const membership = data.members.find((m) => m.username === props.username);
@@ -175,7 +175,7 @@ function Chat(props: Props) {
     });
   };
 
-  const handleSendMessage = () => {
+  const handleSendMessage = (message: string) => {
     sendChatMessage(roomId, message);
     setLocalMessages((prev) => [
       {
@@ -188,7 +188,6 @@ function Chat(props: Props) {
       },
       ...prev,
     ]);
-    setMessage("");
   };
 
   const handleDeleteMessage = (messageId: string) => {
@@ -262,33 +261,7 @@ function Chat(props: Props) {
                 );
               })}
             </div>
-            <div className="w-full flex items-center p-[8px]">
-              <input
-                type="text"
-                className="w-[calc(100%-90px)] text-[24px] p-[4px] border-[3px] border-neutral-900 rounded-[5px]"
-                placeholder="Send a message"
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") handleSendMessage();
-                }}
-              />
-              <div
-                className="cursor-pointer absolute right-2"
-                onClick={handleSendMessage}
-              >
-                <MasquerText
-                  text="Send"
-                  flipIndices={[]}
-                  leftFontSize={42}
-                  fontStepSize={0}
-                  transform="rotate(-8deg)"
-                  transformOrigin=""
-                  hoverInvert={true}
-                  transitionIn={false}
-                />
-              </div>
-            </div>
+            <ChatInput onSendMessage={handleSendMessage} />
             {inSettings && (
               <RoomSettings
                 roomName={roomName}

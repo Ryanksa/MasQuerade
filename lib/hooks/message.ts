@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useSpring, useSpringRef } from "@react-spring/web";
-import { ringNext } from "../utils/general";
+import { nextRingIndex } from "../utils/general";
 
 export const useAnimatedMessage = (
   messagePolygons: { outer: string; inner: string }[],
@@ -9,22 +9,14 @@ export const useAnimatedMessage = (
   const api = useSpringRef();
   const animatedMessagePolygon = useSpring({
     ref: api,
-    from: {
-      outer: messagePolygons[0].outer,
-      inner: messagePolygons[0].inner,
-    },
+    from: messagePolygons[0],
   });
 
   useEffect(() => {
-    let ringIdx = 0;
+    let ringIndex = 0;
     const interval = setInterval(() => {
-      ringIdx = ringNext(messagePolygons, ringIdx);
-      api.start({
-        to: {
-          outer: messagePolygons[ringIdx].outer,
-          inner: messagePolygons[ringIdx].inner,
-        },
-      });
+      ringIndex = nextRingIndex(messagePolygons, ringIndex);
+      api.start({ to: messagePolygons[ringIndex] });
     }, intervalTiming);
 
     return () => {

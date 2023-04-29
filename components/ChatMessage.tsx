@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import styles from "../styles/ChatMessage.module.css";
 import { ChatMessage as ChatMessageType } from "../lib/models/chat";
 import { FaUser } from "react-icons/fa";
@@ -32,11 +33,14 @@ function ChatMessage(props: Props) {
     minute: "2-digit",
   });
 
-  const messagePolygons = [
-    getMessagePolygon(received, height, 0, 0),
-    getMessagePolygon(received, height, 4.5, 3),
-    getMessagePolygon(received, height, 4.5, 3),
-  ];
+  const messagePolygons = useMemo(
+    () => [
+      getMessagePolygon(received, height, 0, 0),
+      getMessagePolygon(received, height, 4.5, 3),
+      getMessagePolygon(received, height, 4.5, 3),
+    ],
+    [received, height]
+  );
   const animatedPolygon = useAnimatedMessage(messagePolygons, 300);
 
   return (

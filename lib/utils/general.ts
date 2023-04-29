@@ -16,7 +16,7 @@ export const generateRandomString = (length: number) => {
   return result;
 };
 
-export const ringNext = <T>(arr: T[], index: number) => {
+export const nextRingIndex = <T>(arr: T[], index: number) => {
   if (arr.length <= index + 1) return 0;
   return index + 1;
 };
