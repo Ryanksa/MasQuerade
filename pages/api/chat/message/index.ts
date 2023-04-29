@@ -9,7 +9,7 @@ import {
 import { ChatMessage } from "../../../../lib/models/chat";
 import { ResponseData } from "../../../../lib/models/response";
 import { Callback, Operation } from "../../../../lib/models/listener";
-import { incrementSocialStats } from "../../../../lib/utils/general";
+import { getRandomArbitrary } from "../../../../lib/utils/general";
 import { retrieveRoomIncludes } from "../../../../lib/caches/roomIncludes";
 
 async function post(req: NextApiRequest, res: NextApiResponse<ResponseData>) {
@@ -66,7 +66,7 @@ async function post(req: NextApiRequest, res: NextApiResponse<ResponseData>) {
 
     await prisma.user.update({
       where: { id: userId },
-      data: { socialStats: { increment: incrementSocialStats() } },
+      data: { socialStats: { increment: getRandomArbitrary(0, 3) } },
     });
 
     res.status(200).send({

@@ -1,7 +1,7 @@
 import MasquerText from "./MasquerText";
 import { useRouterWithTransition } from "../lib/hooks/router";
 import { FaTheaterMasks } from "react-icons/fa";
-import { getToday } from "../lib/utils/general";
+import { getToday } from "../lib/utils/date";
 
 type Props = {
   signedIn: boolean;

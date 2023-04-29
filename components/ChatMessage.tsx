@@ -2,7 +2,9 @@ import styles from "../styles/ChatMessage.module.css";
 import { ChatMessage as ChatMessageType } from "../lib/models/chat";
 import { FaUser } from "react-icons/fa";
 import { BsFillTrashFill } from "react-icons/bs";
-import { getNumberOfLines } from "../lib/utils/general";
+import { getMessagePolygon, getNumberOfLines } from "../lib/utils/message";
+import { useAnimatedMessage } from "../lib/hooks/message";
+import { animated } from "@react-spring/web";
 
 const CHARS_PER_LINE = 30;
 const BASE_HEIGHT = 50;
@@ -30,16 +32,12 @@ function ChatMessage(props: Props) {
     minute: "2-digit",
   });
 
-  const outerPolygon = received
-    ? // prettier-ignore
-      `5,55 25,38 35,42 45,35 48,5 350,0 340,${40+height} 40,${35+height} 43,55 35,57 25,52`
-    : // prettier-ignore
-      `350,40 340,23 330,30 322,24 325,0 0,10 0,${35+height} 315,${40+height} 318,45 328 48 341,36`;
-  const innerPolygon = received
-    ? // prettier-ignore
-      `5,55 25,40 35,45 50,35 52,10 340,5 335,${35+height} 47,${30+height} 48,50 35,55 25,50`
-    : // prettier-ignore
-      `350,40 340,25 330,33 318,24 320,5 5,15 9,${30+height} 312,${35+height} 315,40 328,45 341,35`;
+  const messagePolygons = [
+    getMessagePolygon(received, height, 0, 0),
+    getMessagePolygon(received, height, 4.5, 3),
+    getMessagePolygon(received, height, 4.5, 3),
+  ];
+  const animatedPolygon = useAnimatedMessage(messagePolygons, 300);
 
   return (
     <div className="flex items-start" style={{ height: BASE_HEIGHT + height }}>
@@ -101,8 +99,14 @@ function ChatMessage(props: Props) {
           height={BASE_HEIGHT + height}
           className={`absolute ${received ? "left-0" : "right-0"}`}
         >
-          <polygon className="fill-gray-50" points={outerPolygon} />
-          <polygon className="fill-neutral-800" points={innerPolygon} />
+          <animated.polygon
+            className="fill-gray-50"
+            points={animatedPolygon.outer}
+          />
+          <animated.polygon
+            className="fill-neutral-800"
+            points={animatedPolygon.inner}
+          />
         </svg>
         <div
           className={`
