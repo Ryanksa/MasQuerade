@@ -7,7 +7,8 @@ import { getMessagePolygon, getNumberOfLines } from "../lib/utils/message";
 import { useAnimatedMessage } from "../lib/hooks/message";
 import { animated } from "@react-spring/web";
 
-const CHARS_PER_LINE = 30;
+const CHARS_PER_LINE = 27;
+const REC_CHARS_PER_LINE = 24;
 const BASE_HEIGHT = 50;
 const LINE_HEIGHT = 27;
 
@@ -20,7 +21,10 @@ type Props = {
 
 function ChatMessage(props: Props) {
   const { message, received, enterAnimation, onDelete } = props;
-  const lines = getNumberOfLines(message.content, CHARS_PER_LINE);
+  const lines = getNumberOfLines(
+    message.content,
+    received ? REC_CHARS_PER_LINE : CHARS_PER_LINE
+  );
   const height = lines * LINE_HEIGHT;
   const postedOnDate = new Date(message.postedOn);
   const postedDate = postedOnDate.toLocaleDateString([], {
@@ -44,25 +48,31 @@ function ChatMessage(props: Props) {
   const animatedPolygon = useAnimatedMessage(messagePolygons, 300);
 
   return (
-    <div className="flex items-start" style={{ height: BASE_HEIGHT + height }}>
+    <div
+      style={{ height: BASE_HEIGHT + height }}
+      className={`
+        flex items-start mb-8 relative
+        ${received ? "left-[-18px] sm:left-0" : ""}
+      `}
+    >
       {received && (
         <div
           className={`
-            relative top-[45px] h-[60px] w-[100px] bg-white flex items-end justify-center
+            absolute top-[36px] h-[60px] w-[84px] bg-white flex items-end justify-center
             border-neutral-800 border-top-[4px] border-r-[2px] border-b-[8px] border-l-[10px] 
             ${styles.messager}
           `}
         >
           <FaUser
-            className={`absolute left-[7px] bottom-[13px] w-[48px] h-[48px] text-neutral-700 ${styles.messagerIcon}`}
+            className={`absolute left-[9px] bottom-[13px] w-[42px] h-[42px] text-neutral-700 ${styles.messagerIcon}`}
           />
           <FaUser
-            className={`absolute left-[9px] bottom-[12px] w-[48px] h-[48px] text-neutral-800 ${styles.messagerIcon}`}
+            className={`absolute left-[11px] bottom-[12px] w-[42px] h-[42px] text-neutral-800 ${styles.messagerIcon}`}
           />
           <div
             className={`
               absolute left-0 bottom-0 w-full flex justify-center
-              text-[16px] text-white pb-[5px] 
+              text-[16px] text-white pb-[5px] whitespace-nowrap
               ${styles.messagerName}
             `}
           >
@@ -71,10 +81,12 @@ function ChatMessage(props: Props) {
         </div>
       )}
       <div
-        className={`relative w-full h-full group 
+        className={`absolute w-full h-full group 
           ${enterAnimation ? styles.enter : ""}
           ${
-            received ? "left-[-25px] origin-[-30px_40px]" : "origin-[100%_30px]"
+            received
+              ? "left-[54px] top-[-9px] origin-[-30px_40px]"
+              : "origin-[100%_30px]"
           }
         `}
       >
@@ -117,8 +129,8 @@ function ChatMessage(props: Props) {
             absolute text-white text-[20px] overflow-scroll scrollbar-hidden
             ${
               received
-                ? "w-[270px] left-[60px] top-[15px]"
-                : "w-[280px] right-[54px] top-[18px]"
+                ? "w-[252px] left-[60px] top-[15px]"
+                : "w-[264px] right-[45px] top-[18px]"
             }
           `}
           style={{ height: BASE_HEIGHT + height - 40 }}

@@ -231,9 +231,9 @@ function Chat(props: Props) {
                 {roomName}
               </div>
             </div>
-            <div className="w-full h-[calc(100%-66px-32px)] pb-8 flex flex-col-reverse overflow-scroll scrollbar-hidden">
+            <div className="w-full h-[calc(100%-66px-32px)] flex flex-col-reverse overflow-scroll scrollbar-hidden">
               {localMessages.map((msg) => (
-                <div key={msg.id} className="mt-8">
+                <div key={msg.id}>
                   <ChatMessage
                     message={msg}
                     received={false}
@@ -248,7 +248,6 @@ function Chat(props: Props) {
                 return (
                   <div
                     key={msg.id}
-                    className="mt-8"
                     ref={isFirst ? newestRef : isLast ? oldestRef : null}
                   >
                     <ChatMessage

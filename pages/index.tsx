@@ -78,17 +78,20 @@ const Home: NextPage = () => {
         </div>
         <Phone enterAnimation={false}>
           <div className="relative w-full h-full overflow-hidden flex flex-col overflow-anchor-none">
-            <div className="w-full h-full pb-8 flex flex-col-reverse overflow-scroll scrollbar-hidden">
-              {messages.map((msg) => (
-                <div key={msg.id} className="mt-8">
-                  <ChatMessage
-                    message={msg}
-                    received={msg.username === DEMO_USERNAME}
-                    enterAnimation={true}
-                    onDelete={handleDelete}
-                  />
-                </div>
-              ))}
+            <div className="w-full h-full flex flex-col-reverse overflow-scroll scrollbar-hidden">
+              {messages.map((msg) => {
+                const received = msg.username === DEMO_USERNAME;
+                return (
+                  <div key={msg.id}>
+                    <ChatMessage
+                      message={msg}
+                      received={received}
+                      enterAnimation={true}
+                      onDelete={!received ? handleDelete : undefined}
+                    />
+                  </div>
+                );
+              })}
             </div>
             <div className="w-full flex items-center p-[8px]">
               <input
