@@ -1,10 +1,10 @@
 .messager {
-  transform: rotate3d(1, 1, 0, 35deg);
+  transform: rotate3d(1, 1, 0, 45deg);
   transform-style: preserve-3d;
 }
 
 .messagerIcon {
-  transform: rotateX(-20deg) translateZ(5px) translateY(-12px);
+  transform: rotateX(-30deg) translateZ(6px) translateY(-12px);
 }
 
 .messagerName {

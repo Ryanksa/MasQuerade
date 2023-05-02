@@ -40,8 +40,8 @@ function ChatMessage(props: Props) {
   const messagePolygons = useMemo(
     () => [
       getMessagePolygon(received, height, 0, 0),
-      getMessagePolygon(received, height, 4.5, 3),
-      getMessagePolygon(received, height, 4.5, 3),
+      getMessagePolygon(received, height, 3, 3),
+      getMessagePolygon(received, height, 3, 3),
     ],
     [received, height]
   );
@@ -72,7 +72,7 @@ function ChatMessage(props: Props) {
           <div
             className={`
               absolute left-0 bottom-0 w-full flex justify-center
-              text-[16px] text-white pb-[5px] whitespace-nowrap
+              text-[16px] text-white whitespace-nowrap
               ${styles.messagerName}
             `}
           >
