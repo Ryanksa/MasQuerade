@@ -1,4 +1,3 @@
-import axios from "axios";
 import { ChatRoom } from "../models/chat";
 import { Member } from "../models/user";
 import {
@@ -7,51 +6,55 @@ import {
   ChatRoomResponseData,
 } from "../models/response";
 import { Event } from "../models/listener";
+import { delete_, get_, post_, put_ } from "./fetch";
 
 let chatRoomSubEvent: EventSource | null;
 let roomMemberSubEvent: EventSource | null;
 
-export const getChatRooms = (
+export const getChatRooms = async (
   page: number,
   size: number
 ): Promise<ChatRoomsResponseData> => {
-  return axios
-    .get(`/api/chat/room/list?page=${page}&size=${size}`)
-    .then((res) => {
-      if (res.status !== 200) {
-        throw new Error(`${res.status}: ${res.data.message}`);
-      }
-      return res.data as ChatRoomsResponseData;
-    });
+  const res = await get_(`/api/chat/room/list?page=${page}&size=${size}`);
+  const data: ChatRoomsResponseData = await res.json();
+  if (res.status !== 200) {
+    throw new Error(`${res.status}: ${data.message}`);
+  }
+  return data;
 };
 
-export const createChatRoom = (roomName: string): Promise<ResponseData> => {
-  return axios.post("/api/chat/room", { roomName }).then((res) => {
-    if (res.status !== 200) {
-      throw new Error(`${res.status}: ${res.data.message}`);
-    }
-    return res.data as ResponseData;
-  });
+export const createChatRoom = async (
+  roomName: string
+): Promise<ResponseData> => {
+  const res = await post_("/api/chat/room", { roomName });
+  const data: ResponseData = await res.json();
+  if (res.status !== 200) {
+    throw new Error(`${res.status}: ${data.message}`);
+  }
+  return data;
 };
 
-export const updateChatRoom = (roomId: string, newRoomName: string) => {
-  return axios
-    .put(`/api/chat/room/${roomId}`, { roomName: newRoomName })
-    .then((res) => {
-      if (res.status !== 200) {
-        throw new Error(`${res.status}: ${res.data.message}`);
-      }
-      return res.data as ChatRoomResponseData;
-    });
+export const updateChatRoom = async (
+  roomId: string,
+  newRoomName: string
+): Promise<ChatRoomResponseData> => {
+  const res = await put_(`/api/chat/room/${roomId}`, { roomName: newRoomName });
+  const data: ChatRoomResponseData = await res.json();
+  if (res.status !== 200) {
+    throw new Error(`${res.status}: ${data.message}`);
+  }
+  return data;
 };
 
-export const deleteChatRoom = (roomId: string) => {
-  return axios.delete(`/api/chat/room/${roomId}`).then((res) => {
-    if (res.status !== 200) {
-      throw new Error(`${res.status}: ${res.data.message}`);
-    }
-    return res.data as ChatRoomResponseData;
-  });
+export const deleteChatRoom = async (
+  roomId: string
+): Promise<ChatRoomResponseData> => {
+  const res = await delete_(`/api/chat/room/${roomId}`);
+  const data: ChatRoomResponseData = await res.json();
+  if (res.status !== 200) {
+    throw new Error(`${res.status}: ${data.message}`);
+  }
+  return data;
 };
 
 export const subscribeChatRooms = (
@@ -70,42 +73,46 @@ export const unsubscribeChatRooms = () => {
   }
 };
 
-export const updateLastActive = (roomId: string): Promise<ResponseData> => {
-  return axios.post(`/api/chat/room/${roomId}`).then((res) => {
-    if (res.status !== 200) {
-      throw new Error(`${res.status}: ${res.data.message}`);
-    }
-    return res.data as ResponseData;
-  });
+export const updateLastActive = async (
+  roomId: string
+): Promise<ResponseData> => {
+  const res = await post_(`/api/chat/room/${roomId}`);
+  const data: ResponseData = await res.json();
+  if (res.status !== 200) {
+    throw new Error(`${res.status}: ${data.message}`);
+  }
+  return data;
 };
 
-export const addRoomMember = (
+export const addRoomMember = async (
   roomId: string,
   username: string,
   moderator: boolean
 ): Promise<ResponseData> => {
-  return axios
-    .post("/api/chat/room/member", { roomId, username, moderator })
-    .then((res) => {
-      if (res.status !== 200) {
-        throw new Error(`${res.status}: ${res.data.message}`);
-      }
-      return res.data as ResponseData;
-    });
+  const res = await post_("/api/chat/room/member", {
+    roomId,
+    username,
+    moderator,
+  });
+  const data: ResponseData = await res.json();
+  if (res.status !== 200) {
+    throw new Error(`${res.status}: ${data.message}`);
+  }
+  return data;
 };
 
-export const deleteRoomMember = (
+export const deleteRoomMember = async (
   roomId: string,
   username: string
 ): Promise<ResponseData> => {
-  return axios
-    .delete(`/api/chat/room/member?roomId=${roomId}&username=${username}`)
-    .then((res) => {
-      if (res.status !== 200) {
-        throw new Error(`${res.status}: ${res.data.message}`);
-      }
-      return res.data as ResponseData;
-    });
+  const res = await delete_(
+    `/api/chat/room/member?roomId=${roomId}&username=${username}`
+  );
+  const data: ResponseData = await res.json();
+  if (res.status !== 200) {
+    throw new Error(`${res.status}: ${data.message}`);
+  }
+  return data;
 };
 
 export const subscribeRoomMember = (

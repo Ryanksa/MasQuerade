@@ -1,4 +1,3 @@
-import axios from "axios";
 import { ChatMessage } from "../models/chat";
 import {
   ResponseData,
@@ -6,43 +5,44 @@ import {
   ChatMessagesResponseData,
 } from "../models/response";
 import { Event } from "../models/listener";
+import { delete_, get_, post_ } from "./fetch";
 
 let chatMessageSubEvent: EventSource | null;
 
-export const getChatMessages = (
+export const getChatMessages = async (
   roomId: string,
   page: number,
   size: number
 ): Promise<ChatMessagesResponseData> => {
-  return axios
-    .get(`/api/chat/message/room?id=${roomId}&page=${page}&size=${size}`)
-    .then((res) => {
-      if (res.status !== 200) {
-        throw new Error(`${res.status}: ${res.data.message}`);
-      }
-      return res.data as ChatMessagesResponseData;
-    });
+  const res = await get_(
+    `/api/chat/message/room?id=${roomId}&page=${page}&size=${size}`
+  );
+  const data: ChatMessagesResponseData = await res.json();
+  if (res.status !== 200) {
+    throw new Error(`${res.status}: ${data.message}`);
+  }
+  return data;
 };
 
-export const sendChatMessage = (
+export const sendChatMessage = async (
   roomId: string,
   content: string
 ): Promise<ResponseData> => {
-  return axios.post("/api/chat/message", { roomId, content }).then((res) => {
-    if (res.status !== 200) {
-      throw new Error(`${res.status}: ${res.data.message}`);
-    }
-    return res.data as ResponseData;
-  });
+  const res = await post_("/api/chat/message", { roomId, content });
+  const data: ResponseData = await res.json();
+  if (res.status !== 200) {
+    throw new Error(`${res.status}: ${data.message}`);
+  }
+  return data;
 };
 
-export const deleteChatMessage = (messageId: string) => {
-  return axios.delete(`/api/chat/message/${messageId}`).then((res) => {
-    if (res.status !== 200) {
-      throw new Error(`${res.status}: ${res.data.message}`);
-    }
-    return res.data as ChatMessageResponseData;
-  });
+export const deleteChatMessage = async (messageId: string) => {
+  const res = await delete_(`/api/chat/message/${messageId}`);
+  const data: ChatMessageResponseData = await res.json();
+  if (res.status !== 200) {
+    throw new Error(`${res.status}: ${data.message}`);
+  }
+  return data;
 };
 
 export const subscribeChatMessages = (

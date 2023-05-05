@@ -1,13 +1,13 @@
-import axios from "axios";
 import { ChatRoomResponseData } from "../models/response";
+import { post_ } from "./fetch";
 
-export const directMessageUser = (
+export const directMessageUser = async (
   username: string
 ): Promise<ChatRoomResponseData> => {
-  return axios.post("/api/user/chat", { username }).then((res) => {
-    if (res.status !== 200) {
-      throw new Error(`${res.status}: ${res.data.message}`);
-    }
-    return res.data as ChatRoomResponseData;
-  });
+  const res = await post_("/api/user/chat", { username });
+  const data: ChatRoomResponseData = await res.json();
+  if (res.status !== 200) {
+    throw new Error(`${res.status}: ${data.message}`);
+  }
+  return data;
 };
