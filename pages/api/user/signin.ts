@@ -6,9 +6,10 @@ import prisma from "../../../lib/utils/prisma";
 import { JWTData } from "../../../lib/models/user";
 import { ResponseData } from "../../../lib/models/response";
 
-const hmacKey: crypto.BinaryLike = process.env.HMAC_KEY ?? "";
-const jwtSecret: jwt.Secret = process.env.JWT_SECRET ?? "";
-const isHttps: boolean = process.env.IS_HTTPS === "true";
+const HMAC_KEY: crypto.BinaryLike = process.env.HMAC_KEY ?? "";
+const JWT_SECRET: jwt.Secret = process.env.JWT_SECRET ?? "";
+const IS_HTTPS: boolean = process.env.IS_HTTPS === "true";
+const EXPIRES_IN: number = Number(process.env.EXPIRES_IN ?? 604800);
 
 async function post(req: NextApiRequest, res: NextApiResponse<ResponseData>) {
   try {
@@ -31,7 +32,7 @@ async function post(req: NextApiRequest, res: NextApiResponse<ResponseData>) {
     }
 
     const saltedHash = crypto
-      .createHmac("sha256", hmacKey)
+      .createHmac("sha256", HMAC_KEY)
       .update(password)
       .digest("hex");
     if (user.password !== saltedHash) {
@@ -46,15 +47,15 @@ async function post(req: NextApiRequest, res: NextApiResponse<ResponseData>) {
       username: user.username,
       name: user.name,
     };
-    const token = jwt.sign(data, jwtSecret, { expiresIn: "7d" });
+    const token = jwt.sign(data, JWT_SECRET, { expiresIn: EXPIRES_IN });
 
     res.setHeader(
       "Set-Cookie",
       cookie.serialize("token", token, {
         path: "/",
-        maxAge: 60 * 60 * 24 * 7,
+        maxAge: EXPIRES_IN,
         httpOnly: true, // Inaccessible from document.cookie
-        secure: isHttps, // Only set when using https
+        secure: IS_HTTPS, // Only set when using https
         sameSite: true,
       })
     );
