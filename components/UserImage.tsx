@@ -1,12 +1,11 @@
 import { useRef, useEffect } from "react";
 import { ImageParticles, loadImage } from "../lib/utils/image";
-import faUserSvg from "../assets/user.svg";
+import faUserSvg from "../assets/faUser.svg";
 import { FaUser } from "react-icons/fa";
 
 const PIXEL_SIZE = 9;
-const RADIUS = 27;
-const FRICTION = 0.9;
-const EASE = 0.15;
+const ALPHA_VARIATION = 0.3;
+const PARTICLES_PER_CYCLE = 120;
 
 function UserImage() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -17,7 +16,7 @@ function UserImage() {
     const container = containerRef.current;
     const canvas = canvasRef.current;
 
-    const loadImageParticles = async () => {
+    (async function loadImageParticles() {
       const image = await loadImage(faUserSvg.src);
 
       const rect = container.getBoundingClientRect();
@@ -31,17 +30,11 @@ function UserImage() {
         canvas.width,
         canvas.height,
         PIXEL_SIZE,
-        RADIUS,
-        FRICTION,
-        EASE
+        ALPHA_VARIATION
       );
-      return imageParticles.init(canvas, ctx);
-    };
-    const cleanupPromise = loadImageParticles();
-
-    return () => {
-      cleanupPromise.then((cleanup) => cleanup());
-    };
+      imageParticles.init(ctx);
+      imageParticles.draw(ctx, PARTICLES_PER_CYCLE);
+    })();
   }, []);
 
   return (
