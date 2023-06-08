@@ -4,7 +4,7 @@ import AuthenticatedLayout from "../../components/AuthenticatedLayout";
 import prisma from "../../lib/utils/prisma";
 import { User } from "../../lib/models/user";
 import MasquerText from "../../components/MasquerText";
-import { FaUser } from "react-icons/fa";
+import UserImage from "../../components/UserImage";
 
 type Props = {
   data: {
@@ -14,11 +14,11 @@ type Props = {
 
 function Profile(props: Props) {
   const { user } = props.data;
+
   return (
     <AuthenticatedLayout title="Profile">
-      <div className="relative w-full h-[27rem]">
-        <FaUser className="absolute left-[5%] top-[2.5%] w-[90%] h-[90%] text-neutral-50 -rotate-3" />
-        <FaUser className="absolute left-[5%] top-[10%] w-[85%] h-[85%] text-neutral-900 -rotate-6" />
+      <div className="relative w-full h-[27rem] mb-12 flex justify-center items-center">
+        <UserImage />
         <div className="absolute left-1/2 top-0">
           <div className="absolute left-0 top-0 w-48 z-10">
             <MasquerText
