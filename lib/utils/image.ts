@@ -17,12 +17,16 @@ export class Particle {
   y: number;
   size: number;
   colour: string;
+  originX: number;
+  originY: number;
 
   constructor(x: number, y: number, size: number, colour: string) {
     this.x = x;
     this.y = y;
     this.size = size;
     this.colour = colour;
+    this.originX = x;
+    this.originY = y;
   }
 
   draw(ctx: CanvasRenderingContext2D) {
@@ -39,7 +43,10 @@ export class ImageParticles {
   width: number;
   height: number;
   pixelSize: number;
+  // Variations and Animation
+  sizeVariation: number;
   alphaVariation: number;
+  animateInterval: NodeJS.Timeout | undefined;
   // Particles
   particles: Particle[];
 
@@ -54,6 +61,7 @@ export class ImageParticles {
     this.width = width;
     this.height = height;
     this.pixelSize = pixelSize;
+    this.sizeVariation = Math.round(pixelSize / 2);
     this.alphaVariation = alphaVariation;
     this.particles = [];
   }
@@ -62,7 +70,6 @@ export class ImageParticles {
     ctx.drawImage(this.image, 0, 0, this.width, this.height);
     const pixels = ctx.getImageData(0, 0, this.width, this.height).data;
     ctx.clearRect(0, 0, this.width, this.height);
-    const sizeVariation = Math.round(this.pixelSize / 2);
 
     for (let y = 0; y < this.height; y += this.pixelSize) {
       for (let x = 0; x < this.width; x += this.pixelSize) {
@@ -78,7 +85,8 @@ export class ImageParticles {
         const particle = new Particle(
           x,
           y,
-          this.pixelSize + getRandomInt(-sizeVariation, sizeVariation),
+          this.pixelSize +
+            getRandomInt(-this.sizeVariation, this.sizeVariation),
           `rgba(${r},${g},${b},${a})`
         );
         this.particles.push(particle);
@@ -86,19 +94,35 @@ export class ImageParticles {
     }
   }
 
-  draw(ctx: CanvasRenderingContext2D, particlesPerCycle: number) {
+  draw(ctx: CanvasRenderingContext2D, perCycle: number) {
+    const particles = [...this.particles];
     const _animate = () => {
-      const cycle = Math.min(particlesPerCycle, this.particles.length);
+      const cycle = Math.min(perCycle, particles.length);
       for (let _ = 0; _ < cycle; _++) {
-        const idx = getRandomInt(0, this.particles.length);
-        this.particles[idx].draw(ctx);
-        this.particles[idx] = this.particles.at(-1)!;
-        this.particles.pop();
+        const idx = getRandomInt(0, particles.length);
+        particles[idx].draw(ctx);
+        particles[idx] = particles.at(-1)!;
+        particles.pop();
       }
-      if (this.particles.length > 0) {
+      if (particles.length > 0) {
         requestAnimationFrame(_animate);
       }
     };
     requestAnimationFrame(_animate);
+  }
+
+  startAnimating(ctx: CanvasRenderingContext2D) {
+    this.animateInterval = setInterval(() => {
+      ctx.clearRect(0, 0, this.width, this.height);
+      for (const particle of this.particles) {
+        particle.x = particle.originX + getRandomArbitrary(-3, 3);
+        particle.y = particle.originY + getRandomArbitrary(-3, 3);
+        particle.draw(ctx);
+      }
+    }, 450);
+  }
+
+  stopAnimating() {
+    clearInterval(this.animateInterval);
   }
 }

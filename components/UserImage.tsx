@@ -5,7 +5,7 @@ import { FaUser } from "react-icons/fa";
 
 const PIXEL_SIZE = 9;
 const ALPHA_VARIATION = 0.3;
-const PARTICLES_PER_CYCLE = 120;
+const DRAW_CYCLE = 120;
 
 function UserImage() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -16,6 +16,7 @@ function UserImage() {
     const container = containerRef.current;
     const canvas = canvasRef.current;
 
+    let imageParticles: ImageParticles;
     (async function loadImageParticles() {
       const image = await loadImage(faUserSvg.src);
 
@@ -25,7 +26,7 @@ function UserImage() {
       const ctx = canvas.getContext("2d");
       if (!ctx) return () => {};
 
-      const imageParticles = new ImageParticles(
+      imageParticles = new ImageParticles(
         image,
         canvas.width,
         canvas.height,
@@ -33,8 +34,13 @@ function UserImage() {
         ALPHA_VARIATION
       );
       imageParticles.init(ctx);
-      imageParticles.draw(ctx, PARTICLES_PER_CYCLE);
+      imageParticles.draw(ctx, DRAW_CYCLE);
+      imageParticles.startAnimating(ctx);
     })();
+
+    return () => {
+      imageParticles?.stopAnimating();
+    };
   }, []);
 
   return (
@@ -46,6 +52,7 @@ function UserImage() {
       <canvas
         ref={canvasRef}
         className="absolute -left-[5%] top-[10%] w-full h-[90%] -rotate-6"
+        style={{ filter: "url('#turbulence')" }}
       />
       <svg>
         <defs>
