@@ -10,7 +10,6 @@ import { ChatMessage } from "../../../../lib/models/chat";
 import { ResponseData } from "../../../../lib/models/response";
 import { Callback, Operation } from "../../../../lib/models/listener";
 import { getRandomArbitrary } from "../../../../lib/utils/general";
-import { retrieveRoomIncludes } from "../../../../lib/caches/roomIncludes";
 
 async function post(req: NextApiRequest, res: NextApiResponse<ResponseData>) {
   try {
@@ -25,9 +24,9 @@ async function post(req: NextApiRequest, res: NextApiResponse<ResponseData>) {
     const postedOn = new Date();
     const userId: string = req.cookies.id ?? "";
 
-    const roomIncludes = await retrieveRoomIncludes(roomId, () =>
-      prisma.roomIncludes.findMany({ where: { roomId: roomId } })
-    );
+    const roomIncludes = await prisma.roomIncludes.findMany({
+      where: { roomId: roomId },
+    });
     if (!roomIncludes.find((include) => include.userId === userId)) {
       res.status(403).send({
         message: "Must be in the chat room to post a message there",

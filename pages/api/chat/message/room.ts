@@ -2,7 +2,6 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../../../lib/utils/prisma";
 import { isAuthenticated } from "../../../../lib/utils/auth";
 import { ChatMessagesResponseData } from "../../../../lib/models/response";
-import { retrieveRoomIncludes } from "../../../../lib/caches/roomIncludes";
 
 async function get(
   req: NextApiRequest,
@@ -29,9 +28,9 @@ async function get(
 
     const userId = req.cookies.id ?? "";
 
-    const roomIncludes = await retrieveRoomIncludes(roomId, () =>
-      prisma.roomIncludes.findMany({ where: { roomId: roomId } })
-    );
+    const roomIncludes = await prisma.roomIncludes.findMany({
+      where: { roomId: roomId },
+    });
     if (!roomIncludes.find((include) => include.userId === userId)) {
       res.status(403).json({
         message: "Must be in the chat room to get messages from there",

@@ -32,7 +32,6 @@ import {
   deleteChatRoom,
 } from "../../lib/services/chatroom";
 import { BsFillPeopleFill } from "react-icons/bs";
-import { updateRoomIncludes } from "../../lib/caches/roomIncludes";
 import { generateRandomString } from "../../lib/utils/general";
 
 const PAGE_SIZE = 10;
@@ -231,7 +230,7 @@ function Chat(props: Props) {
                 {roomName}
               </div>
             </div>
-            <div className="w-full h-[calc(100%-66px-32px)] flex flex-col-reverse overflow-scroll scrollbar-hidden">
+            <div className="w-full h-[calc(100%-66px-32px)] flex flex-col-reverse overflow-hidden">
               {localMessages.map((msg) => (
                 <div key={msg.id}>
                   <ChatMessage
@@ -304,13 +303,12 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         select: {
           id: true,
           roomId: true,
-          userId: true,
+          user: true,
           moderator: true,
           lastActive: true,
-          user: true,
         },
       });
-      if (!roomIncludes.find((include) => include.userId === userId)) {
+      if (!roomIncludes.find((include) => include.user.id === userId)) {
         return {
           props: {
             data: {
@@ -322,8 +320,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
           },
         };
       }
-
-      updateRoomIncludes(roomId, roomIncludes);
 
       const chatMessages = await prisma.chatMessage.findMany({
         select: {
@@ -364,15 +360,13 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
               postedOn: msg.postedOn.toISOString(),
             })),
             room: room,
-            members: roomIncludes
-              .map((include) => ({
-                username: include.user.username,
-                name: include.user.name,
-                socialStats: include.user.socialStats,
-                moderator: include.moderator,
-                roomId: roomId,
-              }))
-              .reverse(),
+            members: roomIncludes.map((include) => ({
+              username: include.user.username,
+              name: include.user.name,
+              socialStats: include.user.socialStats,
+              moderator: include.moderator,
+              roomId: roomId,
+            })),
           },
           username: username,
         },

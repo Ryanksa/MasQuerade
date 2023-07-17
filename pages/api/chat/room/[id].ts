@@ -5,12 +5,6 @@ import {
   ResponseData,
   ChatRoomResponseData,
 } from "../../../../lib/models/response";
-import {
-  retrieveRoomIncludes,
-  updateRoomIncludes,
-  deleteRoomIncludes,
-  hasRoomIncludes,
-} from "../../../../lib/caches/roomIncludes";
 
 async function getHandler(
   req: NextApiRequest,
@@ -36,9 +30,9 @@ async function getHandler(
       return;
     }
 
-    const roomIncludes = await retrieveRoomIncludes(chatRoom.id, () =>
-      prisma.roomIncludes.findMany({ where: { roomId: chatRoom.id } })
-    );
+    const roomIncludes = await prisma.roomIncludes.findMany({
+      where: { roomId: chatRoom.id },
+    });
     if (!roomIncludes.find((include) => include.userId === userId)) {
       res.status(403).json({
         message: "Must be in the chat room to get it",
@@ -95,9 +89,9 @@ async function putHandler(
       return;
     }
 
-    const roomIncludes = await retrieveRoomIncludes(chatRoom.id, () =>
-      prisma.roomIncludes.findMany({ where: { roomId: chatRoom.id } })
-    );
+    const roomIncludes = await prisma.roomIncludes.findMany({
+      where: { roomId: chatRoom.id },
+    });
     if (
       !roomIncludes.find(
         (include) =>
@@ -157,9 +151,9 @@ async function deleteHandler(
       return;
     }
 
-    const roomIncludes = await retrieveRoomIncludes(chatRoom.id, () =>
-      prisma.roomIncludes.findMany({ where: { roomId: chatRoom.id } })
-    );
+    const roomIncludes = await prisma.roomIncludes.findMany({
+      where: { roomId: chatRoom.id },
+    });
     if (
       !roomIncludes.find(
         (include) =>
@@ -181,8 +175,6 @@ async function deleteHandler(
     await prisma.chatRoom.delete({
       where: { id: id },
     });
-
-    deleteRoomIncludes(id);
 
     res.status(200).json({
       message: `Deleted chat room ${id}`,
@@ -219,19 +211,6 @@ async function postHandler(
       data: { lastActive: lastActive },
       where: { roomId: id, userId: userId },
     });
-
-    if (hasRoomIncludes(id)) {
-      const roomIncludes = await retrieveRoomIncludes(
-        id,
-        () => new Promise((resolve, _) => resolve([]))
-      );
-      for (const include of roomIncludes) {
-        if (include.userId === userId) {
-          include.lastActive = lastActive;
-        }
-      }
-      updateRoomIncludes(id, roomIncludes);
-    }
 
     res.status(200).json({
       message: `Updated last active date in room ${id}`,

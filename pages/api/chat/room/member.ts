@@ -9,10 +9,6 @@ import {
 import { Member } from "../../../../lib/models/user";
 import { Callback, Operation } from "../../../../lib/models/listener";
 import { ResponseData } from "../../../../lib/models/response";
-import {
-  retrieveRoomIncludes,
-  updateRoomIncludes,
-} from "../../../../lib/caches/roomIncludes";
 
 async function postHandler(
   req: NextApiRequest,
@@ -40,14 +36,12 @@ async function postHandler(
       return;
     }
 
-    const cachedRoomIncludes = await retrieveRoomIncludes(roomId, () =>
-      prisma.roomIncludes.findMany({
-        where: { roomId: roomId },
-      })
-    );
+    const roomIncludes = await prisma.roomIncludes.findMany({
+      where: { roomId: roomId },
+    });
 
     if (
-      !cachedRoomIncludes.find(
+      !roomIncludes.find(
         (include) => include.userId === reqUserId && include.moderator
       )
     ) {
@@ -57,23 +51,22 @@ async function postHandler(
       return;
     }
 
-    if (cachedRoomIncludes.find((include) => include.userId === user.id)) {
+    if (roomIncludes.find((include) => include.userId === user.id)) {
       res.status(400).send({
         message: `User ${username} is already in chat room ${roomId}`,
       });
       return;
     }
 
-    const roomIncludes = await prisma.roomIncludes.create({
+    await prisma.roomIncludes.create({
       data: {
         roomId: roomId,
         userId: user.id,
         moderator: moderator,
       },
     });
-    cachedRoomIncludes.push(roomIncludes);
 
-    for (const include of cachedRoomIncludes) {
+    for (const include of roomIncludes) {
       notifyListeners(include.userId, {
         data: {
           username: user.username,
@@ -85,8 +78,6 @@ async function postHandler(
         operation: Operation.Add,
       });
     }
-
-    updateRoomIncludes(roomId, cachedRoomIncludes);
 
     res.status(200).send({
       message: `Added user ${username} to chat room ${roomId}`,
@@ -124,9 +115,9 @@ async function deleteHandler(
       return;
     }
 
-    const roomIncludes = await retrieveRoomIncludes(roomId, () =>
-      prisma.roomIncludes.findMany({ where: { roomId: roomId } })
-    );
+    const roomIncludes = await prisma.roomIncludes.findMany({
+      where: { roomId: roomId },
+    });
 
     if (
       reqUserId !== user.id &&
@@ -166,13 +157,6 @@ async function deleteHandler(
         operation: Operation.Delete,
       });
     }
-
-    const deletedIndex = roomIncludes.findIndex(
-      (include) => include.userId === user.id
-    );
-    roomIncludes[deletedIndex] = roomIncludes[roomIncludes.length - 1];
-    roomIncludes.pop();
-    updateRoomIncludes(roomId, roomIncludes);
 
     res.status(200).send({
       message: `Deleted user ${username} to chat room ${roomId}`,

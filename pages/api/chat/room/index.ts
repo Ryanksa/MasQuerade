@@ -9,11 +9,6 @@ import {
 import { ChatRoom } from "../../../../lib/models/chat";
 import { Callback, Operation } from "../../../../lib/models/listener";
 import { ResponseData } from "../../../../lib/models/response";
-import {
-  retrieveRoomIncludes,
-  hasRoomIncludes,
-  updateRoomIncludes,
-} from "../../../../lib/caches/roomIncludes";
 
 async function post(req: NextApiRequest, res: NextApiResponse<ResponseData>) {
   try {
@@ -46,15 +41,6 @@ async function post(req: NextApiRequest, res: NextApiResponse<ResponseData>) {
       },
       operation: Operation.Add,
     });
-
-    if (hasRoomIncludes(chatRoom.id)) {
-      const cachedRoomIncludes = await retrieveRoomIncludes(
-        chatRoom.id,
-        () => new Promise((resolve, _) => resolve([]))
-      );
-      cachedRoomIncludes.push(roomIncludes);
-      updateRoomIncludes(chatRoom.id, cachedRoomIncludes);
-    }
 
     res.status(200).send({
       message: `Created chat room ${roomName}`,

@@ -3,7 +3,6 @@ import { isAuthenticated } from "../../../../lib/utils/auth";
 import prisma from "../../../../lib/utils/prisma";
 import { ChatMessageResponseData } from "../../../../lib/models/response";
 import { notifyListeners } from "../../../../lib/listeners/message";
-import { retrieveRoomIncludes } from "../../../../lib/caches/roomIncludes";
 import { Operation } from "../../../../lib/models/listener";
 
 async function getHandler(
@@ -119,11 +118,9 @@ async function putHandler(
       postedOn: updatedMessage.postedOn.toISOString(),
     };
 
-    const roomIncludes = await retrieveRoomIncludes(data.roomId, () =>
-      prisma.roomIncludes.findMany({
-        where: { roomId: data.roomId },
-      })
-    );
+    const roomIncludes = await prisma.roomIncludes.findMany({
+      where: { roomId: data.roomId },
+    });
     for (const include of roomIncludes) {
       notifyListeners(include.userId, {
         data: data,
@@ -188,11 +185,9 @@ async function deleteHandler(
       postedOn: deletedMessage.postedOn.toISOString(),
     };
 
-    const roomIncludes = await retrieveRoomIncludes(data.roomId, () =>
-      prisma.roomIncludes.findMany({
-        where: { roomId: data.roomId },
-      })
-    );
+    const roomIncludes = await prisma.roomIncludes.findMany({
+      where: { roomId: data.roomId },
+    });
     for (const include of roomIncludes) {
       notifyListeners(include.userId, {
         data: data,
